@@ -39,7 +39,7 @@ about:
 
 # ========== Site ========== #
 # title of the site (good for SEO)
-SEO_title: SleeoWen-Blob
+SEO_title: SleeoWen-Blog
 # keywords for site (good for SEO)
 SEO_keywords:
   - hexo
@@ -48,7 +48,7 @@ SEO_keywords:
   - 'vue'
   - 'web'
 # main title shown in header image
-main_title: Sleeo's Blob.
+main_title: Sleeo's Blog.
 # subtitle
 subtitle: 一个程序员的博客
 # site haeder image

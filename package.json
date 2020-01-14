@@ -1,12 +1,14 @@
 {
-  "name": "SleeoWen-Blob",
+  "name": "SleeoWen-Blog",
   "version": "1.0.0",
   "private": true,
   "scripts": {
     "build": "hexo generate",
     "clean": "hexo clean",
     "deploy": "hexo deploy",
-    "server": "hexo server"
+    "server": "hexo server",
+    "newPage":"hexo new [layout] <title>",
+    "update": "hexo deploy"
   },
   "hexo": {
     "version": "4.2.0"
