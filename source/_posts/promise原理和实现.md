@@ -6,6 +6,7 @@ tags: Promise
 ---
 ### 什么是Promise
 Promise 对象用于表示一个异步操作的最终完成 (或失败), 及其结果值.
+<!-- more -->
 ### Promise规范
 - ES6中使用[Promise/A+](https://juejin.im/post/5c4b0423e51d4525211c0fbc)规范。
 - Promise的标准理解
