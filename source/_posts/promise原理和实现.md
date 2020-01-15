@@ -10,7 +10,7 @@ Promise 对象用于表示一个异步操作的最终完成 (或失败), 及其�
 ### Promise规范
 - ES6中使用[Promise/A+](https://juejin.im/post/5c4b0423e51d4525211c0fbc)规范。
 - Promise的标准理解
-  - promise对象有三种状态==pending==、==fulfilled==和==rejected==。
+  - promise对象有三种状态**pending**、**fulfilled**和**rejected**。
   - promise对象的状态必须有并且只有上述三种当中的一种。
   - 状态的改变只能是从pending到fulfilled或者pending到rejected。
   - then方法返回一个promise。then 方法可以被同一个 promise 调用多次。
@@ -47,10 +47,10 @@ promise.then(a => alert(a+1));
 ```
 ### Promise构造函数
 构造函数用法总结：
-1. 构造函数接收一个==executor==立即执行函数
-2. ==executor==立即执行函数接收一个==resolve==函数
-3. ==promise==对象的==then==方法绑定状态变为==fulfilled==时的回调
-4. ==resolve==函数被调用时会触发==then==方法中的回调
+1. 构造函数接收一个**executor**立即执行函数
+2. **executor**立即执行函数接收一个**resolve**函数
+3. **promise**对象的**then**方法绑定状态变为**fulfilled**时的回调
+4. **resolve**函数被调用时会触发**then**方法中的回调
 #### 构造函数的初步实现
 
 ```
@@ -118,9 +118,9 @@ Promise.prototype.then = function (onResolve, onReject) {
 };
 ```
 小结：
-1. ==executor==函数作为实参在创建==Promise==对象时传入==Promise==构造函数。
-2. ==resolve==和==reject==函数作为实参传入==executor==函数。
-3. ==value==作为实参传入==resolve==和==reject==函数。
+1. **executor**函数作为实参在创建**Promise**对象时传入**Promise**构造函数。
+2. **resolve**和**reject**函数作为实参传入**executor**函数。
+3. **value**作为实参传入**resolve**和**reject**函数。
 #### 如果executor自执行函数中的resolve函数立即触发时，发现Promise失效
 
 ```
@@ -162,9 +162,9 @@ function reject(reason) {
 ```
 promise.then(onFulfilled, onRejected)
 ```
-1.  ==then==方法返回一个新的==promise==对象。
-1.  ==executor==自执行函数中的==resolve==参数调用时执行==then==方法的第一个回调函数==onResolved==。
-1.  ==executor==自执行函数中的==reject==参数调用时执行==then==方法的第二个回调函数==onRejected==。
+1.  **then**方法返回一个新的**promise**对象。
+1.  **executor**自执行函数中的**resolve**参数调用时执行**then**方法的第一个回调函数**onResolved**。
+1.  **executor**自执行函数中的**reject**参数调用时执行**then**方法的第二个回调函数**onRejected**。
 
 ```
 Promise.prototype.then = function (onResolved, onRejected) {
