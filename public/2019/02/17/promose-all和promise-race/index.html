@@ -22,7 +22,7 @@
     <meta name="description" content="个人的学习经历">
     <meta http-equiv="Cache-control" content="no-cache">
     <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1"/>
-    <title>初次使用hexo · SleeoWen-Blog</title>
+    <title>promose.all和promise.race · SleeoWen-Blog</title>
     <style type="text/css">
     @font-face {
         font-family: 'Oswald-Regular';
@@ -217,7 +217,7 @@
                 <a href="/" >Sleeo&#39;s Blog.</a>
             </div>
             <div class="post-title">
-                <a href="#" class="post-name">初次使用hexo</a>
+                <a href="#" class="post-name">promose.all和promise.race</a>
             </div>
     </div>
     
@@ -247,7 +247,7 @@ height:50vh;
         <h1 class="intro-title">
             <!-- 主页  -->
             
-            初次使用hexo
+            promose.all和promise.race
             <!-- 404 -->
             
         </h1>
@@ -266,18 +266,18 @@ height:50vh;
                 
                     <div class= post-intro-tags >
     
-        <a class="post-tag" href="javascript:void(0);" data-tags = "hexo">hexo</a>
+        <a class="post-tag" href="javascript:void(0);" data-tags = "Promise">Promise</a>
     
 </div>
                 
                 
                     <div class="post-intro-read">
-                        <span>字数统计: <span class="post-count word-count">487</span>阅读时长: <span class="post-count reading-time">1 min</span></span>
+                        <span>字数统计: <span class="post-count word-count">612</span>阅读时长: <span class="post-count reading-time">3 min</span></span>
                     </div>
                 
                 <div class="post-intro-meta">
                     <span class="post-intro-calander iconfont-archer">&#xe676;</span>
-                    <span class="post-intro-time">2019/01/14</span>
+                    <span class="post-intro-time">2019/02/17</span>
                     
                     <span id="busuanzi_container_page_pv" class="busuanzi-pv">
                         <span class="iconfont-archer">&#xe602;</span>
@@ -401,37 +401,15 @@ height:50vh;
         <div class="container container-unloaded">
             <main class="main post-page">
     <article class="article-entry">
-        <p>偶然间发现了hexo这个博客搭建工具，于是决定将使用多年的云笔记的内容搬迁至这个博客上，分享我的搬迁经历以及踩过的坑吧~。</p>
-<a id="more"></a>
+        <h2 id="Promise-all和Promise-race的功能"><a href="#Promise-all和Promise-race的功能" class="headerlink" title="Promise.all和Promise.race的功能"></a>Promise.all和Promise.race的功能</h2><h3 id="Promise-all"><a href="#Promise-all" class="headerlink" title="Promise.all"></a>Promise.all</h3><p><strong>Promise.all可以将多个Promise实例包装成一个新的Promise实例。同时，成功和失败的返回值是不同的，成功的时候返回的是一个结果数组，而失败的时候则返回最先被reject失败状态的值。</strong></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line">let p1 &#x3D; new Promise((resolve, reject) &#x3D;&gt; &#123;</span><br><span class="line">  resolve(&#39;p1完成&#39;)</span><br><span class="line">&#125;)</span><br><span class="line"></span><br><span class="line">let p2 &#x3D; new Promise((resolve, reject) &#x3D;&gt; &#123;</span><br><span class="line">  resolve(&#39;p2完成&#39;)</span><br><span class="line">&#125;)</span><br><span class="line"></span><br><span class="line">let p3 &#x3D; Promse.reject(&#39;p3失败&#39;)</span><br><span class="line"></span><br><span class="line">Promise.all([p1, p2]).then((result) &#x3D;&gt; &#123;</span><br><span class="line">  console.log(result)               &#x2F;&#x2F;[&#39;p1完成&#39;, &#39;p2完成&#39;]</span><br><span class="line">&#125;).catch((error) &#x3D;&gt; &#123;</span><br><span class="line">  console.log(error)</span><br><span class="line">&#125;)</span><br><span class="line"></span><br><span class="line">Promise.all([p1,p3,p2]).then((result) &#x3D;&gt; &#123;</span><br><span class="line">  console.log(result)</span><br><span class="line">&#125;).catch((error) &#x3D;&gt; &#123;</span><br><span class="line">  console.log(error)      &#x2F;&#x2F; 失败了，打出 &#39;&#39;p3失败&#39;</span><br><span class="line">&#125;)</span><br></pre></td></tr></table></figure>
+<h3 id="Promise-race"><a href="#Promise-race" class="headerlink" title="Promise.race"></a>Promise.race</h3><p><strong>Promise.race可以将多个Promise实例包装成一个新的Promise实例。同时，成功和失败的返回值是不同的，成功的时候返回的是第一个返回的resolve，而失败的时候则返回最先被reject失败状态的值。（换句话说就是返回最快的那个）</strong></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line">let p1 &#x3D; new Promise((resolve, reject) &#x3D;&gt; &#123;</span><br><span class="line">  setTimeout(() &#x3D;&gt; &#123;</span><br><span class="line">    resolve(&#39;success&#39;)</span><br><span class="line">  &#125;,1000)</span><br><span class="line">&#125;)</span><br><span class="line"></span><br><span class="line">let p2 &#x3D; new Promise((resolve, reject) &#x3D;&gt; &#123;</span><br><span class="line">  setTimeout(() &#x3D;&gt; &#123;</span><br><span class="line">    reject(&#39;failed&#39;)</span><br><span class="line">  &#125;, 500)</span><br><span class="line">&#125;)</span><br><span class="line"></span><br><span class="line">Promise.race([p1, p2]).then((result) &#x3D;&gt; &#123;</span><br><span class="line">  console.log(result)</span><br><span class="line">&#125;).catch((error) &#x3D;&gt; &#123;</span><br><span class="line">  console.log(error)  &#x2F;&#x2F; 打开的是 &#39;failed&#39;</span><br><span class="line">&#125;)</span><br></pre></td></tr></table></figure>
+<h2 id="简易实现"><a href="#简易实现" class="headerlink" title="简易实现"></a>简易实现</h2><h3 id="Promise-all-1"><a href="#Promise-all-1" class="headerlink" title="Promise.all"></a>Promise.all</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line">Promise.all &#x3D; (arr) &#x3D;&gt; &#123;</span><br><span class="line">    let resultList &#x3D; [];</span><br><span class="line">    return new Promise((resolve, reject) &#x3D;&gt; &#123;</span><br><span class="line">        let i &#x3D; 0;</span><br><span class="line">        next();</span><br><span class="line">        next &#x3D; () &#x3D;&gt; &#123;</span><br><span class="line">            arr[i].then((res, rej) &#x3D;&gt; &#123;</span><br><span class="line">                if (!rej) &#123;</span><br><span class="line">                    resultList.push(res);</span><br><span class="line">                    i++;</span><br><span class="line">                &#125; else &#123;</span><br><span class="line">                    reject(rej);</span><br><span class="line">                &#125;</span><br><span class="line">                if (i &#x3D;&#x3D; arr.length) &#123;</span><br><span class="line">                    resolve(resultList);</span><br><span class="line">                &#125; else &#123;</span><br><span class="line">                    next();</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;)</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;)</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+<h3 id="Promise-race-1"><a href="#Promise-race-1" class="headerlink" title="Promise.race"></a>Promise.race</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line">Promise.race &#x3D; (arr) &#x3D;&gt; &#123;</span><br><span class="line">    let resultList &#x3D; [];</span><br><span class="line">    return new Promise((resolve, reject) &#x3D;&gt; &#123;</span><br><span class="line">        let i &#x3D; 0;</span><br><span class="line">        next();</span><br><span class="line">        next &#x3D; () &#x3D;&gt; &#123;</span><br><span class="line">            arr[i].then((res, rej) &#x3D;&gt; &#123;</span><br><span class="line">                if (!rej) &#123;</span><br><span class="line">                    resultList.push(res);</span><br><span class="line">                    i++;</span><br><span class="line">                &#125; else &#123;</span><br><span class="line">                    reject(rej);</span><br><span class="line">                &#125;</span><br><span class="line">                if (i &#x3D;&#x3D; arr.length) &#123;</span><br><span class="line">                    resolve(resultList);</span><br><span class="line">                &#125; else &#123;</span><br><span class="line">                    next();</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;)</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;)</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+<h2 id="Promise-all的问题"><a href="#Promise-all的问题" class="headerlink" title="Promise.all的问题"></a>Promise.all的问题</h2><p><strong>在上面的代码中，Promise.all使用的是循环调用的方式，也就算是链式调用（Promise链），事实上Promise.all是并发，同时进行所有的promise方法。</strong></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line">Promise.all &#x3D; (arr) &#x3D;&gt; &#123;</span><br><span class="line">    let resultList &#x3D; new Array(arr.length);</span><br><span class="line">    return new Promise((resolve, reject) &#x3D;&gt; &#123;</span><br><span class="line">        let temp &#x3D; 0;</span><br><span class="line">        for (let i &#x3D; 0, len &#x3D; arr.length; i &lt; len; i++) &#123;</span><br><span class="line">            arr[i].then((res, rej) &#x3D;&gt; &#123;</span><br><span class="line">                if (!rej) &#123;</span><br><span class="line">                    resultList[i] &#x3D; (res);</span><br><span class="line">                    if (temp &#x3D;&#x3D; arr.length) &#123;</span><br><span class="line">                        resolve(resultList);</span><br><span class="line">                    &#125;</span><br><span class="line">                    temp++;</span><br><span class="line">                &#125; else &#123;</span><br><span class="line">                    reject(rej);</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;)</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;)</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
 
-<h2 id="我们开始吧"><a href="#我们开始吧" class="headerlink" title="我们开始吧"></a>我们开始吧</h2><h3 id="新建仓库"><a href="#新建仓库" class="headerlink" title="新建仓库"></a>新建仓库</h3><p>在github新建仓库，如果想要部署在github上，要仓库名为 ==<user-name>.github.io== 而不是user-name ，其中 ==<user-name>== 是你 ==github== 的昵称，要是问为什么，都是眼泪的教训。</p>
-<h3 id="安装hexo"><a href="#安装hexo" class="headerlink" title="安装hexo"></a>安装hexo</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">npm install -g hexo-cli</span><br></pre></td></tr></table></figure>
-<p>或者</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">npm install hexo</span><br></pre></td></tr></table></figure>
-<h3 id="初始化项目"><a href="#初始化项目" class="headerlink" title="初始化项目"></a>初始化项目</h3><p>初始化命令</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">hexo init</span><br></pre></td></tr></table></figure>
-<p>运行</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">hexo server</span><br></pre></td></tr></table></figure>
-<p>大功告成，访问 ==localhost:4000== 我们就能看到建的博客的效果了！</p>
-<h3 id="将Hexo部署到GitHub-Pages上"><a href="#将Hexo部署到GitHub-Pages上" class="headerlink" title="将Hexo部署到GitHub Pages上"></a>将Hexo部署到GitHub Pages上</h3><ol>
-<li>将<a href="https://github.com/marketplace/travis-ci" target="_blank" rel="noopener">Travis CI</a> 添加到你的 GitHub 账户中。</li>
-<li>前往 GitHub 的 <a href="https://github.com/settings/installations" target="_blank" rel="noopener">Applications settings</a>，配置 Travis CI 权限，使其能够访问你的 repository。</li>
-<li>你应该会被重定向到 Travis CI 的页面。如果没有，请 <a href="https://travis-ci.com/" target="_blank" rel="noopener">手动前往</a>。</li>
-<li>在浏览器新建一个标签页，前往 GitHub <a href="https://github.com/settings/tokens" target="_blank" rel="noopener">新建 Personal Access Token</a> ，只勾选 repo 的权限并生成一个新的 Token。Token 生成后请复制并保存好。</li>
-<li>回到 Travis CI，前往你的 repository 的设置页面，在 <strong>Environment Variables</strong> 下新建一个环境变量，<strong>Name</strong> 为 GH_TOKEN，<strong>Value</strong> 为刚才你在 GitHub 生成的 Token。确保 <strong>DISPLAY VALUE IN BUILD LOG</strong> 保持 <strong>不被勾选</strong> 避免你的 Token 泄漏。点击 Add 保存。</li>
-<li>在你的 Hexo 站点文件夹中新建一个 ==.travis.yml== 文件：</li>
-</ol>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line">sudo: false</span><br><span class="line">language: node_js</span><br><span class="line">node_js:</span><br><span class="line">  - 10 # use nodejs v10 LTS</span><br><span class="line">cache: npm</span><br><span class="line">branches:</span><br><span class="line">  only:</span><br><span class="line">    - master # build master branch only</span><br><span class="line">script:</span><br><span class="line">  - hexo generate # generate static files</span><br><span class="line">deploy:</span><br><span class="line">  provider: pages</span><br><span class="line">  skip-cleanup: true</span><br><span class="line">  github-token: $GH_TOKEN</span><br><span class="line">  keep-history: true</span><br><span class="line">  on:</span><br><span class="line">    branch: master</span><br><span class="line">  local-dir: public</span><br></pre></td></tr></table></figure>
-
-<ol start="7">
-<li><p>将.travis.yml 推送到 repository 中。Travis CI 应该会自动开始运行，并将生成的文件推送到同一 repository 下的 gh-pages 分支下</p>
-</li>
-<li><p>在GitHub中前往你的repository 的设置页面，修改 GitHub Pages 的部署分支为 gh-pages。</p>
-</li>
-<li><p>完成以上步骤，我们就能在<user-name>.github.io上看到自己建设的博客了。</p>
-<h3 id="其他配置项"><a href="#其他配置项" class="headerlink" title="其他配置项"></a>其他配置项</h3><p>请参考<a href="https://hexo.io/zh-cn/docs" target="_blank" rel="noopener">hexo文档</a>。</p>
-</li>
-</ol>
 
     </article>
     <!-- license  -->
@@ -440,13 +418,13 @@ height:50vh;
     <ul class="post-paginator">
         <li class="next">
             
-                <div class="nextSlogan">Next Post</div>
-                <a href= "/2019/02/05/promise%E5%8E%9F%E7%90%86%E5%92%8C%E5%AE%9E%E7%8E%B0/" title= "Promise原理和实现">
-                    <div class="nextTitle">Promise原理和实现</div>
-                </a>
-            
         </li>
         <li class="previous">
+            
+                <div class="prevSlogan">Previous Post</div>
+                <a href= "/2019/02/05/promise%E5%8E%9F%E7%90%86%E5%92%8C%E5%AE%9E%E7%8E%B0/" title= "Promise原理和实现">
+                    <div class="prevTitle">Promise原理和实现</div>
+                </a>
             
         </li>
     </ul>
@@ -556,7 +534,7 @@ top:50vh;
         <div class="toc-catalog">
             <span class="iconfont-archer catalog-icon">&#xe613;</span><span>CATALOG</span>
         </div>
-        <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#我们开始吧"><span class="toc-number">1.</span> <span class="toc-text">我们开始吧</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#新建仓库"><span class="toc-number">1.1.</span> <span class="toc-text">新建仓库</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#安装hexo"><span class="toc-number">1.2.</span> <span class="toc-text">安装hexo</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#初始化项目"><span class="toc-number">1.3.</span> <span class="toc-text">初始化项目</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#将Hexo部署到GitHub-Pages上"><span class="toc-number">1.4.</span> <span class="toc-text">将Hexo部署到GitHub Pages上</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#其他配置项"><span class="toc-number">1.5.</span> <span class="toc-text">其他配置项</span></a></li></ol></li></ol>
+        <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#Promise-all和Promise-race的功能"><span class="toc-number">1.</span> <span class="toc-text">Promise.all和Promise.race的功能</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#Promise-all"><span class="toc-number">1.1.</span> <span class="toc-text">Promise.all</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Promise-race"><span class="toc-number">1.2.</span> <span class="toc-text">Promise.race</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#简易实现"><span class="toc-number">2.</span> <span class="toc-text">简易实现</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#Promise-all-1"><span class="toc-number">2.1.</span> <span class="toc-text">Promise.all</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Promise-race-1"><span class="toc-number">2.2.</span> <span class="toc-text">Promise.race</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Promise-all的问题"><span class="toc-number">3.</span> <span class="toc-text">Promise.all的问题</span></a></li></ol>
     </div>
     
     <div class="back-top iconfont-archer">&#xe639;</div>
