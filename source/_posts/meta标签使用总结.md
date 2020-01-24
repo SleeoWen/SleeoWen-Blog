@@ -1,8 +1,8 @@
 ---
 layout: '[post]'
-title: html中meta标签使用总结
-date: 2019-03-02 22:38:00
-tags:html
+title: meta标签使用总结
+date: 2019-03-02 08:06:54
+tags: html
 ---
 ## Meta对象
 Meta 对象代表 HTML 的 一个 <meta> 元素。
