@@ -22,7 +22,7 @@
     <meta name="description" content="个人的学习经历">
     <meta http-equiv="Cache-control" content="no-cache">
     <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1"/>
-    <title>promose.all和promise.race · SleeoWen-Blog</title>
+    <title>promise.all和promise.race · SleeoWen-Blog</title>
     <style type="text/css">
     @font-face {
         font-family: 'Oswald-Regular';
@@ -217,7 +217,7 @@
                 <a href="/" >Sleeo&#39;s Blog.</a>
             </div>
             <div class="post-title">
-                <a href="#" class="post-name">promose.all和promise.race</a>
+                <a href="#" class="post-name">promise.all和promise.race</a>
             </div>
     </div>
     
@@ -247,7 +247,7 @@ height:50vh;
         <h1 class="intro-title">
             <!-- 主页  -->
             
-            promose.all和promise.race
+            promise.all和promise.race
             <!-- 404 -->
             
         </h1>
@@ -402,6 +402,7 @@ height:50vh;
             <main class="main post-page">
     <article class="article-entry">
         <h2 id="Promise-all和Promise-race的功能"><a href="#Promise-all和Promise-race的功能" class="headerlink" title="Promise.all和Promise.race的功能"></a>Promise.all和Promise.race的功能</h2><h3 id="Promise-all"><a href="#Promise-all" class="headerlink" title="Promise.all"></a>Promise.all</h3><p><strong>Promise.all可以将多个Promise实例包装成一个新的Promise实例。同时，成功和失败的返回值是不同的，成功的时候返回的是一个结果数组，而失败的时候则返回最先被reject失败状态的值。</strong></p>
+<a id="more"></a>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line">let p1 &#x3D; new Promise((resolve, reject) &#x3D;&gt; &#123;</span><br><span class="line">  resolve(&#39;p1完成&#39;)</span><br><span class="line">&#125;)</span><br><span class="line"></span><br><span class="line">let p2 &#x3D; new Promise((resolve, reject) &#x3D;&gt; &#123;</span><br><span class="line">  resolve(&#39;p2完成&#39;)</span><br><span class="line">&#125;)</span><br><span class="line"></span><br><span class="line">let p3 &#x3D; Promse.reject(&#39;p3失败&#39;)</span><br><span class="line"></span><br><span class="line">Promise.all([p1, p2]).then((result) &#x3D;&gt; &#123;</span><br><span class="line">  console.log(result)               &#x2F;&#x2F;[&#39;p1完成&#39;, &#39;p2完成&#39;]</span><br><span class="line">&#125;).catch((error) &#x3D;&gt; &#123;</span><br><span class="line">  console.log(error)</span><br><span class="line">&#125;)</span><br><span class="line"></span><br><span class="line">Promise.all([p1,p3,p2]).then((result) &#x3D;&gt; &#123;</span><br><span class="line">  console.log(result)</span><br><span class="line">&#125;).catch((error) &#x3D;&gt; &#123;</span><br><span class="line">  console.log(error)      &#x2F;&#x2F; 失败了，打出 &#39;&#39;p3失败&#39;</span><br><span class="line">&#125;)</span><br></pre></td></tr></table></figure>
 <h3 id="Promise-race"><a href="#Promise-race" class="headerlink" title="Promise.race"></a>Promise.race</h3><p><strong>Promise.race可以将多个Promise实例包装成一个新的Promise实例。同时，成功和失败的返回值是不同的，成功的时候返回的是第一个返回的resolve，而失败的时候则返回最先被reject失败状态的值。（换句话说就是返回最快的那个）</strong></p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line">let p1 &#x3D; new Promise((resolve, reject) &#x3D;&gt; &#123;</span><br><span class="line">  setTimeout(() &#x3D;&gt; &#123;</span><br><span class="line">    resolve(&#39;success&#39;)</span><br><span class="line">  &#125;,1000)</span><br><span class="line">&#125;)</span><br><span class="line"></span><br><span class="line">let p2 &#x3D; new Promise((resolve, reject) &#x3D;&gt; &#123;</span><br><span class="line">  setTimeout(() &#x3D;&gt; &#123;</span><br><span class="line">    reject(&#39;failed&#39;)</span><br><span class="line">  &#125;, 500)</span><br><span class="line">&#125;)</span><br><span class="line"></span><br><span class="line">Promise.race([p1, p2]).then((result) &#x3D;&gt; &#123;</span><br><span class="line">  console.log(result)</span><br><span class="line">&#125;).catch((error) &#x3D;&gt; &#123;</span><br><span class="line">  console.log(error)  &#x2F;&#x2F; 打开的是 &#39;failed&#39;</span><br><span class="line">&#125;)</span><br></pre></td></tr></table></figure>
@@ -417,6 +418,11 @@ height:50vh;
     <!-- paginator  -->
     <ul class="post-paginator">
         <li class="next">
+            
+                <div class="nextSlogan">Next Post</div>
+                <a href= "/2019/02/21/%E5%89%8D%E7%AB%AF%E6%80%A7%E8%83%BD%E4%BC%98%E5%8C%96%E2%80%94%E2%80%94DNS%E9%A2%84%E8%A7%A3%E6%9E%90/" title= "前端性能优化——DNS预解析">
+                    <div class="nextTitle">前端性能优化——DNS预解析</div>
+                </a>
             
         </li>
         <li class="previous">
@@ -576,9 +582,18 @@ top:50vh;
     
     
     
+    
+    
+    
+    
+    
+    
+    
+    
+    
     <div class="total-and-search">
         <div class="total-archive">
-        Total : 3
+        Total : 4
         </div>
         <!-- search  -->
         
@@ -594,7 +609,12 @@ top:50vh;
     
     
         <li class="archive-post-item">
-            <span class="archive-post-date">02/17</span><a class="archive-post-title" href= "/2019/02/17/promose-all%E5%92%8Cpromise-race/" >promose.all和promise.race</a>
+            <span class="archive-post-date">02/21</span><a class="archive-post-title" href= "/2019/02/21/%E5%89%8D%E7%AB%AF%E6%80%A7%E8%83%BD%E4%BC%98%E5%8C%96%E2%80%94%E2%80%94DNS%E9%A2%84%E8%A7%A3%E6%9E%90/" >前端性能优化——DNS预解析</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">02/17</span><a class="archive-post-title" href= "/2019/02/17/promose-all%E5%92%8Cpromise-race/" >promise.all和promise.race</a>
         </li>
     
     
@@ -615,6 +635,8 @@ top:50vh;
         <span class="sidebar-tag-name" data-tags="Promise"><span class="iconfont-archer">&#xe606;</span>Promise</span>
     
         <span class="sidebar-tag-name" data-tags="hexo"><span class="iconfont-archer">&#xe606;</span>hexo</span>
+    
+        <span class="sidebar-tag-name" data-tags="前端性能优化"><span class="iconfont-archer">&#xe606;</span>前端性能优化</span>
     
     </div>
     <div class="iconfont-archer sidebar-tags-empty">&#xe678;</div>
