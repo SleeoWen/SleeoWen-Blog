@@ -23,10 +23,11 @@ DNS 作为互联网的基础协议，其解析的速度似乎很容易被网站�
 - IE:9+
 - Firefox:3.5+
 - Safari:5+
-- Edge
+- Edge  
+
 ## 如何在网站中使用DNS预解析
 因为浏览器的html解析是顺序的，所以DNS Prefetch 应该尽量的放在网页的前面，推荐放在 <meta charset="UTF-8"> 后面：  
-```
+```javascript
 <meta http-equiv="x-dns-prefetch-control" content="on">
 <!--打开和关闭DNS预预解析-->
 <link rel="dns-prefetch" href="//www.baidu.com">

@@ -19,7 +19,7 @@ tags: hexo
 npm install -g hexo-cli
 ```
 或者
-```
+```linux
 npm install hexo
 ```
 ### 初始化项目

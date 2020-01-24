@@ -4,7 +4,7 @@
   "description": "a smart and modern theme for Hexo",
   "scripts": {
     "dev": "gulp dev",
-    "build": "gulp build --option",
+    "build": "/usr/local/bin/gulp build --option",
     "prettier": "prettier --write './src/**/*.*'"
   },
   "author": "fi3ework",

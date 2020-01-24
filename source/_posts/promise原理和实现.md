@@ -19,16 +19,16 @@ promise.then(onFulfilled, onRejected)
 ```
 ### Promise实现
 1. 构造函数
-```
+```js
 function Promise(resolver) {}
 ```
 2. 原型链
-```
+```js
 Promise.prototype.then = function() {}
 Promise.prototype.catch = function() {}
 ```
 3. 静态方法
-```
+```js
 Promise.resolve = function() {}
 Promise.reject = function() {}
 Promise.all = function() {}
@@ -36,7 +36,7 @@ Promise.race = function() {}
 ```
 ### Promise基本结构
 
-```
+```js
 let promise=new Promise((resolve, reject) => {
   setTimeout(() => {
     resolve('FULFILLED')
@@ -53,7 +53,7 @@ promise.then(a => alert(a+1));
 4. **resolve**函数被调用时会触发**then**方法中的回调
 #### 构造函数的初步实现
 
-```
+```js
 function Promise(executor) {
     var self = this;
     self.status = 'pending'; //promise当前的状态
@@ -77,7 +77,7 @@ Promise.prototype.then = function (resolve) {
 ```
 #### 添加reject结果
 
-```
+```js
 function Promise(executor) {
     var self = this;
     self.status = 'pending'; //promise当前的状态
@@ -123,7 +123,7 @@ Promise.prototype.then = function (onResolve, onReject) {
 3. **value**作为实参传入**resolve**和**reject**函数。
 #### 如果executor自执行函数中的resolve函数立即触发时，发现Promise失效
 
-```
+```js
 const promise = new Promise((resolve) => {
     resolve(1);
 });
@@ -132,7 +132,7 @@ promise.then((a) => alert(a));
 ```
 将promise的resolve和reject异步执行
 
-```
+```js
 function resolve(value) {
     setTimeout(function () {
         if(self.status === 'pending') {
@@ -159,14 +159,14 @@ function reject(reason) {
 ```
 ### then方法
 
-```
+```js
 promise.then(onFulfilled, onRejected)
 ```
 1.  **then**方法返回一个新的**promise**对象。
 1.  **executor**自执行函数中的**resolve**参数调用时执行**then**方法的第一个回调函数**onResolved**。
 1.  **executor**自执行函数中的**reject**参数调用时执行**then**方法的第二个回调函数**onRejected**。
 
-```
+```js
 Promise.prototype.then = function (onResolved, onRejected) {
     var self = this;
     var promise2;
@@ -244,7 +244,7 @@ Promise.prototype.then = function (onResolved, onRejected) {
 ```
 ### 完整代码
 
-```
+```js
 var Promise = (function() {
     function Promise(resolver) {
         if (typeof resolver !== 'function') { //resolver必须是函数
