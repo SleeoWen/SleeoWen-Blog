@@ -7,7 +7,7 @@
     "clean": "hexo clean",
     "deploy": "hexo deploy",
     "server": "hexo server",
-    "newPage": "hexo new vue生命周期以及nextTick应用",
+    "newPage": "hexo new [post] 函数的防抖和节流",
     "update": "hexo deploy"
   },
   "hexo": {
