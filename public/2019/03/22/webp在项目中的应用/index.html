@@ -277,7 +277,7 @@ height:50vh;
                 
                 <div class="post-intro-meta">
                     <span class="post-intro-calander iconfont-archer">&#xe676;</span>
-                    <span class="post-intro-time">2020/03/22</span>
+                    <span class="post-intro-time">2019/03/22</span>
                     
                     <span id="busuanzi_container_page_pv" class="busuanzi-pv">
                         <span class="iconfont-archer">&#xe602;</span>
@@ -406,11 +406,11 @@ height:50vh;
 
 <h2 id="为什么要用webp"><a href="#为什么要用webp" class="headerlink" title="为什么要用webp"></a>为什么要用webp</h2><ol>
 <li>减小图片加载资源的大小、节省用户流量资源</li>
-<li>降低服务器流量资源  <h3 id="压缩率"><a href="#压缩率" class="headerlink" title="压缩率"></a>压缩率</h3><img src="/2020/03/22/webp%E5%9C%A8%E9%A1%B9%E7%9B%AE%E4%B8%AD%E7%9A%84%E5%BA%94%E7%94%A8/yasuo.webp" alt="yasuo"></li>
+<li>降低服务器流量资源  <h3 id="压缩率"><a href="#压缩率" class="headerlink" title="压缩率"></a>压缩率</h3><img src="/2019/03/22/webp%E5%9C%A8%E9%A1%B9%E7%9B%AE%E4%B8%AD%E7%9A%84%E5%BA%94%E7%94%A8/yasuo.webp" alt="yasuo"></li>
 </ol>
-<h2 id="webp兼容性情况"><a href="#webp兼容性情况" class="headerlink" title="webp兼容性情况"></a>webp兼容性情况</h2><p><img src="/2020/03/22/webp%E5%9C%A8%E9%A1%B9%E7%9B%AE%E4%B8%AD%E7%9A%84%E5%BA%94%E7%94%A8/jianrong.webp" alt="yasuo"><br>结果：谷歌全面支持、安卓浏览器从4.2开始支持。那么在页面中对于安卓用户中图片资源加载大小会有大幅度下降。</p>
-<h2 id="webp在各大网站的使用"><a href="#webp在各大网站的使用" class="headerlink" title="webp在各大网站的使用"></a>webp在各大网站的使用</h2><p>淘宝中大量使用webp。<br><img src="/2020/03/22/webp%E5%9C%A8%E9%A1%B9%E7%9B%AE%E4%B8%AD%E7%9A%84%E5%BA%94%E7%94%A8/taobao.webp" alt="yasuo"><br>各大cdn也是支持webp图片格式输出。</p>
-<h2 id="项目中的实践"><a href="#项目中的实践" class="headerlink" title="项目中的实践"></a>项目中的实践</h2><p><img src="/2020/03/22/webp%E5%9C%A8%E9%A1%B9%E7%9B%AE%E4%B8%AD%E7%9A%84%E5%BA%94%E7%94%A8/liucheng.webp" alt="yasuo"> </p>
+<h2 id="webp兼容性情况"><a href="#webp兼容性情况" class="headerlink" title="webp兼容性情况"></a>webp兼容性情况</h2><p><img src="/2019/03/22/webp%E5%9C%A8%E9%A1%B9%E7%9B%AE%E4%B8%AD%E7%9A%84%E5%BA%94%E7%94%A8/jianrong.webp" alt="yasuo"><br>结果：谷歌全面支持、安卓浏览器从4.2开始支持。那么在页面中对于安卓用户中图片资源加载大小会有大幅度下降。</p>
+<h2 id="webp在各大网站的使用"><a href="#webp在各大网站的使用" class="headerlink" title="webp在各大网站的使用"></a>webp在各大网站的使用</h2><p>淘宝中大量使用webp。<br><img src="/2019/03/22/webp%E5%9C%A8%E9%A1%B9%E7%9B%AE%E4%B8%AD%E7%9A%84%E5%BA%94%E7%94%A8/taobao.webp" alt="yasuo"><br>各大cdn也是支持webp图片格式输出。</p>
+<h2 id="项目中的实践"><a href="#项目中的实践" class="headerlink" title="项目中的实践"></a>项目中的实践</h2><p><img src="/2019/03/22/webp%E5%9C%A8%E9%A1%B9%E7%9B%AE%E4%B8%AD%E7%9A%84%E5%BA%94%E7%94%A8/liucheng.webp" alt="yasuo"> </p>
 <h3 id="技术实现"><a href="#技术实现" class="headerlink" title="技术实现"></a>技术实现</h3><h4 id="webp兼容性如何检测？"><a href="#webp兼容性如何检测？" class="headerlink" title="webp兼容性如何检测？"></a>webp兼容性如何检测？</h4><ol>
 <li>通过js浏览器端判断是否支持webp<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">check_webp_feature</span>(<span class="params">feature, callback</span>) </span>&#123;</span><br><span class="line">    <span class="keyword">var</span> kTestImages = &#123;</span><br><span class="line">        lossy: <span class="string">"UklGRiIAAABXRUJQVlA4IBYAAAAwAQCdASoBAAEADsD+JaQAA3AAAAAA"</span>,</span><br><span class="line">        lossless: <span class="string">"UklGRhoAAABXRUJQVlA4TA0AAAAvAAAAEAcQERGIiP4HAA=="</span>,</span><br><span class="line">        alpha: <span class="string">"UklGRkoAAABXRUJQVlA4WAoAAAAQAAAAAAAAAAAAQUxQSAwAAAARBxAR/Q9ERP8DAABWUDggGAAAABQBAJ0BKgEAAQAAAP4AAA3AAP7mtQAAAA=="</span>,</span><br><span class="line">        animation: <span class="string">"UklGRlIAAABXRUJQVlA4WAoAAAASAAAAAAAAAAAAQU5JTQYAAAD/////AABBTk1GJgAAAAAAAAAAAAAAAAAAAGQAAABWUDhMDQAAAC8AAAAQBxAREYiI/gcA"</span></span><br><span class="line">    &#125;;</span><br><span class="line">    <span class="keyword">var</span> img = <span class="keyword">new</span> Image();</span><br><span class="line">    img.onload = <span class="function"><span class="keyword">function</span> (<span class="params"></span>) </span>&#123;</span><br><span class="line">        <span class="keyword">var</span> result = (img.width &gt; <span class="number">0</span>) &amp;&amp; (img.height &gt; <span class="number">0</span>);</span><br><span class="line">        callback(feature, result);</span><br><span class="line">    &#125;;</span><br><span class="line">    img.onerror = <span class="function"><span class="keyword">function</span> (<span class="params"></span>) </span>&#123;</span><br><span class="line">        callback(feature, <span class="literal">false</span>);</span><br><span class="line">    &#125;;</span><br><span class="line">    img.src = <span class="string">"data:image/webp;base64,"</span> + kTestImages[feature];</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></li>
 <li>浏览器向服务端发起请求的时候accept 会带上image/webp 信息，在服务端判断是否支持webp。</li>
@@ -420,7 +420,7 @@ height:50vh;
 <p>nginx 中设置cookie代码</p>
 <figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">location / &#123;</span><br><span class="line">  <span class="keyword">if</span> ($webp_suffix ~* webp) &#123;</span><br><span class="line">    add_header Set-Cookie <span class="string">'webpAvaile=true; path= /; expires=3153600'</span>;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
-<h3 id="在开发中使用"><a href="#在开发中使用" class="headerlink" title="在开发中使用"></a>在开发中使用</h3><h4 id="sass中使用"><a href="#sass中使用" class="headerlink" title="sass中使用"></a>sass中使用</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">@mixin webpbg($url) &#123;</span><br><span class="line">    background-image: url($url);</span><br><span class="line">    @at-root .webpa &amp; &#123;</span><br><span class="line">        background-image: url($url+&#39;.webp&#39;);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="在开发中使用"><a href="#在开发中使用" class="headerlink" title="在开发中使用"></a>在开发中使用</h3><h4 id="sass中使用"><a href="#sass中使用" class="headerlink" title="sass中使用"></a>sass中使用</h4><figure class="highlight scss"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">@mixin</span> webpbg(<span class="variable">$url</span>) &#123;</span><br><span class="line">    <span class="attribute">background-image</span>: url(<span class="variable">$url</span>);</span><br><span class="line">    <span class="keyword">@at-root</span> .webpa &amp; &#123;</span><br><span class="line">        <span class="attribute">background-image</span>: url(<span class="variable">$url</span>+<span class="string">'.webp'</span>);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 <p>scss文件使用  </p>
 <figure class="highlight scss"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">@include</span> webpbg(<span class="string">'../image/header.jpg'</span>);</span><br></pre></td></tr></table></figure>
 
@@ -443,6 +443,11 @@ height:50vh;
     <!-- paginator  -->
     <ul class="post-paginator">
         <li class="next">
+            
+                <div class="nextSlogan">Next Post</div>
+                <a href= "/2019/04/01/vue%E7%94%9F%E5%91%BD%E5%91%A8%E6%9C%9F%E4%BB%A5%E5%8F%8AnextTick%E5%BA%94%E7%94%A8/" title= "vue生命周期以及nextTick应用">
+                    <div class="nextTitle">vue生命周期以及nextTick应用</div>
+                </a>
             
         </li>
         <li class="previous">
@@ -629,9 +634,20 @@ top:50vh;
     
     
     
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
     <div class="total-and-search">
         <div class="total-archive">
-        Total : 6
+        Total : 7
         </div>
         <!-- search  -->
         
@@ -642,22 +658,18 @@ top:50vh;
     
     
     
-    <div class="archive-year"> 2020 </div>
+    <div class="archive-year"> 2019 </div>
     <ul class="year-list">
     
     
         <li class="archive-post-item">
-            <span class="archive-post-date">03/22</span><a class="archive-post-title" href= "/2020/03/22/webp%E5%9C%A8%E9%A1%B9%E7%9B%AE%E4%B8%AD%E7%9A%84%E5%BA%94%E7%94%A8/" >webp在项目中的应用</a>
+            <span class="archive-post-date">04/01</span><a class="archive-post-title" href= "/2019/04/01/vue%E7%94%9F%E5%91%BD%E5%91%A8%E6%9C%9F%E4%BB%A5%E5%8F%8AnextTick%E5%BA%94%E7%94%A8/" >vue生命周期以及nextTick应用</a>
         </li>
     
     
-    
-    
-    
-        </ul>
-    
-    <div class="archive-year"> 2019 </div>
-    <ul class="year-list">
+        <li class="archive-post-item">
+            <span class="archive-post-date">03/22</span><a class="archive-post-title" href= "/2019/03/22/webp%E5%9C%A8%E9%A1%B9%E7%9B%AE%E4%B8%AD%E7%9A%84%E5%BA%94%E7%94%A8/" >webp在项目中的应用</a>
+        </li>
     
     
         <li class="archive-post-item">
@@ -696,6 +708,8 @@ top:50vh;
         <span class="sidebar-tag-name" data-tags="hexo"><span class="iconfont-archer">&#xe606;</span>hexo</span>
     
         <span class="sidebar-tag-name" data-tags="前端性能优化"><span class="iconfont-archer">&#xe606;</span>前端性能优化</span>
+    
+        <span class="sidebar-tag-name" data-tags="vue"><span class="iconfont-archer">&#xe606;</span>vue</span>
     
     </div>
     <div class="iconfont-archer sidebar-tags-empty">&#xe678;</div>

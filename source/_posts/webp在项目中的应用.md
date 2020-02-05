@@ -1,7 +1,7 @@
 ---
 layout: '[post]'
 title: webp在项目中的应用
-date: 2020-03-22 11:11:26
+date: 2019-03-22 11:11:26
 tags: html
 ---
 ## 什么是webp？
@@ -70,7 +70,7 @@ location / {
 ### 在开发中使用  
 #### sass中使用
 
-```sass
+```scss
 @mixin webpbg($url) {
     background-image: url($url);
     @at-root .webpa & {

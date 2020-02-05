@@ -416,7 +416,7 @@ height:50vh;
 <li>Edge  </li>
 </ul>
 <h2 id="如何在网站中使用DNS预解析"><a href="#如何在网站中使用DNS预解析" class="headerlink" title="如何在网站中使用DNS预解析"></a>如何在网站中使用DNS预解析</h2><p>因为浏览器的html解析是顺序的，所以DNS Prefetch 应该尽量的放在网页的前面，推荐放在 <meta charset="UTF-8"> 后面：  </p>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">&lt;meta http-equiv=<span class="string">"x-dns-prefetch-control"</span> content=<span class="string">"on"</span>&gt;</span><br><span class="line">&lt;!--打开和关闭DNS预预解析--&gt;</span><br><span class="line">&lt;link rel=<span class="string">"dns-prefetch"</span> href=<span class="string">"//www.baidu.com"</span>&gt;</span><br><span class="line">&lt;!--解析的DNS的地址--&gt;</span><br></pre></td></tr></table></figure>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">meta</span> <span class="attr">http-equiv</span>=<span class="string">"x-dns-prefetch-control"</span> <span class="attr">content</span>=<span class="string">"on"</span>&gt;</span></span><br><span class="line"><span class="comment">&lt;!--打开和关闭DNS预预解析--&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">link</span> <span class="attr">rel</span>=<span class="string">"dns-prefetch"</span> <span class="attr">href</span>=<span class="string">"//www.baidu.com"</span>&gt;</span></span><br><span class="line"><span class="comment">&lt;!--解析的DNS的地址--&gt;</span></span><br></pre></td></tr></table></figure>
 <p>注：dns-prefetch需慎用，多页面重复DNS预解析会增加重复DNS查询次数。</p>
 
     </article>
@@ -616,9 +616,20 @@ top:50vh;
     
     
     
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
     <div class="total-and-search">
         <div class="total-archive">
-        Total : 6
+        Total : 7
         </div>
         <!-- search  -->
         
@@ -629,22 +640,18 @@ top:50vh;
     
     
     
-    <div class="archive-year"> 2020 </div>
+    <div class="archive-year"> 2019 </div>
     <ul class="year-list">
     
     
         <li class="archive-post-item">
-            <span class="archive-post-date">03/22</span><a class="archive-post-title" href= "/2020/03/22/webp%E5%9C%A8%E9%A1%B9%E7%9B%AE%E4%B8%AD%E7%9A%84%E5%BA%94%E7%94%A8/" >webp在项目中的应用</a>
+            <span class="archive-post-date">04/01</span><a class="archive-post-title" href= "/2019/04/01/vue%E7%94%9F%E5%91%BD%E5%91%A8%E6%9C%9F%E4%BB%A5%E5%8F%8AnextTick%E5%BA%94%E7%94%A8/" >vue生命周期以及nextTick应用</a>
         </li>
     
     
-    
-    
-    
-        </ul>
-    
-    <div class="archive-year"> 2019 </div>
-    <ul class="year-list">
+        <li class="archive-post-item">
+            <span class="archive-post-date">03/22</span><a class="archive-post-title" href= "/2019/03/22/webp%E5%9C%A8%E9%A1%B9%E7%9B%AE%E4%B8%AD%E7%9A%84%E5%BA%94%E7%94%A8/" >webp在项目中的应用</a>
+        </li>
     
     
         <li class="archive-post-item">
@@ -683,6 +690,8 @@ top:50vh;
         <span class="sidebar-tag-name" data-tags="hexo"><span class="iconfont-archer">&#xe606;</span>hexo</span>
     
         <span class="sidebar-tag-name" data-tags="前端性能优化"><span class="iconfont-archer">&#xe606;</span>前端性能优化</span>
+    
+        <span class="sidebar-tag-name" data-tags="vue"><span class="iconfont-archer">&#xe606;</span>vue</span>
     
     </div>
     <div class="iconfont-archer sidebar-tags-empty">&#xe678;</div>
