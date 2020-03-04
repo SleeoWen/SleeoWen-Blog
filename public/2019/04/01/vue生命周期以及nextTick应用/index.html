@@ -401,39 +401,41 @@ height:50vh;
         <div class="container container-unloaded">
             <main class="main post-page">
     <article class="article-entry">
-        <h2 id="vue的生命周期"><a href="#vue的生命周期" class="headerlink" title="vue的生命周期"></a>vue的生命周期</h2><a id="more"></a>
+        <h2 id="vue-的生命周期"><a href="#vue-的生命周期" class="headerlink" title="vue 的生命周期"></a>vue 的生命周期</h2><a id="more"></a>
 
 <p><img src="/2019/04/01/vue%E7%94%9F%E5%91%BD%E5%91%A8%E6%9C%9F%E4%BB%A5%E5%8F%8AnextTick%E5%BA%94%E7%94%A8/shengming.webp" alt="yasuo"><br><img src="/2019/04/01/vue%E7%94%9F%E5%91%BD%E5%91%A8%E6%9C%9F%E4%BB%A5%E5%8F%8AnextTick%E5%BA%94%E7%94%A8/biaoge.webp" alt="yasuo"></p>
 <ul>
-<li><strong>beforeCreate</strong>:在实例初始化之后，数据观测data observer(props、data、computed) 和 event/watcher 事件配置之前被调用。</li>
+<li><strong>beforeCreate</strong>:在实例初始化之后，数据观测 data observer(props、data、computed) 和 event/watcher 事件配置之前被调用。</li>
 <li><strong>created</strong>:实例已经创建完成之后被调用。在这一步，实例已完成以下的配置：数据观测(data observer)，属性和方法的运算， watch/event 事件回调。然而，挂载阶段还没开始，$el 属性目前不可见。</li>
 <li><strong>beforeMount</strong>:在挂载开始之前被调用：相关的 render 函数首次被调用。</li>
 <li><strong>mounted</strong>:el 被新创建的 vm.$el 替换，并挂载到实例上去之后调用该钩子。</li>
 <li><strong>beforeUpdate</strong>:数据更新时调用，发生在虚拟 DOM 重新渲染和打补丁之前。 你可以在这个钩子中进一步地更改状态，这不会触发附加的重渲染过程。</li>
-<li><strong>updated</strong>:无论是组件本身的数据变更，还是从父组件接收到的 props 或者从vuex里面拿到的数据有变更，都会触发虚拟 DOM 重新渲染和打补丁，并在之后调用 updated。</li>
+<li><strong>updated</strong>:无论是组件本身的数据变更，还是从父组件接收到的 props 或者从 vuex 里面拿到的数据有变更，都会触发虚拟 DOM 重新渲染和打补丁，并在之后调用 updated。</li>
 <li><strong>beforeDestroy</strong>:实例销毁之前调用。在这一步，实例仍然完全可用。</li>
 <li><strong>destroyed</strong>:Vue 实例销毁后调用。调用后，Vue 实例指示的所有东西都会解绑定，所有的事件监听器会被移除，所有的子实例也会被销毁。 该钩子在服务器端渲染期间不被调用。</li>
 </ul>
-<h5 id="注意"><a href="#注意" class="headerlink" title="注意"></a>注意</h5><p>created阶段的ajax请求与mounted请求的区别：前者页面视图未出现，如果请求信息过多，页面会长时间处于白屏状态。</p>
+<h5 id="注意"><a href="#注意" class="headerlink" title="注意"></a>注意</h5><p>created 阶段的 ajax 请求与 mounted 请求的区别：前者页面视图未出现，如果请求信息过多，页面会长时间处于白屏状态。</p>
 <h2 id="单个组件的生命周期"><a href="#单个组件的生命周期" class="headerlink" title="单个组件的生命周期"></a>单个组件的生命周期</h2><ol>
 <li>初始化组件时，仅执行了<code>beforeCreate/Created/beforeMount/mounted</code>四个钩子函数</li>
-<li>当改变data中定义的变量（响应式变量）时，会执行<code>beforeUpdate/updated</code>钩子函数</li>
+<li>当改变 data 中定义的变量（响应式变量）时，会执行<code>beforeUpdate/updated</code>钩子函数</li>
 <li>当切换组件（当前组件未缓存）时，会执行<code>beforeDestory/destroyed</code>钩子函数</li>
 <li>初始化和销毁时的生命钩子函数均只会执行一次，<code>beforeUpdate/updated</code>可多次执行</li>
 </ol>
 <h2 id="Vue-nextTick"><a href="#Vue-nextTick" class="headerlink" title="Vue.nextTick()"></a>Vue.nextTick()</h2><blockquote>
-<p> 在下次 DOM 更新循环结束之后执行延迟回调。在修改数据之后立即使用这个方法，获取更新后的 DOM。  </p>
+<p>在下次 DOM 更新循环结束之后执行延迟回调。在修改数据之后立即使用这个方法，获取更新后的 DOM。</p>
 </blockquote>
-<p>获取更新后的DOM言外之意就是什么操作需要用到了更新后的DOM而不能使用之前的DOM或者使用更新前的DOM会出问题，所以就衍生出了这个获取更新后的 DOM的Vue方法。  </p>
+<p>获取更新后的 DOM 言外之意就是什么操作需要用到了更新后的 DOM 而不能使用之前的 DOM 或者使用更新前的 DOM 会出问题，所以就衍生出了这个获取更新后的 DOM 的 Vue 方法。</p>
 <blockquote>
-<p><strong>Vue.nextTick()回调函数中的执行的应该是会对DOM进行操作的 js代码</strong></p>
+<p><strong>Vue.nextTick()回调函数中的执行的应该是会对 DOM 进行操作的 js 代码</strong></p>
 </blockquote>
-<h3 id="什么时候需要用Vue-nextTick"><a href="#什么时候需要用Vue-nextTick" class="headerlink" title="什么时候需要用Vue.nextTick()?"></a>什么时候需要用Vue.nextTick()?</h3><ul>
-<li>你在Vue生命周期的created()钩子函数进行的DOM操作一定要放在Vue.nextTick()的回调函数中。原因是什么呢，原因是在created()钩子函数执行的时候DOM 其实并未进行任何渲染，而此时进行DOM操作无异于徒劳，所以此处一定要将DOM操作的js代码放进Vue.nextTick()的回调函数中。与之对应的就是mounted钩子函数，因为该钩子函数执行时所有的DOM挂载和渲染都已完成，此时在该钩子函数中进行任何DOM操作都不会有问题 。</li>
-<li>在数据变化后要执行的某个操作，当你设置 vm.someData = ‘new value’，DOM并不会马上更新，而是在异步队列被清除，也就是下一个事件循环开始时执行更新时才会进行必要的DOM更新。如果此时你想要根据更新的 DOM 状态去做某些事情，就会出现问题。。为了在数据变化之后等待 Vue 完成更新 DOM ，可以在数据变化之后立即使用 Vue.nextTick(callback) 。这样回调函数在 DOM 更新完成后就会调用。</li>
-<li>mounted 不会承诺所有的子组件也都一起被挂载。如果你希望等到整个视图都渲染完毕，可以用 vm.$nextTick 替换掉 mounted.<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">mounted: <span class="function"><span class="keyword">function</span> (<span class="params"></span>) </span>&#123;</span><br><span class="line"><span class="keyword">this</span>.$nextTick(<span class="function"><span class="keyword">function</span> (<span class="params"></span>) </span>&#123;</span><br><span class="line"></span><br><span class="line"><span class="comment">// Code that will run only after the</span></span><br><span class="line"><span class="comment">// entire view has been rendered</span></span><br><span class="line">&#125;)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<a href="https://www.jianshu.com/p/46c9d777cab1" target="_blank" rel="noopener">原文地址</a></li>
+<h3 id="什么时候需要用-Vue-nextTick"><a href="#什么时候需要用-Vue-nextTick" class="headerlink" title="什么时候需要用 Vue.nextTick()?"></a>什么时候需要用 Vue.nextTick()?</h3><ul>
+<li>你在 Vue 生命周期的 created()钩子函数进行的 DOM 操作一定要放在 Vue.nextTick()的回调函数中。原因是什么呢，原因是在 created()钩子函数执行的时候 DOM 其实并未进行任何渲染，而此时进行 DOM 操作无异于徒劳，所以此处一定要将 DOM 操作的 js 代码放进 Vue.nextTick()的回调函数中。与之对应的就是 mounted 钩子函数，因为该钩子函数执行时所有的 DOM 挂载和渲染都已完成，此时在该钩子函数中进行任何 DOM 操作都不会有问题 。</li>
+<li>在数据变化后要执行的某个操作，当你设置 vm.someData = ‘new value’，DOM 并不会马上更新，而是在异步队列被清除，也就是下一个事件循环开始时执行更新时才会进行必要的 DOM 更新。如果此时你想要根据更新的 DOM 状态去做某些事情，就会出现问题。。为了在数据变化之后等待 Vue 完成更新 DOM ，可以在数据变化之后立即使用 Vue.nextTick(callback) 。这样回调函数在 DOM 更新完成后就会调用。</li>
+<li>mounted 不会承诺所有的子组件也都一起被挂载。如果你希望等到整个视图都渲染完毕，可以用 vm.$nextTick 替换掉 mounted.</li>
 </ul>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">mounted: <span class="function"><span class="keyword">function</span> (<span class="params"></span>) </span>&#123;</span><br><span class="line"><span class="keyword">this</span>.$nextTick(<span class="function"><span class="keyword">function</span> (<span class="params"></span>) </span>&#123;</span><br><span class="line"></span><br><span class="line"><span class="comment">// Code that will run only after the</span></span><br><span class="line"><span class="comment">// entire view has been rendered</span></span><br><span class="line">&#125;)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p><a href="https://www.jianshu.com/p/46c9d777cab1" target="_blank" rel="noopener">原文地址</a></p>
 
     </article>
     <!-- license  -->
@@ -563,7 +565,7 @@ top:50vh;
         <div class="toc-catalog">
             <span class="iconfont-archer catalog-icon">&#xe613;</span><span>CATALOG</span>
         </div>
-        <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#vue的生命周期"><span class="toc-number">1.</span> <span class="toc-text">vue的生命周期</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#注意"><span class="toc-number">1.0.0.1.</span> <span class="toc-text">注意</span></a></li></ol></li></ol></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#单个组件的生命周期"><span class="toc-number">2.</span> <span class="toc-text">单个组件的生命周期</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Vue-nextTick"><span class="toc-number">3.</span> <span class="toc-text">Vue.nextTick()</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#什么时候需要用Vue-nextTick"><span class="toc-number">3.1.</span> <span class="toc-text">什么时候需要用Vue.nextTick()?</span></a></li></ol></li></ol>
+        <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#vue-的生命周期"><span class="toc-number">1.</span> <span class="toc-text">vue 的生命周期</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#注意"><span class="toc-number">1.0.0.1.</span> <span class="toc-text">注意</span></a></li></ol></li></ol></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#单个组件的生命周期"><span class="toc-number">2.</span> <span class="toc-text">单个组件的生命周期</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Vue-nextTick"><span class="toc-number">3.</span> <span class="toc-text">Vue.nextTick()</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#什么时候需要用-Vue-nextTick"><span class="toc-number">3.1.</span> <span class="toc-text">什么时候需要用 Vue.nextTick()?</span></a></li></ol></li></ol>
     </div>
     
     <div class="back-top iconfont-archer">&#xe639;</div>
@@ -654,9 +656,48 @@ top:50vh;
     
     
     
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
     <div class="total-and-search">
         <div class="total-archive">
-        Total : 8
+        Total : 11
         </div>
         <!-- search  -->
         
@@ -669,6 +710,21 @@ top:50vh;
     
     <div class="archive-year"> 2019 </div>
     <ul class="year-list">
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">05/03</span><a class="archive-post-title" href= "/2019/05/03/css%E4%B9%8BBFC/" >css之BFC</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">05/01</span><a class="archive-post-title" href= "/2019/05/01/css%E7%9B%92%E5%AD%90%E6%A8%A1%E5%9E%8B/" >css盒子模型</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">04/19</span><a class="archive-post-title" href= "/2019/04/19/%E9%A1%B5%E9%9D%A2%E5%B8%83%E5%B1%80/" >页面布局</a>
+        </li>
     
     
         <li class="archive-post-item">
@@ -726,6 +782,8 @@ top:50vh;
         <span class="sidebar-tag-name" data-tags="vue"><span class="iconfont-archer">&#xe606;</span>vue</span>
     
         <span class="sidebar-tag-name" data-tags="javascript"><span class="iconfont-archer">&#xe606;</span>javascript</span>
+    
+        <span class="sidebar-tag-name" data-tags="css"><span class="iconfont-archer">&#xe606;</span>css</span>
     
     </div>
     <div class="iconfont-archer sidebar-tags-empty">&#xe678;</div>

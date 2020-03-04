@@ -7,7 +7,7 @@
     "clean": "hexo clean",
     "deploy": "hexo deploy",
     "server": "hexo server",
-    "newPage": "hexo new [post] 函数的防抖和节流",
+    "newPage": "hexo new [post] css之BFC",
     "update": "hexo deploy"
   },
   "hexo": {
