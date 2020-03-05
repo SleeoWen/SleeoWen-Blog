@@ -7,7 +7,7 @@
     "clean": "hexo clean",
     "deploy": "hexo deploy",
     "server": "hexo server",
-    "newPage": "hexo new [post] css之BFC",
+    "newPage": "hexo new [post] DOM级别与DOM事件",
     "update": "hexo deploy"
   },
   "hexo": {
