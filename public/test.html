@@ -344,83 +344,66 @@
 <html>
 	<head>
 		<meta charset="utf-8">
-		<title>css盒子模型</title>
-		<style media="screen">
-			html * {
-				margin: 0;
-				padding: 0;
-			}
-		</style>
+		<title>DOM事件流</title>
 	<meta name="generator" content="Hexo 4.2.0"></head>
 
 	<body>
-		<!-- <section id="sec">
-			<style media="screen">
-				#sec {
-					background: #f00;
-					/* overflow: hidden; */
-				}
-				.child {
-					height: 100px;
-					margin-top: 10px;
-					background: yellow;
-				}
-			</style>
-			<article class="child"></article>
-        </section> -->
-		<!-- <section id="margin">
+		<div id="ev">
 			<style>
-				#margin {
-					background: pink;
-					overflow: hidden;
-				}
-				#margin > p {
-					margin: 5px auto 25px;
-					background: blue;
+				#ev {
+					width: 300px;
+					height: 100px;
+					background-color: red;
+					color: #fff;
+					text-align: center;
+					line-height: 100px;
 				}
 			</style>
-			<p>1</p>
-			<div style="overflow: hidden;">
-                <p>2</p>
-            </div>
-			<p>3</p>
-        </section> -->
-        <section id="layout">
-            <style media="screen">
-                #layout{
-                    background: red;
-                }
-                #layout .left{
-                    float: left;
-                    width: 100px;
-                    height: 100px;
-                    background: pink;
-                }
-                #layout .right{
-                    height: 110px;
-                    background: blue;
-                    overflow: auto;
-                }
-            </style>
-            <div class="left"></div>
-            <div class="right"></div>
-        </section>
-        <!-- BFC子元素即使是float，也会参与高度计算 -->
-        <!-- <section id="float">
-            <style media="screen">
-                #float{
-                    background: red;
-                    overflow: hidden;
-                }
-                #float .float{
-                    float: left;
-                    font-size: 20px;
-                }
-            </style>
-            <div class="float">
-                我是浮动元素
-            </div>
-        </section> -->
+			目标元素
+		</div>
+		<script type="text/javascript">
+			var ev = document.getElementById('ev');
+			window.addEventListener(
+				'click',
+				function() {
+					console.log('window捕获阶段');
+				},
+				true
+			);
+			document.addEventListener(
+				'click',
+				function() {
+					console.log('doc捕获阶段');
+				},
+				true
+			);
+			document.documentElement.addEventListener(
+				'click',
+				function() {
+					console.log('html捕获阶段');
+				},
+				true
+			);
+			document.body.addEventListener(
+				'click',
+				function() {
+					console.log('body捕获阶段');
+				},
+				true
+			);
+			ev.addEventListener(
+				'click',
+				function() {
+					console.log('div捕获阶段');
+				},
+				true
+            );
+            var eve=new Event('test');
+            ev.addEventListener('test',function(){
+                console.log('自定义事件');
+            });
+            ev.dispatchEvent(eve);
+		</script>
 	</body>
 </html>
 
@@ -667,9 +650,35 @@
     
     
     
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
     <div class="total-and-search">
         <div class="total-archive">
-        Total : 12
+        Total : 14
         </div>
         <!-- search  -->
         
@@ -682,6 +691,16 @@
     
     <div class="archive-year"> 2019 </div>
     <ul class="year-list">
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">06/25</span><a class="archive-post-title" href= "/2019/06/25/Event%E4%BA%8B%E4%BB%B6%E5%B8%B8%E8%A7%81%E5%BA%94%E7%94%A8/" >Event事件常见应用</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">06/11</span><a class="archive-post-title" href= "/2019/06/11/DOM%E4%BA%8B%E4%BB%B6%E6%B5%81/" >DOM事件流</a>
+        </li>
     
     
         <li class="archive-post-item">
