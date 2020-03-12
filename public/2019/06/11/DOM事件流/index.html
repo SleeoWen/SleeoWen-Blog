@@ -22,7 +22,7 @@
     <meta name="description" content="个人的学习经历">
     <meta http-equiv="Cache-control" content="no-cache">
     <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1"/>
-    <title>css盒子模型 · SleeoWen-Blog</title>
+    <title>DOM事件流 · SleeoWen-Blog</title>
     <style type="text/css">
     @font-face {
         font-family: 'Oswald-Regular';
@@ -217,7 +217,7 @@
                 <a href="/" >Sleeo&#39;s Blog.</a>
             </div>
             <div class="post-title">
-                <a href="#" class="post-name">css盒子模型</a>
+                <a href="#" class="post-name">DOM事件流</a>
             </div>
     </div>
     
@@ -247,7 +247,7 @@ height:50vh;
         <h1 class="intro-title">
             <!-- 主页  -->
             
-            css盒子模型
+            DOM事件流
             <!-- 404 -->
             
         </h1>
@@ -266,18 +266,18 @@ height:50vh;
                 
                     <div class= post-intro-tags >
     
-        <a class="post-tag" href="javascript:void(0);" data-tags = "css">css</a>
+        <a class="post-tag" href="javascript:void(0);" data-tags = "html">html</a>
     
 </div>
                 
                 
                     <div class="post-intro-read">
-                        <span>字数统计: <span class="post-count word-count">337</span>阅读时长: <span class="post-count reading-time">1 min</span></span>
+                        <span>字数统计: <span class="post-count word-count">1.9k</span>阅读时长: <span class="post-count reading-time">7 min</span></span>
                     </div>
                 
                 <div class="post-intro-meta">
                     <span class="post-intro-calander iconfont-archer">&#xe676;</span>
-                    <span class="post-intro-time">2019/05/01</span>
+                    <span class="post-intro-time">2019/06/11</span>
                     
                     <span id="busuanzi_container_page_pv" class="busuanzi-pv">
                         <span class="iconfont-archer">&#xe602;</span>
@@ -401,18 +401,128 @@ height:50vh;
         <div class="container container-unloaded">
             <main class="main post-page">
     <article class="article-entry">
-        <h2 id="css-盒子模型"><a href="#css-盒子模型" class="headerlink" title="css 盒子模型"></a>css 盒子模型</h2><p>css 盒子模型包含标准模型和 IE 模型</p>
+        <h2 id="什么是事件？"><a href="#什么是事件？" class="headerlink" title="什么是事件？"></a>什么是事件？</h2><blockquote>
+<p>事件, 就是文档或浏览器窗口发生的一些特定的交互瞬间. JavaScript 和 HTML 之间的交互是通过事件实现的. 可以使用事件监听器来监听事件, 以便事件发生时执行相应的代码.</p>
+</blockquote>
 <a id="more"></a>
+<h2 id="事件流是什么？"><a href="#事件流是什么？" class="headerlink" title="事件流是什么？"></a>事件流是什么？</h2><p>当在页面上某个元素触发特定事件时, 比如点击, 除了被点击的目标元素, 所有祖先元素都会触发该事件, 一直到 window.</p>
+<p>那这样就出现了一个问题, 是先在目标元素上触发事件, 还是先在祖先元素上触发呢? 这就是事件流的概念.</p>
+<p><strong>事件流是事件在目标元素和祖先元素间的触发顺序</strong></p>
+<ul>
+<li><strong>捕获</strong>- Capture - 事件由最顶层逐级向下传播, 直至到达目标元素.</li>
+<li><strong>冒泡</strong> - Bubble - 顾名思义, 类似水中冒泡, 从下往上. 事件由第一个被触发的元素接收, 然后逐级向上传播.</li>
+</ul>
+<p>后来 w3c 采用折中的方式, 规定先捕获再冒泡平息了战火. 如此一个事件就被分成了三个阶段(是的, 不光是捕获和冒泡):</p>
+<ol>
+<li>捕获阶段 - The capture phase - 事件从最顶层元素 window 一直传递到目标元素的父元素.</li>
+<li>目标阶段 - The target phase - 事件到达目标元素. 如果事件指定不冒泡. 那就会在这里中止.</li>
+<li>冒泡阶段 - The bubble phase - 事件从目标元素父元素向上逐级传递直到最顶层元素 window. 及捕获阶段的反方向.</li>
+</ol>
+<p>那这里又有一个新的疑问, 既然捕获和冒泡阶段都会触发事件, 那先捕获再冒泡, 岂不是路径上的元素都会触发两次事件?</p>
+<p>在 DOM2 中, 事件监听机制提供了一个参数来决定事件是在捕获阶段生效还是在冒泡阶段生效, 接下来简要学习下 ==addEventListener== .</p>
+<h2 id="addEventListener"><a href="#addEventListener" class="headerlink" title="addEventListener"></a>addEventListener</h2><p><strong>EventTarget.addEventListener()</strong> 方法将指定的监听器注册到目标元素上, 当该对象触发指定的事件时, 指定的回调函数就会被执行. 事件目标可以是一个文档上的元素或任何其他支持事件的对象 (比如 XMLHttpRequest).</p>
+<p>它的工作原理是将实现EventListener的函数或对象添加到调用它的 EventTarget 上的指定事件类型的事件侦听器列表中.</p>
+<h4 id="语法"><a href="#语法" class="headerlink" title="语法"></a>语法</h4><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">target.addEventListener(type, listener[, options]);</span><br><span class="line">target.addEventListener(type, listener[, useCapture]);</span><br><span class="line">target.addEventListener(type, listener[, useCapture, wantsUntrusted  ]);  <span class="comment">// Gecko/Mozilla only</span></span><br></pre></td></tr></table></figure>
+<ul>
+<li>type: 表示监听事件类型的字符串. 事件列表.</li>
+<li>listener: 当所监听的事件类型触发时的回调. 会接收到一个事件通知对象.</li>
+<li>options: 可选. 可用的选项如下:</li>
+<li>capture: Boolean, 如果是 true, 表示 listener 会在捕获阶段触发. 默认是 false. 冒泡捕获. 所以微软牛逼.</li>
+<li>once: Boolean, 如果是 true, 表示 listener 在添加之后最多只调用一次.</li>
+<li>passive: Boolean，如果是, 表示 listener 永远不会调用 preventDefault(). 如果 listener 仍然调用了这个函数, 客户端将会忽略它并抛出一个控制台警告.</li>
+<li>useCapture: 可选. Boolean, 同 options - capture</li>
+</ul>
+<blockquote>
+<p>注意: 对于目标元素上的事件监听器来说, 事件会处于目标阶段, 而不是冒泡阶段或者捕获阶段. 在目标阶段的事件会触发该元素上的所有监听器, 而不在乎这个监听器到底在注册时 useCapture 是 true 还是 false.</p>
+</blockquote>
+<h2 id="事件监听添加与移除"><a href="#事件监听添加与移除" class="headerlink" title="事件监听添加与移除"></a>事件监听添加与移除</h2><h3 id="事件添加的三种方式"><a href="#事件添加的三种方式" class="headerlink" title="事件添加的三种方式"></a>事件添加的三种方式</h3><ol>
+<li><p>通过HTML 属性的方式</p>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">div</span> <span class="attr">onclick</span>=<span class="string">"console.log('click')"</span>&gt;</span><span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br></pre></td></tr></table></figure>
+</li>
+<li><p>DOM0 中可以通过js脚本来给指定元素提供事件处理函数，即</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">element.onclick &#x3D; function &#x2F;&#x2F; 只会在冒泡阶段生效</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>DOM2 中, 添加了新的事件监听API, 即<code>addEventListener</code>, 同时提供了取消监听的 <code>removeEventListener(type, handler[, options | useCapture])</code>. 显然事件处理函数注册后, 要取消监听, <code>type/hanlder/useCapture</code>的一致.</p>
+</li>
+</ol>
+<p>相比第一, 第二种, <code>addEventListener</code>的方式有以下几点优势:</p>
+<ul>
+<li>可以为同一个事件注册多个回调函数, 依次触发. 而 DOM0 的方式则会被覆盖掉. 只能添加一种</li>
+<li>使用 DOM0 会覆盖 HTML 的方式.</li>
+<li>可以通过参数决定监听是在冒泡阶段生效还是在捕获阶段生效.</li>
+<li><code>element.onclick</code> 注册的监听只会在冒泡阶段生效</li>
+</ul>
+<h5 id="实例"><a href="#实例" class="headerlink" title="实例"></a>实例</h5><figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">div</span> <span class="attr">id</span>=<span class="string">"parent"</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">div</span> <span class="attr">id</span>=<span class="string">"child"</span> <span class="attr">onclick</span>=<span class="string">"console.log('html')"</span>/&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br></pre></td></tr></table></figure>
 
-<h3 id="标准模型"><a href="#标准模型" class="headerlink" title="标准模型"></a>标准模型</h3><p><img src="/2019/05/01/css%E7%9B%92%E5%AD%90%E6%A8%A1%E5%9E%8B/biaozhun.jpg" alt="yasuo"></p>
-<h4 id="盒子的组成"><a href="#盒子的组成" class="headerlink" title="盒子的组成"></a>盒子的组成</h4><p>一个盒子由外到内可以分成四个部分：margin（外边距）、border（边框）、padding（内边距）、content（内容）。会发现 margin、border、padding 是 CSS 属性，因此可以通过这三个属性来控制盒子的这三个部分。而 content 则是 HTML 元素的内容。</p>
-<h4 id="盒子的大小"><a href="#盒子的大小" class="headerlink" title="盒子的大小"></a>盒子的大小</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">盒子的宽度 &#x3D; width + padding-left + padding-right + border-left + border-right + margin-left + margin-right</span><br><span class="line"></span><br><span class="line">盒子的高度 &#x3D; height + padding-top + padding-bottom + border-top + border-bottom + margin-top + margin-bottom</span><br></pre></td></tr></table></figure>
-
-<h3 id="IE-模型"><a href="#IE-模型" class="headerlink" title="IE 模型"></a>IE 模型</h3><p><img src="/2019/05/01/css%E7%9B%92%E5%AD%90%E6%A8%A1%E5%9E%8B/ie.jpg" alt="yasuo"></p>
-<h3 id="用-css-如何设置两种模型"><a href="#用-css-如何设置两种模型" class="headerlink" title="用 css 如何设置两种模型"></a>用 css 如何设置两种模型</h3><p>标准模型：box-sizing:content-box<br>ie 模型：box-sizing:border-box</p>
-<h3 id="JS-获取盒子模型的宽高"><a href="#JS-获取盒子模型的宽高" class="headerlink" title="JS 获取盒子模型的宽高"></a>JS 获取盒子模型的宽高</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">dom.style.width&#x2F;height(只能获取内嵌)</span><br><span class="line">dom.currentStyle.width&#x2F;height（只有IE支持）</span><br><span class="line">window.getComputedStyle(dom).width&#x2F;height(火狐谷歌)</span><br><span class="line">dom.getBoundClientRect().width&#x2F;height (获取展示dom的位置的方法)</span><br></pre></td></tr></table></figure>
-
-<h3 id="边距重叠"><a href="#边距重叠" class="headerlink" title="边距重叠"></a>边距重叠</h3><h4 id="父子元素边距重叠"><a href="#父子元素边距重叠" class="headerlink" title="父子元素边距重叠"></a>父子元素边距重叠</h4><figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;!DOCTYPE <span class="meta-keyword">html</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">html</span>&gt;</span></span><br><span class="line">	<span class="tag">&lt;<span class="name">head</span>&gt;</span></span><br><span class="line">		<span class="tag">&lt;<span class="name">meta</span> <span class="attr">charset</span>=<span class="string">"utf-8"</span> /&gt;</span></span><br><span class="line">		<span class="tag">&lt;<span class="name">title</span>&gt;</span>css盒子模型<span class="tag">&lt;/<span class="name">title</span>&gt;</span></span><br><span class="line">		<span class="tag">&lt;<span class="name">style</span> <span class="attr">media</span>=<span class="string">"screen"</span>&gt;</span></span><br><span class="line">			html * &#123;</span><br><span class="line">				margin: 0;</span><br><span class="line">				padding: 0;</span><br><span class="line">			&#125;</span><br><span class="line">		<span class="tag">&lt;/<span class="name">style</span>&gt;</span></span><br><span class="line">	<span class="tag">&lt;/<span class="name">head</span>&gt;</span></span><br><span class="line"></span><br><span class="line">	<span class="tag">&lt;<span class="name">body</span>&gt;</span></span><br><span class="line">		<span class="tag">&lt;<span class="name">section</span> <span class="attr">id</span>=<span class="string">"sec"</span>&gt;</span></span><br><span class="line">			<span class="tag">&lt;<span class="name">style</span> <span class="attr">media</span>=<span class="string">"screen"</span>&gt;</span></span><br><span class="line"><span class="css">				<span class="selector-id">#sec</span> &#123;</span></span><br><span class="line"><span class="css">					<span class="selector-tag">background</span>: <span class="selector-id">#f00</span>;</span></span><br><span class="line"><span class="css">					<span class="comment">/* overflow: hidden; */</span></span></span><br><span class="line">				&#125;</span><br><span class="line"><span class="css">				<span class="selector-class">.child</span> &#123;</span></span><br><span class="line">					height: 100px;</span><br><span class="line">					margin-top: 10px;</span><br><span class="line">					background: yellow;</span><br><span class="line">				&#125;</span><br><span class="line">			<span class="tag">&lt;/<span class="name">style</span>&gt;</span></span><br><span class="line">			<span class="tag">&lt;<span class="name">article</span> <span class="attr">class</span>=<span class="string">"child"</span>&gt;</span><span class="tag">&lt;/<span class="name">article</span>&gt;</span></span><br><span class="line">		<span class="tag">&lt;/<span class="name">section</span>&gt;</span></span><br><span class="line">	<span class="tag">&lt;/<span class="name">body</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">html</span>&gt;</span></span><br></pre></td></tr></table></figure>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> child = <span class="built_in">document</span>.getElementById(<span class="string">'child'</span>) </span><br><span class="line"></span><br><span class="line">child.onclick = <span class="function"><span class="keyword">function</span> (<span class="params"></span>) </span>&#123; <span class="built_in">console</span>.log(<span class="string">'DOM0A'</span>) &#125; <span class="comment">// 覆盖了 HTML 的方式</span></span><br><span class="line">child.onclick = <span class="function"><span class="keyword">function</span> (<span class="params"></span>) </span>&#123; <span class="built_in">console</span>.log(<span class="string">'DOM0B'</span>) &#125; <span class="comment">// 覆盖了上一条 DOM0A   </span></span><br><span class="line"></span><br><span class="line">child.addEventLisnter(<span class="string">'click'</span>, <span class="function"><span class="keyword">function</span> (<span class="params"></span>) </span>&#123; <span class="built_in">console</span>.log(<span class="string">'lisnterA'</span>) &#125;)</span><br><span class="line">child.addEventLisnter(<span class="string">'click'</span>, <span class="function"><span class="keyword">function</span> (<span class="params"></span>) </span>&#123; <span class="built_in">console</span>.log(<span class="string">'lisnterB'</span>) &#125;) <span class="comment">// 不会覆盖</span></span><br></pre></td></tr></table></figure>
+<h5 id="三种方式对应的如何移除"><a href="#三种方式对应的如何移除" class="headerlink" title="三种方式对应的如何移除:"></a>三种方式对应的如何移除:</h5><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">child.setAttributer(<span class="string">'onclick'</span>, <span class="literal">false</span>)</span><br><span class="line">child.onclick = <span class="literal">null</span></span><br><span class="line">child.removeEventLisnter(<span class="string">'设置相同的参数'</span>)</span><br></pre></td></tr></table></figure>
+<h2 id="问题"><a href="#问题" class="headerlink" title="问题"></a>问题</h2><ol>
+<li><p>以下代码的输出顺序</p>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">html</span> <span class="attr">onclick</span>=<span class="string">"console.log('html')"</span>&gt;</span></span><br><span class="line"></span><br><span class="line"><span class="tag">&lt;<span class="name">head</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">meta</span> <span class="attr">charset</span>=<span class="string">"UTF-8"</span>&gt;</span></span><br><span class="line"></span><br><span class="line">    <span class="tag">&lt;<span class="name">title</span>&gt;</span>Test<span class="tag">&lt;/<span class="name">title</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">script</span> <span class="attr">type</span>=<span class="string">"text/javascript"</span>&gt;</span></span><br><span class="line"><span class="javascript">        <span class="built_in">window</span>.onload = <span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123;</span></span><br><span class="line"><span class="javascript">            <span class="keyword">const</span> parent = <span class="built_in">document</span>.getElementById(<span class="string">"parent"</span>);</span></span><br><span class="line"><span class="javascript">            <span class="keyword">const</span> child = <span class="built_in">document</span>.getElementById(<span class="string">"child"</span>);</span></span><br><span class="line"></span><br><span class="line"><span class="javascript">            child.onclick = <span class="function"><span class="keyword">function</span> (<span class="params"></span>) </span>&#123; <span class="built_in">console</span>.log(<span class="string">'child onclick'</span>) &#125;;</span></span><br><span class="line"></span><br><span class="line"><span class="actionscript">            <span class="comment">// capture 默认为 false, 冒泡</span></span></span><br><span class="line"><span class="javascript">            parent.addEventListener(<span class="string">'click'</span>, <span class="function"><span class="keyword">function</span> (<span class="params"></span>) </span>&#123; <span class="built_in">console</span>.log(<span class="string">'parent event'</span>) &#125;);</span></span><br><span class="line"><span class="javascript">            child.addEventListener(<span class="string">'click'</span>, <span class="function"><span class="keyword">function</span> (<span class="params"></span>) </span>&#123; <span class="built_in">console</span>.log(<span class="string">'child event'</span>) &#125;);</span></span><br><span class="line"></span><br><span class="line"><span class="actionscript">            <span class="comment">// 捕获</span></span></span><br><span class="line"><span class="javascript">            parent.addEventListener(<span class="string">'click'</span>, <span class="function"><span class="keyword">function</span> (<span class="params"></span>) </span>&#123; <span class="built_in">console</span>.log(<span class="string">'parent event capture'</span>) &#125;, &#123; <span class="attr">capture</span>: <span class="literal">true</span> &#125;);</span></span><br><span class="line"><span class="javascript">            child.addEventListener(<span class="string">'click'</span>, <span class="function"><span class="keyword">function</span> (<span class="params"></span>) </span>&#123; <span class="built_in">console</span>.log(<span class="string">'child event capture'</span>) &#125;, &#123; <span class="attr">capture</span>: <span class="literal">true</span> &#125;);</span></span><br><span class="line">        &#125;</span><br><span class="line"><span class="javascript">        <span class="built_in">window</span>.onclick = <span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123;</span></span><br><span class="line"><span class="javascript">            <span class="built_in">console</span>.log(<span class="string">'window'</span>);</span></span><br><span class="line">        &#125;</span><br><span class="line">    <span class="tag">&lt;/<span class="name">script</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">head</span>&gt;</span></span><br><span class="line"></span><br><span class="line"><span class="tag">&lt;<span class="name">body</span> <span class="attr">onclick</span>=<span class="string">"console.log('body')"</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">div</span> <span class="attr">id</span>=<span class="string">"parent"</span> <span class="attr">onclick</span>=<span class="string">"console.log('parent html')"</span>&gt;</span>parent</span><br><span class="line">        <span class="tag">&lt;<span class="name">div</span> <span class="attr">id</span>=<span class="string">"child"</span> <span class="attr">onclick</span>=<span class="string">"console.log('child html')"</span>&gt;</span>child<span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">body</span>&gt;</span></span><br><span class="line"></span><br><span class="line"><span class="tag">&lt;/<span class="name">html</span>&gt;</span></span><br></pre></td></tr></table></figure>
+</li>
+<li><p>什么是事件流，同一个事件有几个阶段？</p>
+</li>
+<li><p>如何移除通过HTML属性、element.onclick等注册的事件处理函数？</p>
+<h2 id="答案"><a href="#答案" class="headerlink" title="答案"></a>答案</h2><h3 id="问题1"><a href="#问题1" class="headerlink" title="问题1"></a>问题1</h3></li>
+</ol>
+<p>首先参考 chrome 浏览器的结果. 先来看点击 child, 输出:  </p>
+<ol>
+<li>parent html</li>
+<li>parent event</li>
+<li>parent event capture</li>
+<li>body</li>
+<li>html</li>
+<li>window</li>
+</ol>
+<p>奇怪! 这时候不是应该先捕获, capture 在前吗? 别急, 这时候如果调换 parent event 与 parent event capture 的 addEventListener 顺序, 会发现, 输出顺序也变了:</p>
+<ol>
+<li>parent html</li>
+<li><strong>parent event capture</strong></li>
+<li><strong>parent event</strong></li>
+<li>body</li>
+<li>html</li>
+<li>window</li>
+</ol>
+<p>其实这时候的输出顺序只和 <code>addEventListener</code> 的顺序有关. 是否开启 <code>capture</code> 无关. 因为我们是直接点击了 <code>parent</code>. 对于 <code>parent</code> 自身而言. 它在整个点击传递过程中处于目标阶段. 并不涉及捕获和冒泡. 同时我们也发现. html 设置的点击是优先于 <code>addEventListener</code> 的方式的.</p>
+<p>我们再来看下点击 child:</p>
+<ol>
+<li>parent event capture</li>
+<li>hild onclick</li>
+<li>child event</li>
+<li>child event capture</li>
+<li>parent html</li>
+<li>parent event</li>
+<li>body</li>
+<li>html</li>
+<li>window</li>
+</ol>
+<p>首先, child html 没有输出, 因为被 child onclick 覆盖掉了.</p>
+<p>第二点, child onclick 的优先级也是高于 <code>addEventListener</code> 的.</p>
+<p>再然后, 点击事件传递过程中, 首先在捕获阶段, 输出了 parent event capture. 然后到达目标阶段. 同理之前点击 parent. 如果此时调换 child event 与 child event capture 的 <code>addEventListener</code> 顺序. 输出顺序也会改变</p>
+<p>最后, 到达冒泡阶段, 由于 html 的优先级高于 <code>addEventListener</code>. 所以被输出. (别忘了, 默认都是开启冒泡)</p>
+<p>但是. 如果使用 Safari 浏览器, 则会发现, 点击 parent, 输出:</p>
+<ol>
+<li>parent event capture</li>
+<li>parent html</li>
+<li>parent event</li>
+<li>body</li>
+<li>html</li>
+<li>window</li>
+</ol>
+<p>点击 child, 输出:</p>
+<ol>
+<li>parent event capture</li>
+<li>child event capture</li>
+<li>child onclick</li>
+<li>child event</li>
+<li>parent html</li>
+<li>parent event</li>
+<li>body</li>
+<li>html</li>
+<li>window</li>
+</ol>
+<p>会发现, 对于捕获阶段的处理不一样了. 点击目标元素时, 目标元素不仅处于目标阶段, 也处于捕获阶段的终点和冒泡阶段的起点. 所以会进行 <code>capture</code> 的判断. 所以在代码编写时这里要尤为注意.</p>
+<p><a href="https://www.jianshu.com/p/6512139d1d9e" target="_blank" rel="noopener">原文地址</a></p>
 
     </article>
     <!-- license  -->
@@ -422,16 +532,16 @@ height:50vh;
         <li class="next">
             
                 <div class="nextSlogan">Next Post</div>
-                <a href= "/2019/05/03/css%E4%B9%8BBFC/" title= "css之BFC">
-                    <div class="nextTitle">css之BFC</div>
+                <a href= "/2019/06/25/Event%E4%BA%8B%E4%BB%B6%E5%B8%B8%E8%A7%81%E5%BA%94%E7%94%A8/" title= "Event事件常见应用">
+                    <div class="nextTitle">Event事件常见应用</div>
                 </a>
             
         </li>
         <li class="previous">
             
                 <div class="prevSlogan">Previous Post</div>
-                <a href= "/2019/04/19/%E9%A1%B5%E9%9D%A2%E5%B8%83%E5%B1%80/" title= "页面布局">
-                    <div class="prevTitle">页面布局</div>
+                <a href= "/2019/06/01/DOM%E7%BA%A7%E5%88%AB%E4%B8%8EDOM%E4%BA%8B%E4%BB%B6/" title= "DOM级别与DOM事件">
+                    <div class="prevTitle">DOM级别与DOM事件</div>
                 </a>
             
         </li>
@@ -542,7 +652,7 @@ top:50vh;
         <div class="toc-catalog">
             <span class="iconfont-archer catalog-icon">&#xe613;</span><span>CATALOG</span>
         </div>
-        <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#css-盒子模型"><span class="toc-number">1.</span> <span class="toc-text">css 盒子模型</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#标准模型"><span class="toc-number">1.1.</span> <span class="toc-text">标准模型</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#盒子的组成"><span class="toc-number">1.1.1.</span> <span class="toc-text">盒子的组成</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#盒子的大小"><span class="toc-number">1.1.2.</span> <span class="toc-text">盒子的大小</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#IE-模型"><span class="toc-number">1.2.</span> <span class="toc-text">IE 模型</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#用-css-如何设置两种模型"><span class="toc-number">1.3.</span> <span class="toc-text">用 css 如何设置两种模型</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#JS-获取盒子模型的宽高"><span class="toc-number">1.4.</span> <span class="toc-text">JS 获取盒子模型的宽高</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#边距重叠"><span class="toc-number">1.5.</span> <span class="toc-text">边距重叠</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#父子元素边距重叠"><span class="toc-number">1.5.1.</span> <span class="toc-text">父子元素边距重叠</span></a></li></ol></li></ol></li></ol>
+        <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#什么是事件？"><span class="toc-number">1.</span> <span class="toc-text">什么是事件？</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#事件流是什么？"><span class="toc-number">2.</span> <span class="toc-text">事件流是什么？</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#addEventListener"><span class="toc-number">3.</span> <span class="toc-text">addEventListener</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#语法"><span class="toc-number">3.0.1.</span> <span class="toc-text">语法</span></a></li></ol></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#事件监听添加与移除"><span class="toc-number">4.</span> <span class="toc-text">事件监听添加与移除</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#事件添加的三种方式"><span class="toc-number">4.1.</span> <span class="toc-text">事件添加的三种方式</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#实例"><span class="toc-number">4.1.0.1.</span> <span class="toc-text">实例</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#三种方式对应的如何移除"><span class="toc-number">4.1.0.2.</span> <span class="toc-text">三种方式对应的如何移除:</span></a></li></ol></li></ol></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#问题"><span class="toc-number">5.</span> <span class="toc-text">问题</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#答案"><span class="toc-number">6.</span> <span class="toc-text">答案</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#问题1"><span class="toc-number">6.1.</span> <span class="toc-text">问题1</span></a></li></ol></li></ol>
     </div>
     
     <div class="back-top iconfont-archer">&#xe639;</div>
