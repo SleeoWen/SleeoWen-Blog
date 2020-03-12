@@ -7,7 +7,7 @@
     "clean": "hexo clean",
     "deploy": "hexo deploy",
     "server": "hexo server",
-    "newPage": "hexo new [post] Event事件常见应用",
+    "newPage": "hexo new [post] HTTP协议",
     "update": "hexo deploy"
   },
   "hexo": {

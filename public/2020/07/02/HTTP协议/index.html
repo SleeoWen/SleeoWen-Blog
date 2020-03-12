@@ -22,7 +22,7 @@
     <meta name="description" content="个人的学习经历">
     <meta http-equiv="Cache-control" content="no-cache">
     <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1"/>
-    <title>函数的防抖和节流 · SleeoWen-Blog</title>
+    <title>HTTP协议 · SleeoWen-Blog</title>
     <style type="text/css">
     @font-face {
         font-family: 'Oswald-Regular';
@@ -217,7 +217,7 @@
                 <a href="/" >Sleeo&#39;s Blog.</a>
             </div>
             <div class="post-title">
-                <a href="#" class="post-name">函数的防抖和节流</a>
+                <a href="#" class="post-name">HTTP协议</a>
             </div>
     </div>
     
@@ -247,7 +247,7 @@ height:50vh;
         <h1 class="intro-title">
             <!-- 主页  -->
             
-            函数的防抖和节流
+            HTTP协议
             <!-- 404 -->
             
         </h1>
@@ -266,18 +266,18 @@ height:50vh;
                 
                     <div class= post-intro-tags >
     
-        <a class="post-tag" href="javascript:void(0);" data-tags = "javascript">javascript</a>
+        <a class="post-tag" href="javascript:void(0);" data-tags = "http">http</a>
     
 </div>
                 
                 
                     <div class="post-intro-read">
-                        <span>字数统计: <span class="post-count word-count">868</span>阅读时长: <span class="post-count reading-time">3 min</span></span>
+                        <span>字数统计: <span class="post-count word-count">3.8k</span>阅读时长: <span class="post-count reading-time">13 min</span></span>
                     </div>
                 
                 <div class="post-intro-meta">
                     <span class="post-intro-calander iconfont-archer">&#xe676;</span>
-                    <span class="post-intro-time">2019/04/07</span>
+                    <span class="post-intro-time">2020/07/02</span>
                     
                     <span id="busuanzi_container_page_pv" class="busuanzi-pv">
                         <span class="iconfont-archer">&#xe602;</span>
@@ -401,33 +401,121 @@ height:50vh;
         <div class="container container-unloaded">
             <main class="main post-page">
     <article class="article-entry">
-        <h2 id="什么是防抖？什么是节流？"><a href="#什么是防抖？什么是节流？" class="headerlink" title="什么是防抖？什么是节流？"></a>什么是防抖？什么是节流？</h2><h3 id="防抖（debounce）"><a href="#防抖（debounce）" class="headerlink" title="防抖（debounce）"></a>防抖（debounce）</h3><blockquote>
-<p><strong>当持续触发事件时，一定时间段内没有再触发事件，事件处理函数才会执行一次，如果设定的时间到来之前，又一次触发了事件，就重新开始延时。</strong></p>
-</blockquote>
-<h3 id="节流（throttle）"><a href="#节流（throttle）" class="headerlink" title="节流（throttle）"></a>节流（throttle）</h3><blockquote>
-<p><strong>当持续触发事件时，保证一定时间段内只调用一次事件处理函数。</strong></p>
-</blockquote>
-<a id="more"></a>
-<h2 id="防抖和节流的应用场景"><a href="#防抖和节流的应用场景" class="headerlink" title="防抖和节流的应用场景"></a>防抖和节流的应用场景</h2><p>在前端开发的过程中，我们经常会需要绑定一些持续触发的事件，如 resize、scroll、mousemove 等等，但有些时候我们并不希望在事件持续触发的过程中那么频繁地去执行函数。</p>
-<h3 id="防抖"><a href="#防抖" class="headerlink" title="防抖"></a>防抖</h3><p><strong>所谓防抖，就是指触发事件后在 n 秒（或毫秒）内函数只能执行一次，如果在 n 秒（或毫秒）内又触发了事件，则会重新计算函数执行时间。</strong></p>
-<p>比如我们进行实时的搜索功能、对用户输入框进行监测，对用户的滚动条进行监测等等。</p>
-<h3 id="节流"><a href="#节流" class="headerlink" title="节流"></a>节流</h3><p><strong>所谓节流，就是指连续触发事件但是在 n 秒中只执行一次函数。</strong></p>
-<p>比如我们在做搜索输入时，用户连续点击多次搜索按钮，我们使用节流的方式。</p>
-<h2 id="防抖和节流的实现"><a href="#防抖和节流的实现" class="headerlink" title="防抖和节流的实现"></a>防抖和节流的实现</h2><h3 id="防抖-1"><a href="#防抖-1" class="headerlink" title="防抖"></a>防抖</h3><p>防抖可以分为两种，一种是延时、一种是立即执行。</p>
-<h4 id="延时版"><a href="#延时版" class="headerlink" title="延时版"></a>延时版</h4><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">debounce</span>(<span class="params">func, wait</span>) </span>&#123;</span><br><span class="line">    <span class="keyword">let</span> timeout;</span><br><span class="line">    <span class="keyword">return</span> <span class="function"><span class="keyword">function</span> (<span class="params"></span>) </span>&#123;</span><br><span class="line">        <span class="keyword">let</span> context = <span class="keyword">this</span>;</span><br><span class="line">        <span class="keyword">let</span> args = <span class="built_in">arguments</span>;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">if</span> (timeout) clearTimeout(timeout);</span><br><span class="line">        </span><br><span class="line">        timeout = setTimeout(<span class="function"><span class="params">()</span> =&gt;</span> &#123;</span><br><span class="line">            func.apply(context, args)</span><br><span class="line">        &#125;, wait);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<h4 id="立即执行版"><a href="#立即执行版" class="headerlink" title="立即执行版"></a>立即执行版</h4><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">debounce</span>(<span class="params">func,wait</span>) </span>&#123;</span><br><span class="line">    <span class="keyword">let</span> timeout;</span><br><span class="line">    <span class="keyword">return</span> <span class="function"><span class="keyword">function</span> (<span class="params"></span>) </span>&#123;</span><br><span class="line">        <span class="keyword">let</span> context = <span class="keyword">this</span>;</span><br><span class="line">        <span class="keyword">let</span> args = <span class="built_in">arguments</span>;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">if</span> (timeout) clearTimeout(timeout);</span><br><span class="line"></span><br><span class="line">        <span class="keyword">let</span> callNow = !timeout;</span><br><span class="line">        timeout = setTimeout(<span class="function"><span class="params">()</span> =&gt;</span> &#123;</span><br><span class="line">            timeout = <span class="literal">null</span>;</span><br><span class="line">        &#125;, wait)</span><br><span class="line"></span><br><span class="line">        <span class="keyword">if</span> (callNow) func.apply(context, args)</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+        <h2 id="HTTP协议"><a href="#HTTP协议" class="headerlink" title="HTTP协议"></a>HTTP协议</h2><h3 id="HTTP协议的主要特点"><a href="#HTTP协议的主要特点" class="headerlink" title="HTTP协议的主要特点"></a>HTTP协议的主要特点</h3><ol>
+<li>支持客户/服务器模式。</li>
+<li>简单快速：客户向服务器请求服务时，只需传送请求方法和路径。请求方法常用的有GET、HEAD、POST。每种方法规定了客户与服务器联系的类型不同。<br>由于HTTP协议简单，使得HTTP服务器的程序规模小，因而通信速度很快。</li>
+<li>灵活：HTTP允许传输任意类型的数据对象。正在传输的类型由Content-Type加以标记。</li>
+<li>无连接：无连接的含义是限制每次连接只处理一个请求。服务器处理完客户的请求，并收到客户的应答后，即断开连接。采用这种方式可以节省传输时间。</li>
+<li>无状态：HTTP协议是无状态协议。无状态是指协议对于事务处理没有记忆能力。缺少状态意味着如果后续处理需要前面的信息，则它必须重传，这样可能导致每次连接传送的数据量增大。另一方面，在服务器不需要先前信息时它的应答就较快。<a id="more"></a>
 
-
-<p><strong>二者的区别在于，前者在延时n秒后执行，后者是立即执行，但是在n秒后才能再次执行。</strong></p>
-<h4 id="延时版和立即执行版结合"><a href="#延时版和立即执行版结合" class="headerlink" title="延时版和立即执行版结合"></a>延时版和立即执行版结合</h4><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@desc </span>函数防抖</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@param </span>func 函数</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@param </span>wait 延迟执行毫秒数</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@param </span>immediate true 表立即执行，false 表非立即执行</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">debounce</span>(<span class="params">func,wait,immediate</span>) </span>&#123;</span><br><span class="line">    <span class="keyword">let</span> timeout;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">return</span> <span class="function"><span class="keyword">function</span> (<span class="params"></span>) </span>&#123;</span><br><span class="line">        <span class="keyword">let</span> context = <span class="keyword">this</span>;</span><br><span class="line">        <span class="keyword">let</span> args = <span class="built_in">arguments</span>;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">if</span> (timeout) clearTimeout(timeout);</span><br><span class="line">        <span class="keyword">if</span> (immediate) &#123;</span><br><span class="line">            <span class="keyword">var</span> callNow = !timeout;</span><br><span class="line">            timeout = setTimeout(<span class="function"><span class="params">()</span> =&gt;</span> &#123;</span><br><span class="line">                timeout = <span class="literal">null</span>;</span><br><span class="line">            &#125;, wait)</span><br><span class="line">            <span class="keyword">if</span> (callNow) func.apply(context, args)</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">else</span> &#123;</span><br><span class="line">            timeout = setTimeout(<span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123;</span><br><span class="line">                func.apply(context, args)</span><br><span class="line">            &#125;, wait);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p><strong>这个方法可以作为公用的服务实现防抖。</strong></p>
-<h3 id="节流-1"><a href="#节流-1" class="headerlink" title="节流"></a>节流</h3><p>节流也可以分为两种，一种是时间戳版，一种是定时器版。</p>
-<h4 id="时间戳"><a href="#时间戳" class="headerlink" title="时间戳"></a>时间戳</h4><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">throttle</span>(<span class="params">func, wait</span>) </span>&#123;</span><br><span class="line">    <span class="keyword">let</span> previous = <span class="number">0</span>;</span><br><span class="line">    <span class="keyword">return</span> <span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">        <span class="keyword">let</span> now = <span class="built_in">Date</span>.now();</span><br><span class="line">        <span class="keyword">let</span> context = <span class="keyword">this</span>;</span><br><span class="line">        <span class="keyword">let</span> args = <span class="built_in">arguments</span>;</span><br><span class="line">        <span class="keyword">if</span> (now - previous &gt; wait) &#123;</span><br><span class="line">            func.apply(context, args);</span><br><span class="line">            previous = now;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<h4 id="定时器"><a href="#定时器" class="headerlink" title="定时器"></a>定时器</h4><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">throttle</span>(<span class="params">func, wait</span>) </span>&#123;</span><br><span class="line">    <span class="keyword">let</span> timeout;</span><br><span class="line">    <span class="keyword">return</span> <span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">        <span class="keyword">let</span> context = <span class="keyword">this</span>;</span><br><span class="line">        <span class="keyword">let</span> args = <span class="built_in">arguments</span>;</span><br><span class="line">        <span class="keyword">if</span> (!timeout) &#123;</span><br><span class="line">            timeout = setTimeout(<span class="function"><span class="params">()</span> =&gt;</span> &#123;</span><br><span class="line">                timeout = <span class="literal">null</span>;</span><br><span class="line">                func.apply(context, args)</span><br><span class="line">            &#125;, wait)</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-
-<p><strong>时间戳版和定时器版的节流函数的区别就是，时间戳版的函数触发是在时间段内开始的时候，而定时器版的函数触发是在时间段内结束的时候。</strong></p>
-<h4 id="结合版本"><a href="#结合版本" class="headerlink" title="结合版本"></a>结合版本</h4><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@desc </span>函数节流</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@param </span>func 函数</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@param </span>wait 延迟执行毫秒数</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@param </span>type 1 表时间戳版，2 表定时器版</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">throttle</span>(<span class="params">func, wait ,type</span>) </span>&#123;</span><br><span class="line">    <span class="keyword">if</span>(type===<span class="number">1</span>)&#123;</span><br><span class="line">        <span class="keyword">let</span> previous = <span class="number">0</span>;</span><br><span class="line">    &#125;<span class="keyword">else</span> <span class="keyword">if</span>(type===<span class="number">2</span>)&#123;</span><br><span class="line">        <span class="keyword">let</span> timeout;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> <span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">        <span class="keyword">let</span> context = <span class="keyword">this</span>;</span><br><span class="line">        <span class="keyword">let</span> args = <span class="built_in">arguments</span>;</span><br><span class="line">        <span class="keyword">if</span>(type===<span class="number">1</span>)&#123;</span><br><span class="line">            <span class="keyword">let</span> now = <span class="built_in">Date</span>.now();</span><br><span class="line"></span><br><span class="line">            <span class="keyword">if</span> (now - previous &gt; wait) &#123;</span><br><span class="line">                func.apply(context, args);</span><br><span class="line">                previous = now;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;<span class="keyword">else</span> <span class="keyword">if</span>(type===<span class="number">2</span>)&#123;</span><br><span class="line">            <span class="keyword">if</span> (!timeout) &#123;</span><br><span class="line">                timeout = setTimeout(<span class="function"><span class="params">()</span> =&gt;</span> &#123;</span><br><span class="line">                    timeout = <span class="literal">null</span>;</span><br><span class="line">                    func.apply(context, args)</span><br><span class="line">                &#125;, wait)</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+</li>
+</ol>
+<h3 id="HTTP协议报文"><a href="#HTTP协议报文" class="headerlink" title="HTTP协议报文"></a>HTTP协议报文</h3><h4 id="请求报文"><a href="#请求报文" class="headerlink" title="请求报文"></a>请求报文</h4><h5 id="请求行"><a href="#请求行" class="headerlink" title="请求行"></a>请求行</h5><p>请求行由请求方法字段、URL字段和HTTP协议版本字段3个字段组成，它们用空格分隔。比如 GET /data/info.html HTTP/1.1</p>
+<p>方法字段就是HTTP使用的请求方法，比如常见的GET/POST</p>
+<p>其中HTTP协议版本有两种：HTTP1.0/HTTP1.1 可以这样区别：</p>
+<p>HTTP1.0对于每个连接都只能传送一个请求和响应，请求就会关闭，HTTP1.0没有Host字段;而HTTP1.1在同一个连接中可以传送多个请求和响应，多个请求可以重叠和同时进行，HTTP1.1必须有Host字段。</p>
+<h5 id="请求头"><a href="#请求头" class="headerlink" title="请求头"></a>请求头</h5><p>HTTP客户程序(例如浏览器)，向服务器发送请求的时候必须指明请求类型(一般是GET或者 POST)。如有必要，客户程序还可以选择发送其他的请求头。大多数请求头并不是必需的，但Content-Length除外。对于POST请求来说 Content-Length必须出现。</p>
+<p>常见的请求头字段含义：</p>
+<p>Accept： 浏览器可接受的MIME类型。</p>
+<p>Accept-Charset：浏览器可接受的字符集。</p>
+<p>Accept-Encoding：浏览器能够进行解码的数据编码方式，比如gzip。Servlet能够向支持gzip的浏览器返回经gzip编码的HTML页面。许多情形下这可以减少5到10倍的下载时间。</p>
+<p>Accept-Language：浏览器所希望的语言种类，当服务器能够提供一种以上的语言版本时要用到。</p>
+<p>Authorization：授权信息，通常出现在对服务器发送的WWW-Authenticate头的应答中。</p>
+<p>Content-Length：表示请求消息正文的长度。</p>
+<p>Host： 客户机通过这个头告诉服务器，想访问的主机名。Host头域指定请求资源的Intenet主机和端口号，必须表示请求url的原始服务器或网关的位置。HTTP/1.1请求必须包含主机头域，否则系统会以400状态码返回。</p>
+<p>If-Modified-Since：客户机通过这个头告诉服务器，资源的缓存时间。只有当所请求的内容在指定的时间后又经过修改才返回它，否则返回304“Not Modified”应答。</p>
+<p>Referer：客户机通过这个头告诉服务器，它是从哪个资源来访问服务器的(防盗链)。包含一个URL，用户从该URL代表的页面出发访问当前请求的页面。</p>
+<p>User-Agent：User-Agent头域的内容包含发出请求的用户信息。浏览器类型，如果Servlet返回的内容与浏览器类型有关则该值非常有用。</p>
+<p>Cookie：客户机通过这个头可以向服务器带数据，这是最重要的请求头信息之一。</p>
+<p>Pragma：指定“no-cache”值表示服务器必须返回一个刷新后的文档，即使它是代理服务器而且已经有了页面的本地拷贝。</p>
+<p>From：请求发送者的email地址，由一些特殊的Web客户程序使用，浏览器不会用到它。</p>
+<p>Connection：处理完这次请求后是否断开连接还是继续保持连接。如果Servlet看到这里的值为“Keep- Alive”，或者看到请求使用的是HTTP 1.1(HTTP 1.1默认进行持久连接)，它就可以利用持久连接的优点，当页面包含多个元素时(例如Applet，图片)，显著地减少下载所需要的时间。要实现这一点，Servlet需要在应答中发送一个Content-Length头，最简单的实现方法是：先把内容写入 ByteArrayOutputStream，然后在正式写出内容之前计算它的大小。</p>
+<p>Range：Range头域可以请求实体的一个或者多个子范围。例如，</p>
+<p>表示头500个字节：bytes=0-499</p>
+<p>表示第二个500字节：bytes=500-999</p>
+<p>表示最后500个字节：bytes=-500</p>
+<p>表示500字节以后的范围：bytes=500-</p>
+<p>第一个和最后一个字节：bytes=0-0,-1</p>
+<p>同时指定几个范围：bytes=500-600,601-999</p>
+<p>但是服务器可以忽略此请求头，如果无条件GET包含Range请求头，响应会以状态码206(PartialContent)返回而不是以200 (OK)。</p>
+<p>UA-Pixels，UA-Color，UA-OS，UA-CPU：由某些版本的IE浏览器所发送的非标准的请求头，表示屏幕大小、颜色深度、操作系统和CPU类型。</p>
+<h5 id="空行"><a href="#空行" class="headerlink" title="空行"></a>空行</h5><p>它的作用是通过一个空行，告诉服务器请求头部到此为止。</p>
+<h5 id="请求体"><a href="#请求体" class="headerlink" title="请求体"></a>请求体</h5><p>若方法字段是GET，则此项为空，没有数据</p>
+<p>若方法字段是POST,则通常来说此处放置的就是要提交的数据</p>
+<p>比如要使用POST方法提交一个表单，其中有user字段中数据为“admin”, password字段为123456，那么这里的请求数据就是 user=admin&amp;password=123456，使用&amp;来连接各个字段。</p>
+<p><img src="/2020/07/02/HTTP%E5%8D%8F%E8%AE%AE/qingqiuti.png" alt="image"></p>
+<p><img src="/2020/07/02/HTTP%E5%8D%8F%E8%AE%AE/qingqiudemo.jpg" alt="image"></p>
+<h4 id="响应报文"><a href="#响应报文" class="headerlink" title="响应报文"></a>响应报文</h4><h5 id="状态行"><a href="#状态行" class="headerlink" title="状态行"></a>状态行</h5><p>响应行一般由协议版本、状态码及其描述组成 比如 HTTP/1.1 200 OK</p>
+<p>其中协议版本HTTP/1.1或者HTTP/1.0，200就是它的状态码，OK则为它的描述。</p>
+<p>//常见状态码：</p>
+<p>100~199：表示成功接收请求，要求客户端继续提交下一次请求才能完成整个处理过程。</p>
+<p>200~299：表示成功接收请求并已完成整个处理过程。常用200</p>
+<p>300~399：为完成请求，客户需进一步细化请求。例如：请求的资源已经移动一个新地址、常用302(意味着你请求我，我让你去找别人),307和304(我不给你这个资源，自己拿缓存)</p>
+<p>400~499：客户端的请求有错误，常用404(意味着你请求的资源在web服务器中没有)403(服务器拒绝访问，权限不够)</p>
+<p>500~599：服务器端出现错误，常用500</p>
+<p><a href="https://baike.baidu.com/item/HTTP%E7%8A%B6%E6%80%81%E7%A0%81/5053660?fr=aladdin" target="_blank" rel="noopener">更加详细的状态码</a></p>
+<h5 id="响应头"><a href="#响应头" class="headerlink" title="响应头"></a>响应头</h5><p>响应头用于描述服务器的基本信息，以及数据的描述，服务器通过这些数据的描述信息，可以通知客户端如何处理等一会儿它回送的数据。</p>
+<p>设置HTTP响应头往往和状态码结合起来。例如，有好几个表示“文档位置已经改变”的状态代码都伴随着一个Location头，而401(Unauthorized)状态代码则必须伴随一个WWW-Authenticate头。然而，即使在没有设置特殊含义的状态代码时，指定应答头也是很有用的。应答头可以用来完成：设置Cookie，指定修改日期，指示浏览器按照指定的间隔刷新页面，声明文档的长度以便利用持久HTTP连接，……等等许多其他任务。</p>
+<p>常见的响应头字段含义：</p>
+<p>Allow：服务器支持哪些请求方法(如GET、POST等)。</p>
+<p>Content-Encoding：文档的编码(Encode)方法。只有在解码之后才可以得到Content-Type头指定的内容类型。利用gzip压缩文档能够显著地减少HTML文档的下载时间。Java的GZIPOutputStream可以很方便地进行gzip压缩，但只有Unix上的Netscape和Windows上的IE4、IE5才支持它。因此，Servlet应该通过查看Accept-Encoding头(即request.getHeader(“Accept- Encoding”))检查浏览器是否支持gzip，为支持gzip的浏览器返回经gzip压缩的HTML页面，为其他浏览器返回普通页面。</p>
+<p>Content-Length：表示内容长度。只有当浏览器使用持久HTTP连接时才需要这个数据。如果你想要利用持久连接的优势，可以把输出文档写入 ByteArrayOutputStram，完成后查看其大小，然后把该值放入Content-Length头，最后通过byteArrayStream.writeTo(response.getOutputStream()发送内容。</p>
+<p>Content- Type：表示后面的文档属于什么MIME类型。Servlet默认为text/plain，但通常需要显式地指定为text/html。由于经常要设置 Content-Type，因此HttpServletResponse提供了一个专用的方法setContentType。</p>
+<p>Date：当前的GMT时间，例如，Date:Mon,31Dec200104:25:57GMT。Date描述的时间表示世界标准时，换算成本地时间，需要知道用户所在的时区。你可以用setDateHeader来设置这个头以避免转换时间格式的麻烦。</p>
+<p>Expires：告诉浏览器把回送的资源缓存多长时间，-1或0则是不缓存。</p>
+<p>Last-Modified：文档的最后改动时间。客户可以通过If-Modified-Since请求头提供一个日期，该请求将被视为一个条件GET，只有改动时间迟于指定时间的文档才会返回，否则返回一个304(Not Modified)状态。Last-Modified也可用setDateHeader方法来设置。</p>
+<p>Location：这个头配合302状态码使用，用于重定向接收者到一个新URI地址。表示客户应当到哪里去提取文档。Location通常不是直接设置的，而是通过HttpServletResponse的sendRedirect方法，该方法同时设置状态代码为302。</p>
+<p>Refresh：告诉浏览器隔多久刷新一次，以秒计。</p>
+<p>Server：服务器通过这个头告诉浏览器服务器的类型。Server响应头包含处理请求的原始服务器的软件信息。此域能包含多个产品标识和注释，产品标识一般按照重要性排序。Servlet一般不设置这个值，而是由Web服务器自己设置。</p>
+<p>Set-Cookie：设置和页面关联的Cookie。Servlet不应使用response.setHeader(“Set-Cookie”, …)，而是应使用HttpServletResponse提供的专用方法addCookie。</p>
+<p>Transfer-Encoding：告诉浏览器数据的传送格式。</p>
+<p>WWW-Authenticate：客户应该在Authorization头中提供什么类型的授权信息?在包含401(Unauthorized)状态行的应答中这个头是必需的。例如，response.setHeader(“WWW-Authenticate”, “BASIC realm=\”executives\”“)。注意Servlet一般不进行这方面的处理，而是让Web服务器的专门机制来控制受密码保护页面的访问。</p>
+<p>注：设置应答头最常用的方法是HttpServletResponse的setHeader，该方法有两个参数，分别表示应答头的名字和值。和设置状态代码相似，设置应答头应该在发送任何文档内容之前进行。</p>
+<p>setDateHeader方法和setIntHeadr方法专门用来设置包含日期和整数值的应答头，前者避免了把Java时间转换为GMT时间字符串的麻烦，后者则避免了把整数转换为字符串的麻烦。</p>
+<p>HttpServletResponse还提供了许多设置</p>
+<p>setContentType：设置Content-Type头。大多数Servlet都要用到这个方法。</p>
+<p>setContentLength：设置Content-Length头。对于支持持久HTTP连接的浏览器来说，这个函数是很有用的。</p>
+<p>addCookie：设置一个Cookie(Servlet API中没有setCookie方法，因为应答往往包含多个Set-Cookie头)。</p>
+<h5 id="空行-1"><a href="#空行-1" class="headerlink" title="空行"></a>空行</h5><p>它的作用是通过一个空行，告诉服务器请求头部到此为止。</p>
+<h5 id="响应体"><a href="#响应体" class="headerlink" title="响应体"></a>响应体</h5><p>响应体就是响应的消息体，如果是纯数据就是返回纯数据，如果请求的是HTML页面，那么返回的就是HTML代码，如果是JS就是JS代码，如此之类。</p>
+<p><img src="/2020/07/02/HTTP%E5%8D%8F%E8%AE%AE/xiangying.jpg" alt="image"></p>
+<h3 id="HTTP方法"><a href="#HTTP方法" class="headerlink" title="HTTP方法"></a>HTTP方法</h3><ol>
+<li>GET：获取资源</li>
+<li>POST：传输资源</li>
+<li>PUT：更新资源</li>
+<li>DELETE：删除资源</li>
+<li>HEAD：获取报文首部</li>
+</ol>
+<h3 id="POST请求和GET请求的区别"><a href="#POST请求和GET请求的区别" class="headerlink" title="POST请求和GET请求的区别"></a>POST请求和GET请求的区别</h3><ul>
+<li>GET在浏览器回退时是无害的，而POST会再次提交请求。</li>
+<li>GET产生的URL地址可以被收藏，而POST不可以。</li>
+<li>GET请求会被浏览器主动缓存，而POST不会，除非手动设置。</li>
+<li>GET请求只能进行url编码，而POST支持多种编码方式。</li>
+<li>GET请求参数会被完整保留在浏览器历史记录里，而POST中的参数不会被保留。</li>
+<li>GET请求在URL中传送的参数是有长度限制的，而POST没有。</li>
+<li>对参数的数据类型，GET只接受ASCII字符，而POST没有限制。</li>
+<li>GET比POST更不安全，因为参数直接暴露在URL上，所以不能用来传递敏感信息。</li>
+<li>GET参数通过URL传递，POST放在Request body中。</li>
+</ul>
+<h3 id="HTTP连接"><a href="#HTTP连接" class="headerlink" title="HTTP连接"></a>HTTP连接</h3><h4 id="HTTP持久连接"><a href="#HTTP持久连接" class="headerlink" title="HTTP持久连接"></a>HTTP持久连接</h4><p>HTTP协议采用“请求-应答”模式，当使用普通模式，即非Keep-Alive模式时，每个请求/应答客户和服务器都要新建一个连接，完成后立即断开连接（HTTP协议为无连接的协议。</p>
+<p>当使用Keep-Alive模式（又称持久连接，连接重用）时，Keep-Alive功能使客户端到服务器端的连接持续有效，当出现服务器的后继请求时，Keep-Alive功能避免了建立或者重新建立连接。</p>
+<p><strong>只有http1.1开始支持持久连接</strong></p>
+<h4 id="管线化"><a href="#管线化" class="headerlink" title="管线化"></a>管线化</h4><p>在使用持久连接的情况下，某个连接上的消息传递是这样的：<br>请求1-&gt;响应1-&gt;请求2-&gt;响应2-&gt;请求3-&gt;响应3</p>
+<p>管线化，则消息的传递变成这样：<br>请求1-&gt;请求2-&gt;请求3-&gt;响应1-&gt;响应2-&gt;响应3</p>
+<h4 id="管线化的特点"><a href="#管线化的特点" class="headerlink" title="管线化的特点"></a>管线化的特点</h4><ol>
+<li><p>管线化机制通过持久连接完成，仅HTTP/1.1 支持此技术</p>
+</li>
+<li><p>只有GET和HEAD请求可以进行管线化，而POST则有所限制  </p>
+</li>
+<li><p>初次创建连接时不应启动管线机制，因为对方(服务器)不一定支持HTTP/1.1版本的协议  </p>
+</li>
+<li><p>管线化不会影响响应到来的顺序，如上面的例子所示，响应返回的顺序并未改变</p>
+</li>
+<li><p>HTTP /1.1要求服务器端支持管线化，但并不要求服务器端也对响应进行管线化处理，只是要求对于管线化的请求不失败即可  </p>
+</li>
+<li><p>由于.上面提到的服务器端问题，开启管线化很可能并不会带来大幅度的性能提升，而且很多服务器端和代理程序对管线化的支持并不好，因此现代浏览器如<strong>Chrome和Firefox</strong> 默认并未开启管线化支持</p>
+</li>
+</ol>
 
     </article>
     <!-- license  -->
@@ -436,17 +524,12 @@ height:50vh;
     <ul class="post-paginator">
         <li class="next">
             
-                <div class="nextSlogan">Next Post</div>
-                <a href= "/2019/04/19/%E9%A1%B5%E9%9D%A2%E5%B8%83%E5%B1%80/" title= "页面布局">
-                    <div class="nextTitle">页面布局</div>
-                </a>
-            
         </li>
         <li class="previous">
             
                 <div class="prevSlogan">Previous Post</div>
-                <a href= "/2019/04/01/vue%E7%94%9F%E5%91%BD%E5%91%A8%E6%9C%9F%E4%BB%A5%E5%8F%8AnextTick%E5%BA%94%E7%94%A8/" title= "vue生命周期以及nextTick应用">
-                    <div class="prevTitle">vue生命周期以及nextTick应用</div>
+                <a href= "/2019/06/25/Event%E4%BA%8B%E4%BB%B6%E5%B8%B8%E8%A7%81%E5%BA%94%E7%94%A8/" title= "Event事件常见应用">
+                    <div class="prevTitle">Event事件常见应用</div>
                 </a>
             
         </li>
@@ -557,7 +640,7 @@ top:50vh;
         <div class="toc-catalog">
             <span class="iconfont-archer catalog-icon">&#xe613;</span><span>CATALOG</span>
         </div>
-        <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#什么是防抖？什么是节流？"><span class="toc-number">1.</span> <span class="toc-text">什么是防抖？什么是节流？</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#防抖（debounce）"><span class="toc-number">1.1.</span> <span class="toc-text">防抖（debounce）</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#节流（throttle）"><span class="toc-number">1.2.</span> <span class="toc-text">节流（throttle）</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#防抖和节流的应用场景"><span class="toc-number">2.</span> <span class="toc-text">防抖和节流的应用场景</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#防抖"><span class="toc-number">2.1.</span> <span class="toc-text">防抖</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#节流"><span class="toc-number">2.2.</span> <span class="toc-text">节流</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#防抖和节流的实现"><span class="toc-number">3.</span> <span class="toc-text">防抖和节流的实现</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#防抖-1"><span class="toc-number">3.1.</span> <span class="toc-text">防抖</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#延时版"><span class="toc-number">3.1.1.</span> <span class="toc-text">延时版</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#立即执行版"><span class="toc-number">3.1.2.</span> <span class="toc-text">立即执行版</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#延时版和立即执行版结合"><span class="toc-number">3.1.3.</span> <span class="toc-text">延时版和立即执行版结合</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#节流-1"><span class="toc-number">3.2.</span> <span class="toc-text">节流</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#时间戳"><span class="toc-number">3.2.1.</span> <span class="toc-text">时间戳</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#定时器"><span class="toc-number">3.2.2.</span> <span class="toc-text">定时器</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#结合版本"><span class="toc-number">3.2.3.</span> <span class="toc-text">结合版本</span></a></li></ol></li></ol></li></ol>
+        <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#HTTP协议"><span class="toc-number">1.</span> <span class="toc-text">HTTP协议</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#HTTP协议的主要特点"><span class="toc-number">1.1.</span> <span class="toc-text">HTTP协议的主要特点</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#HTTP协议报文"><span class="toc-number">1.2.</span> <span class="toc-text">HTTP协议报文</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#请求报文"><span class="toc-number">1.2.1.</span> <span class="toc-text">请求报文</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#请求行"><span class="toc-number">1.2.1.1.</span> <span class="toc-text">请求行</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#请求头"><span class="toc-number">1.2.1.2.</span> <span class="toc-text">请求头</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#空行"><span class="toc-number">1.2.1.3.</span> <span class="toc-text">空行</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#请求体"><span class="toc-number">1.2.1.4.</span> <span class="toc-text">请求体</span></a></li></ol></li><li class="toc-item toc-level-4"><a class="toc-link" href="#响应报文"><span class="toc-number">1.2.2.</span> <span class="toc-text">响应报文</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#状态行"><span class="toc-number">1.2.2.1.</span> <span class="toc-text">状态行</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#响应头"><span class="toc-number">1.2.2.2.</span> <span class="toc-text">响应头</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#空行-1"><span class="toc-number">1.2.2.3.</span> <span class="toc-text">空行</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#响应体"><span class="toc-number">1.2.2.4.</span> <span class="toc-text">响应体</span></a></li></ol></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#HTTP方法"><span class="toc-number">1.3.</span> <span class="toc-text">HTTP方法</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#POST请求和GET请求的区别"><span class="toc-number">1.4.</span> <span class="toc-text">POST请求和GET请求的区别</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#HTTP连接"><span class="toc-number">1.5.</span> <span class="toc-text">HTTP连接</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#HTTP持久连接"><span class="toc-number">1.5.1.</span> <span class="toc-text">HTTP持久连接</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#管线化"><span class="toc-number">1.5.2.</span> <span class="toc-text">管线化</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#管线化的特点"><span class="toc-number">1.5.3.</span> <span class="toc-text">管线化的特点</span></a></li></ol></li></ol></li></ol>
     </div>
     
     <div class="back-top iconfont-archer">&#xe639;</div>
