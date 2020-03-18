@@ -2,65 +2,101 @@
 <html>
 	<head>
 		<meta charset="utf-8" />
-		<title>DOM事件流</title>
+		<title>面向对象</title>
 	</head>
 
 	<body>
-		<div id="ev">
-			<style>
-				#ev {
-					width: 300px;
-					height: 100px;
-					background-color: red;
-					color: #fff;
-					text-align: center;
-					line-height: 100px;
-				}
-			</style>
-			目标元素
-		</div>
 		<script type="text/javascript">
-			var ev = document.getElementById('ev');
-			window.addEventListener(
-				'click',
-				function() {
-					console.log('window捕获阶段');
-				},
-				true
-			);
-			document.addEventListener(
-				'click',
-				function() {
-					console.log('doc捕获阶段');
-				},
-				true
-			);
-			document.documentElement.addEventListener(
-				'click',
-				function() {
-					console.log('html捕获阶段');
-				},
-				true
-			);
-			document.body.addEventListener(
-				'click',
-				function() {
-					console.log('body捕获阶段');
-				},
-				true
-			);
-			ev.addEventListener(
-				'click',
-				function() {
-					console.log('div捕获阶段');
-				},
-				true
-            );
-            var eve=new Event('test');
-            ev.addEventListener('test',function(){
-                console.log('自定义事件');
-            });
-            ev.dispatchEvent(eve);
+			// // 类的声明
+			// function Animal() {
+			// 	this.name = 'animal';
+			// }
+			// // es6中的声明
+			// class Animals {
+			// 	constructor() {
+			// 		this.name = 'animal';
+			// 	}
+			// }
+			// // 实例化类
+			// console.log(new Animal(), new Animals());
+			// //	使用构造函数进行继承（es5）
+			// function Parent1() {
+			// 	this.name = 'name';
+			// }
+			// Parent1.prototype.say = function() {
+			// 	console.log('say');
+			// };
+			// //这种方式不会继承父类原型对象上的方法
+			// function Child1() {
+			// 	Parent1.call(this); // apply;
+			// 	this.type = 'chilid1';
+			// }
+			// console.log(new Child1());
+
+			// //	借助原型链实现继承
+			// function Parent2() {
+			// 	this.name = 'name2';
+			// 	this.play = [1, 2, 3];
+			// }
+			// function Child2() {
+			// 	this.type = 'chilid2';
+			// }
+			// Child2.prototype = new Parent2();
+			// console.log(new Child2());
+			// var s1 = new Child2();
+			// var s2 = new Child2();
+			// console.log(s1.play, s2.play); //[1,2,3] [1,2,3]
+			// s1.play.push(4);
+			// console.log(s1.play, s2.play); //[1,2,3,4] [1,2,3,4]
+
+			// // 组合方式
+			// function Parent3() {
+			// 	this.name = 'name3';
+			// 	this.play = [1, 2, 3];
+			// }
+			// function Child3() {
+			// 	Parent3.call(this);
+			// 	this.type = 'chilid3';
+			// }
+			// Child3.prototype = new Parent3();
+			// var s3 = new Child3();
+			// var s4 = new Child3();
+			// s3.play.push(4);
+			// console.log(s3.play, s4.play);
+			// 组合方式
+			// function Parent4() {
+			// 	this.name = '4';
+			// 	this.play = [1, 2, 3];
+			// }
+			// function Child4() {
+			// 	Parent4.call(this);
+			// 	this.type = 'chilid4';
+			// }
+			// Child4.prototype = Parent4.prototype;
+			// var s5 = new Child4();
+			// var s6 = new Child4();
+			// s5.play.push(4);
+			// console.log(s5.play, s6.play);
+			// console.log(s5 instanceof Child4, s5 instanceof Parent4);	// true true
+			// console.log(s5.constructor);	// Parent4
+			// // 因为子类的prototype就是父类的实例，他的constructor是从父类直接拿过来的
+
+			function Parent5() {
+				this.name = '5';
+				this.play = [1, 2, 3];
+			}
+			function Child5() {
+				Parent5.call(this);
+				this.type = 'chilid5';
+			}
+			Child5.prototype = Object.create(Parent5.prototype);
+			Child5.prototype.constructor = Child5;
+			var s5 = new Child5();
+			var s6 = new Child5();
+			s5.play.push(4);
+			console.log(s5.play, s6.play);
+			console.log(s5 instanceof Child5, s5 instanceof Parent5); // true true
+			console.log(s5.constructor); // Child5
 		</script>
 	</body>
 </html>
