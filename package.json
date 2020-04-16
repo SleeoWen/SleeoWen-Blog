@@ -7,7 +7,7 @@
     "clean": "hexo clean",
     "deploy": "hexo deploy",
     "server": "hexo server",
-    "newPage": "hexo new [post] js的面向对象",
+    "newPage": "hexo new [post] 通信相关问题",
     "update": "hexo deploy"
   },
   "hexo": {
