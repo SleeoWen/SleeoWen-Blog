@@ -22,7 +22,7 @@
     <meta name="description" content="个人的学习经历">
     <meta http-equiv="Cache-control" content="no-cache">
     <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1"/>
-    <title>css之BFC · SleeoWen-Blog</title>
+    <title>CSRF和XSS · SleeoWen-Blog</title>
     <style type="text/css">
     @font-face {
         font-family: 'Oswald-Regular';
@@ -217,7 +217,7 @@
                 <a href="/" >Sleeo&#39;s Blog.</a>
             </div>
             <div class="post-title">
-                <a href="#" class="post-name">css之BFC</a>
+                <a href="#" class="post-name">CSRF和XSS</a>
             </div>
     </div>
     
@@ -247,7 +247,7 @@ height:50vh;
         <h1 class="intro-title">
             <!-- 主页  -->
             
-            css之BFC
+            CSRF和XSS
             <!-- 404 -->
             
         </h1>
@@ -266,18 +266,18 @@ height:50vh;
                 
                     <div class= post-intro-tags >
     
-        <a class="post-tag" href="javascript:void(0);" data-tags = "css">css</a>
+        <a class="post-tag" href="javascript:void(0);" data-tags = "网络安全">网络安全</a>
     
 </div>
                 
                 
                     <div class="post-intro-read">
-                        <span>字数统计: <span class="post-count word-count">1.1k</span>阅读时长: <span class="post-count reading-time">4 min</span></span>
+                        <span>字数统计: <span class="post-count word-count">2.6k</span>阅读时长: <span class="post-count reading-time">9 min</span></span>
                     </div>
                 
                 <div class="post-intro-meta">
                     <span class="post-intro-calander iconfont-archer">&#xe676;</span>
-                    <span class="post-intro-time">2019/05/03</span>
+                    <span class="post-intro-time">2019/09/03</span>
                     
                     <span id="busuanzi_container_page_pv" class="busuanzi-pv">
                         <span class="iconfont-archer">&#xe602;</span>
@@ -401,48 +401,34 @@ height:50vh;
         <div class="container container-unloaded">
             <main class="main post-page">
     <article class="article-entry">
-        <h2 id="BFC定义"><a href="#BFC定义" class="headerlink" title="BFC定义"></a>BFC定义</h2><p><strong>BFC(Block formatting context)直译为”块级格式化上下文”。它是一个独立的渲染区域，只有Block-level box参与， 它规定了内部的Block-level Box如何布局，并且与这个区域外部毫不相干。</strong></p>
-<a id="more"></a>
-<h3 id="Box：css布局的基本单位"><a href="#Box：css布局的基本单位" class="headerlink" title="Box：css布局的基本单位"></a>Box：css布局的基本单位</h3><p>Box 是 CSS 布局的对象和基本单位， 直观点来说，就是一个页面是由很多个 Box 组成的。元素的类型和 display 属性，决定了这个 Box 的类型。 不同类型的 Box， 会参与不同的 Formatting Context（一个决定如何渲染文档的容器），因此Box内的元素会以不同的方式渲染。让我们看看有哪些盒子：</p>
-<ul>
-<li>block-level box:display 属性为 block, list-item, table 的元素，会生成 block-level box。并且参与 block fomatting context；</li>
-<li>inline-level box:display 属性为 inline, inline-block, inline-table 的元素，会生成 inline-level box。并且参与 inline formatting context；</li>
-<li>run-in box: css3</li>
-</ul>
-<h3 id="Formatting-Context"><a href="#Formatting-Context" class="headerlink" title="Formatting Context"></a>Formatting Context</h3><p>Formatting context 是 W3C CSS2.1 规范中的一个概念。它是页面中的一块渲染区域，并且有一套渲染规则，它决定了其子元素将如何定位，以及和其他元素的关系和相互作用。最常见的 Formatting context 有 Block fomatting context (简称BFC)和 Inline formatting context (简称IFC)。</p>
-<blockquote>
-<p>BFC是一个独立的布局环境，其中的元素布局是不受外界的影响，并且在一个BFC中，块盒与行盒（行盒由一行中所有的内联元素所组成）都会垂直的沿着其父元素的边框排列。</p>
-</blockquote>
-<h2 id="BFC的布局规则"><a href="#BFC的布局规则" class="headerlink" title="BFC的布局规则"></a>BFC的布局规则</h2><ol>
-<li>内部的Box会在垂直方向，一个接一个地放置。</li>
-<li>Box垂直方向的距离由margin决定。属于同一个BFC的两个相邻Box的margin会发生重叠。</li>
-<li>每个盒子（块盒与行盒）的margin box的左边，与包含块border box的左边相接触(对于从左往右的格式化，否则相反)。即使存在浮动也是如此。</li>
-<li>BFC的区域不会与float box重叠。</li>
-<li>BFC就是页面上的一个隔离的独立容器，容器里面的子元素不会影响到外面的元素。反之也如此。</li>
-<li>计算BFC的高度时，浮动元素也参与计算。<h2 id="如何创建BFC"><a href="#如何创建BFC" class="headerlink" title="如何创建BFC"></a>如何创建BFC</h2></li>
-<li>float的值不是none。</li>
-<li>position的值不是static或者relative。</li>
-<li>display的值是inline-block、table-cell、flex、table-caption或者inline-flex</li>
-<li>overflow的值不是visible</li>
+        <h2 id="CSRF和XSS"><a href="#CSRF和XSS" class="headerlink" title="CSRF和XSS"></a>CSRF和XSS</h2><p>前端安全主要分为两种：</p>
+<ol>
+<li>CSRF</li>
+<li>XSS<a id="more"></a>
+<h3 id="CSRF"><a href="#CSRF" class="headerlink" title="CSRF"></a>CSRF</h3></li>
 </ol>
-<h2 id="BFC的作用"><a href="#BFC的作用" class="headerlink" title="BFC的作用"></a>BFC的作用</h2><ol>
-<li>利用BFC避免margin重叠。</li>
-<li>自适应两栏布局。</li>
-<li>清除浮动。</li>
-</ol>
-<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><blockquote>
-<p>BFC就是页面上的一个隔离的独立容器，容器里面的子元素不会影响到外面的元素。反之也如此。</p>
-</blockquote>
-<p>因为BFC内部的元素和外部的元素绝对不会互相影响，因此， 当BFC外部存在浮动时，它不应该影响BFC内部Box的布局，BFC会通过变窄，而不与浮动有重叠。同样的，当BFC内部有浮动时，为了不影响外部元素的布局，BFC计算高度时会包括浮动的高度。避免margin重叠也是这样的一个道理。</p>
-<h2 id="代码展示"><a href="#代码展示" class="headerlink" title="代码展示"></a>代码展示</h2><h3 id="在无BFC时候"><a href="#在无BFC时候" class="headerlink" title="在无BFC时候"></a>在无BFC时候</h3><figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;!DOCTYPE <span class="meta-keyword">html</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">html</span>&gt;</span></span><br><span class="line">	<span class="tag">&lt;<span class="name">head</span>&gt;</span></span><br><span class="line">		<span class="tag">&lt;<span class="name">meta</span> <span class="attr">charset</span>=<span class="string">"utf-8"</span> /&gt;</span></span><br><span class="line">		<span class="tag">&lt;<span class="name">title</span>&gt;</span>css盒子模型<span class="tag">&lt;/<span class="name">title</span>&gt;</span></span><br><span class="line">		<span class="tag">&lt;<span class="name">style</span> <span class="attr">media</span>=<span class="string">"screen"</span>&gt;</span></span><br><span class="line">			html * &#123;</span><br><span class="line">				margin: 0;</span><br><span class="line">				padding: 0;</span><br><span class="line">			&#125;</span><br><span class="line">		<span class="tag">&lt;/<span class="name">style</span>&gt;</span></span><br><span class="line">	<span class="tag">&lt;/<span class="name">head</span>&gt;</span></span><br><span class="line"></span><br><span class="line">	<span class="tag">&lt;<span class="name">body</span>&gt;</span></span><br><span class="line">		<span class="comment">&lt;!-- &lt;section id="sec"&gt;</span></span><br><span class="line"><span class="comment">			&lt;style media="screen"&gt;</span></span><br><span class="line"><span class="comment">				#sec &#123;</span></span><br><span class="line"><span class="comment">					background: #f00;</span></span><br><span class="line"><span class="comment">					/* overflow: hidden; */</span></span><br><span class="line"><span class="comment">				&#125;</span></span><br><span class="line"><span class="comment">				.child &#123;</span></span><br><span class="line"><span class="comment">					height: 100px;</span></span><br><span class="line"><span class="comment">					margin-top: 10px;</span></span><br><span class="line"><span class="comment">					background: yellow;</span></span><br><span class="line"><span class="comment">				&#125;</span></span><br><span class="line"><span class="comment">			&lt;/style&gt;</span></span><br><span class="line"><span class="comment">			&lt;article class="child"&gt;&lt;/article&gt;</span></span><br><span class="line"><span class="comment">        &lt;/section&gt; --&gt;</span></span><br><span class="line">		<span class="tag">&lt;<span class="name">section</span> <span class="attr">id</span>=<span class="string">"margin"</span>&gt;</span></span><br><span class="line">			<span class="tag">&lt;<span class="name">style</span>&gt;</span></span><br><span class="line"><span class="css">				<span class="selector-id">#margin</span> &#123;</span></span><br><span class="line">					background: pink;</span><br><span class="line">					overflow: hidden;</span><br><span class="line">				&#125;</span><br><span class="line"><span class="css">				<span class="selector-id">#margin</span> &gt; <span class="selector-tag">p</span> &#123;</span></span><br><span class="line">					margin: 5px auto 25px;</span><br><span class="line">					background: blue;</span><br><span class="line">				&#125;</span><br><span class="line">			<span class="tag">&lt;/<span class="name">style</span>&gt;</span></span><br><span class="line">			<span class="tag">&lt;<span class="name">p</span>&gt;</span>1<span class="tag">&lt;/<span class="name">p</span>&gt;</span></span><br><span class="line">			<span class="tag">&lt;<span class="name">p</span>&gt;</span>2<span class="tag">&lt;/<span class="name">p</span>&gt;</span></span><br><span class="line">			<span class="tag">&lt;<span class="name">p</span>&gt;</span>3<span class="tag">&lt;/<span class="name">p</span>&gt;</span></span><br><span class="line">		<span class="tag">&lt;/<span class="name">section</span>&gt;</span></span><br><span class="line">	<span class="tag">&lt;/<span class="name">body</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">html</span>&gt;</span></span><br></pre></td></tr></table></figure>
-<p><img src="/2019/05/03/css%E4%B9%8BBFC/wubfc.png" alt="yasuo"></p>
-<h3 id="使用BFC"><a href="#使用BFC" class="headerlink" title="使用BFC"></a>使用BFC</h3><figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">section</span> <span class="attr">id</span>=<span class="string">"margin"</span>&gt;</span></span><br><span class="line">			<span class="tag">&lt;<span class="name">style</span>&gt;</span></span><br><span class="line"><span class="css">				<span class="selector-id">#margin</span> &#123;</span></span><br><span class="line">					background: pink;</span><br><span class="line">					overflow: hidden;</span><br><span class="line">				&#125;</span><br><span class="line"><span class="css">				<span class="selector-id">#margin</span> &gt; <span class="selector-tag">p</span> &#123;</span></span><br><span class="line">					margin: 5px auto 25px;</span><br><span class="line">					background: blue;</span><br><span class="line">				&#125;</span><br><span class="line">			<span class="tag">&lt;/<span class="name">style</span>&gt;</span></span><br><span class="line">			<span class="tag">&lt;<span class="name">p</span>&gt;</span>1<span class="tag">&lt;/<span class="name">p</span>&gt;</span></span><br><span class="line">			<span class="tag">&lt;<span class="name">div</span> <span class="attr">style</span>=<span class="string">"overflow: hidden;"</span>&gt;</span></span><br><span class="line">                <span class="tag">&lt;<span class="name">p</span>&gt;</span>2<span class="tag">&lt;/<span class="name">p</span>&gt;</span></span><br><span class="line">            <span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br><span class="line">			<span class="tag">&lt;<span class="name">p</span>&gt;</span>3<span class="tag">&lt;/<span class="name">p</span>&gt;</span></span><br><span class="line">		<span class="tag">&lt;/<span class="name">section</span>&gt;</span></span><br></pre></td></tr></table></figure>
-<p><img src="/2019/05/03/css%E4%B9%8BBFC/bfc.png" alt="yasuo"></p>
-<h3 id="不与float重叠"><a href="#不与float重叠" class="headerlink" title="不与float重叠"></a>不与float重叠</h3><figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">section</span> <span class="attr">id</span>=<span class="string">"layout"</span>&gt;</span></span><br><span class="line">          <span class="tag">&lt;<span class="name">style</span> <span class="attr">media</span>"<span class="attr">screen</span>"&gt;</span></span><br><span class="line"><span class="css">              <span class="selector-id">#layout</span>&#123;</span></span><br><span class="line">                  background: red;</span><br><span class="line">              &#125;</span><br><span class="line"><span class="css">              <span class="selector-id">#layout</span> <span class="selector-class">.left</span>&#123;</span></span><br><span class="line">                  float: left;</span><br><span class="line">                  width: 100px;</span><br><span class="line">                  height: 100px;</span><br><span class="line">                  background: pink;</span><br><span class="line">              &#125;</span><br><span class="line"><span class="css">              <span class="selector-id">#layout</span> <span class="selector-class">.right</span>&#123;</span></span><br><span class="line">                  height: 110px;</span><br><span class="line">                  background: blue;</span><br><span class="line">                  overflow: auto;</span><br><span class="line">              &#125;</span><br><span class="line">          <span class="tag">&lt;/<span class="name">style</span>&gt;</span></span><br><span class="line">          <span class="tag">&lt;<span class="name">div</span> <span class="attr">class</span>=<span class="string">"left"</span>&gt;</span><span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br><span class="line">          <span class="tag">&lt;<span class="name">div</span> <span class="attr">class</span>=<span class="string">"right"</span>&gt;</span><span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br><span class="line">      <span class="tag">&lt;/<span class="name">section</span>&gt;</span></span><br></pre></td></tr></table></figure>
-<p><img src="/2019/05/03/css%E4%B9%8BBFC/margin.png" alt="yasuo"></p>
-<h3 id="清除浮动"><a href="#清除浮动" class="headerlink" title="清除浮动"></a>清除浮动</h3><figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">&lt;!-- BFC子元素即使是float，也会参与高度计算 --&gt;</span></span><br><span class="line">       <span class="tag">&lt;<span class="name">section</span> <span class="attr">id</span>=<span class="string">"float"</span>&gt;</span></span><br><span class="line">           <span class="tag">&lt;<span class="name">style</span> <span class="attr">media</span>=<span class="string">"screen"</span>&gt;</span></span><br><span class="line"><span class="css">               <span class="selector-id">#float</span>&#123;</span></span><br><span class="line">                   background: red;</span><br><span class="line">                   overflow: hidden;</span><br><span class="line">               &#125;</span><br><span class="line"><span class="css">               <span class="selector-id">#float</span> <span class="selector-class">.float</span>&#123;</span></span><br><span class="line">                   float: left;</span><br><span class="line">                   font-size: 20px;</span><br><span class="line">               &#125;</span><br><span class="line">           <span class="tag">&lt;/<span class="name">style</span>&gt;</span></span><br><span class="line">           <span class="tag">&lt;<span class="name">div</span> <span class="attr">class</span>=<span class="string">"float"</span>&gt;</span></span><br><span class="line">               我是浮动元素</span><br><span class="line">           <span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br><span class="line">       <span class="tag">&lt;/<span class="name">section</span>&gt;</span></span><br></pre></td></tr></table></figure>
-<p><img src="/2019/05/03/css%E4%B9%8BBFC/float.png" alt="yasuo"></p>
-
+<p><strong>CSRF跨站点请求伪造(Cross—Site Request Forgery)</strong></p>
+<p><img src="/2019/09/03/CSRF%E5%92%8CXSS/csrf.png" alt="image"></p>
+<p>攻击者盗用了你的身份，以你的名义发送恶意请求，对服务器来说这个请求是完全合法的，但是却完成了攻击者所期望的一个操作，比如以你的名义发送邮件、发消息，盗取你的账号，添加系统管理员，甚至于购买商品、虚拟货币转账等。 如下：其中Web A为存在CSRF漏洞的网站，Web B为攻击者构建的恶意网站，User C为Web A网站的合法用户。</p>
+<h4 id="漏洞检测"><a href="#漏洞检测" class="headerlink" title="漏洞检测"></a>漏洞检测</h4><p>检测CSRF漏洞是一项比较繁琐的工作，最简单的方法就是抓取一个正常请求的数据包，去掉Referer字段后再重新提交，如果该提交还有效，那么基本上可以确定存在CSRF漏洞。</p>
+<h4 id="防御方式"><a href="#防御方式" class="headerlink" title="防御方式"></a>防御方式</h4><h5 id="token形式"><a href="#token形式" class="headerlink" title="token形式"></a>token形式</h5><p>CSRF 攻击之所以能够成功，是因为黑客可以完全伪造用户的请求，该请求中所有的用户验证信息都是存在于 cookie 中，因此黑客可以在不知道这些验证信息的情况下直接利用用户自己的 cookie 来通过安全验证。要抵御 CSRF，关键在于在请求中放入黑客所不能伪造的信息，并且该信息不存在于 cookie 之中。可以在 HTTP 请求中以参数的形式加入一个随机产生的 token，并在服务器端建立一个拦截器来验证这个 token，如果请求中没有 token 或者 token 内容不正确，则认为可能是 CSRF 攻击而拒绝该请求。</p>
+<p>这种方法要比检查 Referer 要安全一些，token 可以在用户登陆后产生并放于 session 之中，然后在每次请求时把 token 从 session 中拿出，与请求中的 token 进行比对，但这种方法的难点在于如何把 token 以参数的形式加入请求。对于 GET 请求，token 将附在请求地址之后，这样 URL 就变成 <code>http://url?csrftoken=tokenvalue</code>。 而对于 POST 请求来说，要在 form 的最后加上<code>&lt;input type=”hidden” name=”csrftoken” value=”tokenvalue”/&gt;</code><br>，这样就把 token 以参数的形式加入请求了。但是，在一个网站中，可以接受请求的地方非常多，要对于每一个请求都加上 token 是很麻烦的，并且很容易漏掉，通常使用的方法就是在每次页面加载时，使用 javascript 遍历整个 dom 树，对于 dom 中所有的 a 和 form 标签后加入 token。这样可以解决大部分的请求，但是对于在页面加载之后动态生成的 html 代码，这种方法就没有作用，还需要程序员在编码时手动添加 token。</p>
+<p> 该方法还有一个缺点是难以保证 token 本身的安全。特别是在一些论坛之类支持用户自己发表内容的网站，黑客可以在上面发布自己个人网站的地址。由于系统也会在这个地址后面加上 token，黑客可以在自己的网站上得到这个 token，并马上就可以发动 CSRF 攻击。为了避免这一点，系统可以在添加 token 的时候增加一个判断，如果这个链接是链到自己本站的，就在后面添加 token，如果是通向外网则不加。不过，即使这个 csrftoken 不以参数的形式附加在请求之中，黑客的网站也同样可以通过 Referer 来得到这个 token 值以发动 CSRF 攻击。这也是一些用户喜欢手动关闭浏览器 Referer 功能的原因。</p>
+<h5 id="Referer验证"><a href="#Referer验证" class="headerlink" title="Referer验证"></a>Referer验证</h5><p>根据 HTTP 协议，在 HTTP 头中有一个字段叫 Referer，它记录了该 HTTP 请求的来源地址。在通常情况下，访问一个安全受限页面的请求来自于同一个网站，比如需要访问 <code>http://bank.example/withdraw?account=bob&amp;amount=1000000&amp;for=Mallory</code>，用户必须先登陆 bank.example，然后通过点击页面上的按钮来触发转账事件。这时，该转帐请求的 Referer 值就会是转账按钮所在的页面的 URL，通常是以 bank.example 域名开头的地址。而如果黑客要对银行网站实施 CSRF 攻击，他只能在他自己的网站构造请求，当用户通过黑客的网站发送请求到银行时，该请求的 Referer 是指向黑客自己的网站。因此，要防御 CSRF 攻击，银行网站只需要对于每一个转账请求验证其 Referer 值，如果是以 bank.example 开头的域名，则说明该请求是来自银行网站自己的请求，是合法的。如果 Referer 是其他网站的话，则有可能是黑客的 CSRF 攻击，拒绝该请求。</p>
+<p>这种方法的显而易见的好处就是简单易行，网站的普通开发人员不需要操心 CSRF 的漏洞，只需要在最后给所有安全敏感的请求统一增加一个拦截器来检查 Referer 的值就可以。特别是对于当前现有的系统，不需要改变当前系统的任何已有代码和逻辑，没有风险，非常便捷。</p>
+<p>然而，这种方法并非万无一失。Referer 的值是由浏览器提供的，虽然 HTTP 协议上有明确的要求，但是每个浏览器对于 Referer 的具体实现可能有差别，并不能保证浏览器自身没有安全漏洞。使用验证 Referer 值的方法，就是把安全性都依赖于第三方（即浏览器）来保障，从理论上来讲，这样并不安全。事实上，对于某些浏览器，比如 IE6 或 FF2，目前已经有一些方法可以篡改 Referer 值。如果 bank.example 网站支持 IE6 浏览器，黑客完全可以把用户浏览器的 Referer 值设为以 bank.example 域名开头的地址，这样就可以通过验证，从而进行 CSRF 攻击。</p>
+<p>即便是使用最新的浏览器，黑客无法篡改 Referer 值，这种方法仍然有问题。因为 Referer 值会记录下用户的访问来源，有些用户认为这样会侵犯到他们自己的隐私权，特别是有些组织担心 Referer 值会把组织内网中的某些信息泄露到外网中。因此，用户自己可以设置浏览器使其在发送请求时不再提供 Referer。当他们正常访问银行网站时，网站会因为请求没有 Referer 值而认为是 CSRF 攻击，拒绝合法用户的访问。</p>
+<h5 id="隐藏令牌"><a href="#隐藏令牌" class="headerlink" title="隐藏令牌"></a>隐藏令牌</h5><p>这种方法也是使用 token 并进行验证，和上一种方法不同的是，这里并不是把 token 以参数的形式置于 HTTP 请求之中，而是把它放到 HTTP 头中自定义的属性里。通过 XMLHttpRequest 这个类，可以一次性给所有该类请求加上 csrftoken 这个 HTTP 头属性，并把 token 值放入其中。这样解决了上种方法在请求中加入 token 的不便，同时，通过 XMLHttpRequest 请求的地址不会被记录到浏览器的地址栏，也不用担心 token 会透过 Referer 泄露到其他网站中去。</p>
+<p>然而这种方法的局限性非常大。XMLHttpRequest 请求通常用于 Ajax 方法中对于页面局部的异步刷新，并非所有的请求都适合用这个类来发起，而且通过该类请求得到的页面不能被浏览器所记录下，从而进行前进，后退，刷新，收藏等操作，给用户带来不便。另外，对于没有进行 CSRF 防护的遗留系统来说，要采用这种方法来进行防护，要把所有请求都改为 XMLHttpRequest 请求，这样几乎是要重写整个网站，这代价无疑是不能接受的。</p>
+<h3 id="XSS"><a href="#XSS" class="headerlink" title="XSS"></a>XSS</h3><p><strong>XSS跨域脚本攻击（Cross Site Scripting）</strong></p>
+<p>跨站脚本攻击是指恶意攻击者往Web页面里插入恶意Script代码，当用户浏览该页之时，嵌入其中Web里面的Script代码会被执行，从而达到恶意攻击用户的目的。<br>xss漏洞通常是通过php的输出函数将javascript代码输出到html页面中，通过用户本地浏览器执行的，所以xss漏洞关键就是寻找参数未过滤的输出函数。</p>
+<h4 id="分类"><a href="#分类" class="headerlink" title="分类"></a>分类</h4><h5 id="反射型"><a href="#反射型" class="headerlink" title="反射型"></a>反射型</h5><p><strong>非持久化</strong></p>
+<p>攻击者事先制作好攻击链接, 需要欺骗用户自己去点击链接才能触发XSS代码（服务器中没有这样的页面和内容），一般容易出现在搜索页面。</p>
+<h5 id="存储型XSS"><a href="#存储型XSS" class="headerlink" title="存储型XSS"></a>存储型XSS</h5><p><strong>持久化</strong></p>
+<p>代码是存储在服务器中的，如在个人信息或发表文章等地方，加入代码，如果没有过滤或过滤不严，那么这些代码将储存到服务器中，每当有用户访问该页面的时候都会触发代码执行，这种XSS非常危险，容易造成蠕虫，大量盗窃cookie（虽然还有种DOM型XSS，但是也还是包括在存储型XSS内）。</p>
+<h5 id="DOM型XSS"><a href="#DOM型XSS" class="headerlink" title="DOM型XSS"></a>DOM型XSS</h5><p>基于文档对象模型Document Objeet Model，DOM)的一种漏洞。DOM是一个与平台、编程语言无关的接口，它允许程序或脚本动态地访问和更新文档内容、结构和样式，处理后的结果能够成为显示页面的一部分。DOM中有很多对象，其中一些是用户可以操纵的，如uRI ，location，refelTer等。客户端的脚本程序可以通过DOM动态地检查和修改页面内容，它不依赖于提交数据到服务器端，而从客户端获得DOM中的数据在本地执行，如果DOM中的数据没有经过严格确认，就会产生DOM XSS漏洞。</p>
+<h4 id="防御措施"><a href="#防御措施" class="headerlink" title="防御措施"></a>防御措施</h4><p>XSS防御的总体思路是：<strong>对输入(和URL参数)进行过滤，对输出进行编码。</strong></p>
+<h5 id="对输入和URL参数进行过滤-白名单和黑名单"><a href="#对输入和URL参数进行过滤-白名单和黑名单" class="headerlink" title="对输入和URL参数进行过滤(白名单和黑名单)"></a>对输入和URL参数进行过滤(白名单和黑名单)</h5><h5 id="对输出进行编码"><a href="#对输出进行编码" class="headerlink" title="对输出进行编码"></a>对输出进行编码</h5><h5 id="使用HTTPOnly保护用户信息"><a href="#使用HTTPOnly保护用户信息" class="headerlink" title="使用HTTPOnly保护用户信息"></a>使用HTTPOnly保护用户信息</h5>
     </article>
     <!-- license  -->
     
@@ -450,17 +436,12 @@ height:50vh;
     <ul class="post-paginator">
         <li class="next">
             
-                <div class="nextSlogan">Next Post</div>
-                <a href= "/2019/06/01/DOM%E7%BA%A7%E5%88%AB%E4%B8%8EDOM%E4%BA%8B%E4%BB%B6/" title= "DOM级别与DOM事件">
-                    <div class="nextTitle">DOM级别与DOM事件</div>
-                </a>
-            
         </li>
         <li class="previous">
             
                 <div class="prevSlogan">Previous Post</div>
-                <a href= "/2019/05/01/css%E7%9B%92%E5%AD%90%E6%A8%A1%E5%9E%8B/" title= "css盒子模型">
-                    <div class="prevTitle">css盒子模型</div>
+                <a href= "/2019/08/22/%E9%80%9A%E4%BF%A1%E7%9B%B8%E5%85%B3%E9%97%AE%E9%A2%98/" title= "通信相关问题">
+                    <div class="prevTitle">通信相关问题</div>
                 </a>
             
         </li>
@@ -571,7 +552,7 @@ top:50vh;
         <div class="toc-catalog">
             <span class="iconfont-archer catalog-icon">&#xe613;</span><span>CATALOG</span>
         </div>
-        <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#BFC定义"><span class="toc-number">1.</span> <span class="toc-text">BFC定义</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#Box：css布局的基本单位"><span class="toc-number">1.1.</span> <span class="toc-text">Box：css布局的基本单位</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Formatting-Context"><span class="toc-number">1.2.</span> <span class="toc-text">Formatting Context</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#BFC的布局规则"><span class="toc-number">2.</span> <span class="toc-text">BFC的布局规则</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#如何创建BFC"><span class="toc-number">3.</span> <span class="toc-text">如何创建BFC</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#BFC的作用"><span class="toc-number">4.</span> <span class="toc-text">BFC的作用</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#总结"><span class="toc-number">5.</span> <span class="toc-text">总结</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#代码展示"><span class="toc-number">6.</span> <span class="toc-text">代码展示</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#在无BFC时候"><span class="toc-number">6.1.</span> <span class="toc-text">在无BFC时候</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#使用BFC"><span class="toc-number">6.2.</span> <span class="toc-text">使用BFC</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#不与float重叠"><span class="toc-number">6.3.</span> <span class="toc-text">不与float重叠</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#清除浮动"><span class="toc-number">6.4.</span> <span class="toc-text">清除浮动</span></a></li></ol></li></ol>
+        <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#CSRF和XSS"><span class="toc-number">1.</span> <span class="toc-text">CSRF和XSS</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#CSRF"><span class="toc-number">1.1.</span> <span class="toc-text">CSRF</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#漏洞检测"><span class="toc-number">1.1.1.</span> <span class="toc-text">漏洞检测</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#防御方式"><span class="toc-number">1.1.2.</span> <span class="toc-text">防御方式</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#token形式"><span class="toc-number">1.1.2.1.</span> <span class="toc-text">token形式</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#Referer验证"><span class="toc-number">1.1.2.2.</span> <span class="toc-text">Referer验证</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#隐藏令牌"><span class="toc-number">1.1.2.3.</span> <span class="toc-text">隐藏令牌</span></a></li></ol></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#XSS"><span class="toc-number">1.2.</span> <span class="toc-text">XSS</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#分类"><span class="toc-number">1.2.1.</span> <span class="toc-text">分类</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#反射型"><span class="toc-number">1.2.1.1.</span> <span class="toc-text">反射型</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#存储型XSS"><span class="toc-number">1.2.1.2.</span> <span class="toc-text">存储型XSS</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#DOM型XSS"><span class="toc-number">1.2.1.3.</span> <span class="toc-text">DOM型XSS</span></a></li></ol></li><li class="toc-item toc-level-4"><a class="toc-link" href="#防御措施"><span class="toc-number">1.2.2.</span> <span class="toc-text">防御措施</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#对输入和URL参数进行过滤-白名单和黑名单"><span class="toc-number">1.2.2.1.</span> <span class="toc-text">对输入和URL参数进行过滤(白名单和黑名单)</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#对输出进行编码"><span class="toc-number">1.2.2.2.</span> <span class="toc-text">对输出进行编码</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#使用HTTPOnly保护用户信息"><span class="toc-number">1.2.2.3.</span> <span class="toc-text">使用HTTPOnly保护用户信息</span></a></li></ol></li></ol></li></ol></li></ol>
     </div>
     
     <div class="back-top iconfont-archer">&#xe639;</div>

@@ -7,7 +7,7 @@
     "clean": "hexo clean",
     "deploy": "hexo deploy",
     "server": "hexo server",
-    "newPage": "hexo new [post] 通信相关问题",
+    "newPage": "hexo new [post] CSRF和XSS",
     "update": "hexo deploy"
   },
   "hexo": {
