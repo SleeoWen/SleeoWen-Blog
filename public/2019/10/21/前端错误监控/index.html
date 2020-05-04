@@ -22,7 +22,7 @@
     <meta name="description" content="个人的学习经历">
     <meta http-equiv="Cache-control" content="no-cache">
     <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1"/>
-    <title>DOM级别与DOM事件 · SleeoWen-Blog</title>
+    <title>前端错误监控 · SleeoWen-Blog</title>
     <style type="text/css">
     @font-face {
         font-family: 'Oswald-Regular';
@@ -217,7 +217,7 @@
                 <a href="/" >Sleeo&#39;s Blog.</a>
             </div>
             <div class="post-title">
-                <a href="#" class="post-name">DOM级别与DOM事件</a>
+                <a href="#" class="post-name">前端错误监控</a>
             </div>
     </div>
     
@@ -247,7 +247,7 @@ height:50vh;
         <h1 class="intro-title">
             <!-- 主页  -->
             
-            DOM级别与DOM事件
+            前端错误监控
             <!-- 404 -->
             
         </h1>
@@ -266,18 +266,18 @@ height:50vh;
                 
                     <div class= post-intro-tags >
     
-        <a class="post-tag" href="javascript:void(0);" data-tags = "html">html</a>
+        <a class="post-tag" href="javascript:void(0);" data-tags = "前端性能优化">前端性能优化</a>
     
 </div>
                 
                 
                     <div class="post-intro-read">
-                        <span>字数统计: <span class="post-count word-count">1k</span>阅读时长: <span class="post-count reading-time">3 min</span></span>
+                        <span>字数统计: <span class="post-count word-count">272</span>阅读时长: <span class="post-count reading-time">1 min</span></span>
                     </div>
                 
                 <div class="post-intro-meta">
                     <span class="post-intro-calander iconfont-archer">&#xe676;</span>
-                    <span class="post-intro-time">2019/06/01</span>
+                    <span class="post-intro-time">2019/10/21</span>
                     
                     <span id="busuanzi_container_page_pv" class="busuanzi-pv">
                         <span class="iconfont-archer">&#xe602;</span>
@@ -401,27 +401,32 @@ height:50vh;
         <div class="container container-unloaded">
             <main class="main post-page">
     <article class="article-entry">
-        <p>事件是javascript和HTML交互基础, 任何文档或者浏览器窗口发生的交互, 都要通过绑定事件进行交互;比如鼠标点击事件、敲击键盘事件等。这样的事件行为都是前端DOM事件的组成部分，不同的DOM事件会有不同的触发条件和触发效果。</p>
+        <h2 id="前端错误的分类"><a href="#前端错误的分类" class="headerlink" title="前端错误的分类"></a>前端错误的分类</h2><p>一般来说前端错误分为两类</p>
+<ol>
+<li>即时运行错误</li>
+<li>资源加载错误</li>
+</ol>
 <a id="more"></a>
-<h2 id="DOM级别与DOM事件"><a href="#DOM级别与DOM事件" class="headerlink" title="DOM级别与DOM事件"></a>DOM级别与DOM事件</h2><p>DOM级别一共可以分为四个级别：DOM0级、DOM1级、DOM2级和DOM3级。而DOM事件分为3个级别：DOM0级事件处理，DOM2级事件处理和DOM3级事件处理。</p>
-<p>有人可能会疑惑，为什么没有DOM1级事件处理呢？因为1级DOM标准并没有定义事件相关的内容，所以没有所谓的1级DOM事件模型。</p>
-<h3 id="HTML的事件处理程序"><a href="#HTML的事件处理程序" class="headerlink" title="HTML的事件处理程序"></a>HTML的事件处理程序</h3><p>HTML事件处理程序，也是最早的一种事件处理方式。</p>
-<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">&lt;button type=<span class="string">"button"</span> onclick=<span class="string">"showFn()"</span>&gt;<span class="xml"><span class="tag">&lt;/<span class="name">button</span>&gt;</span></span></span><br><span class="line"> <span class="function"><span class="keyword">function</span> <span class="title">showFn</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">     alert(<span class="string">'Hello World'</span>);</span><br><span class="line"> &#125;</span><br></pre></td></tr></table></figure>
-<p>以上的代码，我们通过直接在HTML代码里面定义了一个 onclick属性触发showfu这样的事件处理程序最大的缺点就是HTML和JS耦合太强，我们如果需要修改函数名就必须修改两个地方，优点是不需要操作DOM来完成事件的绑定。</p>
-<h3 id="DOM0级事件"><a href="#DOM0级事件" class="headerlink" title="DOM0级事件"></a>DOM0级事件</h3><p>DOM0级处理事件就是将一个函数赋值给一个事件处理属性。</p>
-<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">&lt;button id=<span class="string">"btn"</span> type=<span class="string">"button"</span>&gt;<span class="xml"><span class="tag">&lt;/<span class="name">button</span>&gt;</span></span></span><br><span class="line">   <span class="keyword">var</span> btn = <span class="built_in">document</span>.getElementById(<span class="string">'btn'</span>);</span><br><span class="line">   btn.onclick = <span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">       <span class="built_in">console</span>.log(<span class="string">'Hello World'</span>);</span><br><span class="line">   &#125;</span><br></pre></td></tr></table></figure>
-<p>以上的代码我们给button定义了一个id 通过js原生的api获取按钮<br>将一个函数赋值给了一个事件处理属性onclick 这样的方法就是DOM0级<br>处理事件的体现。我们可以通过给事件处理属性赋值null来解绑事件。</p>
-<p><strong>DOM0级事件处理程序的缺点在于一个处理程序无法同时绑定多个处理函数，比如我还想再点击按钮事件上加上另外一个函数。</strong></p>
-<h3 id="DOM2级事件"><a href="#DOM2级事件" class="headerlink" title="DOM2级事件"></a>DOM2级事件</h3><p>DOM2级事件在DOM0级时间段额基础上弥补了一个处理处理程序<br>无法同时绑定多个处理函数的缺点。允许给一个程序添加多个处理函数。</p>
-<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">&lt;button id=<span class="string">"btn"</span> type=<span class="string">"button"</span>&gt;<span class="xml"><span class="tag">&lt;/<span class="name">button</span>&gt;</span></span></span><br><span class="line">   <span class="keyword">var</span> btn = <span class="built_in">document</span>.getElementById(<span class="string">'btn'</span>);    </span><br><span class="line">   <span class="function"><span class="keyword">function</span> <span class="title">showFn</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">       alert(<span class="string">'Hello World'</span>);</span><br><span class="line">   &#125;    </span><br><span class="line">   btn.addEventListener(<span class="string">'click'</span>, showFn, <span class="literal">false</span>);</span><br><span class="line">   <span class="comment">// btn.removeEventListener('click', showFn, false); 解绑事件</span></span><br></pre></td></tr></table></figure>
-<p>DOM2级事件定义了addEventListener 和 removeEventListener两个方法，分别用来绑定和解绑事件，方法中包含三个参数，分别是绑定的事件处理的属性名称（没有on）处理函数和是否在捕获时候执行事件处理函数如果我们还需要添加一个鼠标的移入的方法，只需要：</p>
-<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">btn.addEventlistener(<span class="string">'mouseover'</span>,showfn,<span class="literal">false</span>)</span><br></pre></td></tr></table></figure>
-<p>这样，点击按钮和鼠标移入时候都将触发showfn的方法。</p>
-<p>需要注意的是IE8以下版本不支持 addEventlistener 和 removeEventListerner<br>需要使用attachEvent和detachEvent实现：</p>
-<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">btn.attachEvent(<span class="string">'onclick'</span>, showFn); <span class="comment">// 绑定事件 </span></span><br><span class="line">btn.detachEvent(<span class="string">'onclick'</span>, showFn); <span class="comment">// 解绑事件</span></span><br></pre></td></tr></table></figure>
-<p>这里我们不需要传入第三个参数，因为IE8以下版本只支持冒泡型事件。</p>
-<h3 id="DOM3级事件"><a href="#DOM3级事件" class="headerlink" title="DOM3级事件"></a>DOM3级事件</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">DOM3级事件是在DOM2级事件的基础上添加很多事件类型。</span><br><span class="line">UI事件，当用户与页面上的元素交互时触发，如：load、scroll</span><br><span class="line">焦点事件，当元素获得或失去焦点时触发，如：blur、focus</span><br><span class="line">鼠标事件，当用户通过鼠标在页面执行操作时触发如：dbclick、mouseup</span><br><span class="line">滚轮事件，当使用鼠标滚轮或类似设备时触发，如：mousewheel</span><br><span class="line">文本事件，当在文档中输入文本时触发，如：textInput</span><br><span class="line">键盘事件，当用户通过键盘在页面上执行操作时触发，如：keydown、keypress</span><br><span class="line">合成事件，当为IME（输入法编辑器）输入字符时触发，如：compositionstart</span><br><span class="line">变动事件，当底层DOM结构发生变化时触发，如：DOMsubtreeModified</span><br><span class="line">同时DOM3级事件也允许使用者自定义一些事件。</span><br></pre></td></tr></table></figure>
-<p>转载链接:<a href="https://www.jianshu.com/p/622d994906f7" target="_blank" rel="noopener">DOM级别与DOM事件</a></p>
+<h2 id="错误捕获方式"><a href="#错误捕获方式" class="headerlink" title="错误捕获方式"></a>错误捕获方式</h2><h3 id="即时运行错误"><a href="#即时运行错误" class="headerlink" title="即时运行错误"></a>即时运行错误</h3><ol>
+<li>try catch</li>
+<li>window.onerror</li>
+</ol>
+<h3 id="资源加载错误"><a href="#资源加载错误" class="headerlink" title="资源加载错误"></a>资源加载错误</h3><p><strong>资源加载错误不会冒泡，所以window.onerror捕获不到</strong></p>
+<ol>
+<li>object.onerror</li>
+<li>performance.getEntries()（获取所有加载资源）</li>
+<li>Error事件捕获<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;!DOCTYPE <span class="meta-keyword">html</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">html</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">head</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">meta</span> <span class="attr">charset</span>=<span class="string">"utf-8"</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">title</span>&gt;</span>错误监控<span class="tag">&lt;/<span class="name">title</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">script</span> <span class="attr">type</span>=<span class="string">"text/javascript"</span>&gt;</span></span><br><span class="line"><span class="javascript">      <span class="built_in">window</span>.addEventListener(<span class="string">'error'</span>, <span class="function"><span class="keyword">function</span> (<span class="params">e</span>) </span>&#123;</span></span><br><span class="line"><span class="javascript">          <span class="built_in">console</span>.log(<span class="string">'捕获'</span>, e);</span></span><br><span class="line"><span class="actionscript">      &#125;, <span class="literal">false</span>);</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">script</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;/<span class="name">head</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">body</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">script</span> <span class="attr">src</span>=<span class="string">"//badu.com/test.js"</span> <span class="attr">charset</span>=<span class="string">"utf-8"</span>&gt;</span><span class="tag">&lt;/<span class="name">script</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;/<span class="name">body</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">html</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+</li>
+</ol>
+<h4 id="跨域js的运行错误"><a href="#跨域js的运行错误" class="headerlink" title="跨域js的运行错误"></a>跨域js的运行错误</h4><p><strong>所有跨域js的运行错误都会显示为Script error</strong><br>解决方法：</p>
+<ol>
+<li>在script标签上增加crossorigin属性(客户端)</li>
+<li>设置资源响应头Access-Control-Allow-Origin:*（服务端）</li>
+</ol>
+<h2 id="上报错误"><a href="#上报错误" class="headerlink" title="上报错误"></a>上报错误</h2><h3 id="用ajax通信上报"><a href="#用ajax通信上报" class="headerlink" title="用ajax通信上报"></a>用ajax通信上报</h3><p>不建议这么来做</p>
+<h3 id="利用Image对象进行上报"><a href="#利用Image对象进行上报" class="headerlink" title="利用Image对象进行上报"></a>利用Image对象进行上报</h3><figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">script</span> <span class="attr">type</span>=<span class="string">"text/javascript"</span>&gt;</span></span><br><span class="line"><span class="actionscript">     (<span class="keyword">new</span> Image()).src = <span class="string">'http://baidu.com/tesjk?r=tksjk'</span>;</span></span><br><span class="line">   <span class="tag">&lt;/<span class="name">script</span>&gt;</span></span><br></pre></td></tr></table></figure>
+<p>很容易实现请求，比ajax方便的多</p>
 
     </article>
     <!-- license  -->
@@ -430,17 +435,12 @@ height:50vh;
     <ul class="post-paginator">
         <li class="next">
             
-                <div class="nextSlogan">Next Post</div>
-                <a href= "/2019/06/11/DOM%E4%BA%8B%E4%BB%B6%E6%B5%81/" title= "DOM事件流">
-                    <div class="nextTitle">DOM事件流</div>
-                </a>
-            
         </li>
         <li class="previous">
             
                 <div class="prevSlogan">Previous Post</div>
-                <a href= "/2019/05/03/css%E4%B9%8BBFC/" title= "css之BFC">
-                    <div class="prevTitle">css之BFC</div>
+                <a href= "/2019/10/11/%E9%A1%B5%E9%9D%A2%E6%80%A7%E8%83%BD%E4%BC%98%E5%8C%96/" title= "页面性能优化">
+                    <div class="prevTitle">页面性能优化</div>
                 </a>
             
         </li>
@@ -551,7 +551,7 @@ top:50vh;
         <div class="toc-catalog">
             <span class="iconfont-archer catalog-icon">&#xe613;</span><span>CATALOG</span>
         </div>
-        <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#DOM级别与DOM事件"><span class="toc-number">1.</span> <span class="toc-text">DOM级别与DOM事件</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#HTML的事件处理程序"><span class="toc-number">1.1.</span> <span class="toc-text">HTML的事件处理程序</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#DOM0级事件"><span class="toc-number">1.2.</span> <span class="toc-text">DOM0级事件</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#DOM2级事件"><span class="toc-number">1.3.</span> <span class="toc-text">DOM2级事件</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#DOM3级事件"><span class="toc-number">1.4.</span> <span class="toc-text">DOM3级事件</span></a></li></ol></li></ol>
+        <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#前端错误的分类"><span class="toc-number">1.</span> <span class="toc-text">前端错误的分类</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#错误捕获方式"><span class="toc-number">2.</span> <span class="toc-text">错误捕获方式</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#即时运行错误"><span class="toc-number">2.1.</span> <span class="toc-text">即时运行错误</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#资源加载错误"><span class="toc-number">2.2.</span> <span class="toc-text">资源加载错误</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#跨域js的运行错误"><span class="toc-number">2.2.1.</span> <span class="toc-text">跨域js的运行错误</span></a></li></ol></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#上报错误"><span class="toc-number">3.</span> <span class="toc-text">上报错误</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#用ajax通信上报"><span class="toc-number">3.1.</span> <span class="toc-text">用ajax通信上报</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#利用Image对象进行上报"><span class="toc-number">3.2.</span> <span class="toc-text">利用Image对象进行上报</span></a></li></ol></li></ol>
     </div>
     
     <div class="back-top iconfont-archer">&#xe639;</div>
