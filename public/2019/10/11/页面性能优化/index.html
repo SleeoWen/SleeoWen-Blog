@@ -22,7 +22,7 @@
     <meta name="description" content="个人的学习经历">
     <meta http-equiv="Cache-control" content="no-cache">
     <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1"/>
-    <title>函数的防抖和节流 · SleeoWen-Blog</title>
+    <title>页面性能优化 · SleeoWen-Blog</title>
     <style type="text/css">
     @font-face {
         font-family: 'Oswald-Regular';
@@ -217,7 +217,7 @@
                 <a href="/" >Sleeo&#39;s Blog.</a>
             </div>
             <div class="post-title">
-                <a href="#" class="post-name">函数的防抖和节流</a>
+                <a href="#" class="post-name">页面性能优化</a>
             </div>
     </div>
     
@@ -247,7 +247,7 @@ height:50vh;
         <h1 class="intro-title">
             <!-- 主页  -->
             
-            函数的防抖和节流
+            页面性能优化
             <!-- 404 -->
             
         </h1>
@@ -266,18 +266,18 @@ height:50vh;
                 
                     <div class= post-intro-tags >
     
-        <a class="post-tag" href="javascript:void(0);" data-tags = "javascript">javascript</a>
+        <a class="post-tag" href="javascript:void(0);" data-tags = "前端性能优化">前端性能优化</a>
     
 </div>
                 
                 
                     <div class="post-intro-read">
-                        <span>字数统计: <span class="post-count word-count">868</span>阅读时长: <span class="post-count reading-time">3 min</span></span>
+                        <span>字数统计: <span class="post-count word-count">1.2k</span>阅读时长: <span class="post-count reading-time">4 min</span></span>
                     </div>
                 
                 <div class="post-intro-meta">
                     <span class="post-intro-calander iconfont-archer">&#xe676;</span>
-                    <span class="post-intro-time">2019/04/07</span>
+                    <span class="post-intro-time">2019/10/11</span>
                     
                     <span id="busuanzi_container_page_pv" class="busuanzi-pv">
                         <span class="iconfont-archer">&#xe602;</span>
@@ -401,33 +401,51 @@ height:50vh;
         <div class="container container-unloaded">
             <main class="main post-page">
     <article class="article-entry">
-        <h2 id="什么是防抖？什么是节流？"><a href="#什么是防抖？什么是节流？" class="headerlink" title="什么是防抖？什么是节流？"></a>什么是防抖？什么是节流？</h2><h3 id="防抖（debounce）"><a href="#防抖（debounce）" class="headerlink" title="防抖（debounce）"></a>防抖（debounce）</h3><blockquote>
-<p><strong>当持续触发事件时，一定时间段内没有再触发事件，事件处理函数才会执行一次，如果设定的时间到来之前，又一次触发了事件，就重新开始延时。</strong></p>
-</blockquote>
-<h3 id="节流（throttle）"><a href="#节流（throttle）" class="headerlink" title="节流（throttle）"></a>节流（throttle）</h3><blockquote>
-<p><strong>当持续触发事件时，保证一定时间段内只调用一次事件处理函数。</strong></p>
-</blockquote>
-<a id="more"></a>
-<h2 id="防抖和节流的应用场景"><a href="#防抖和节流的应用场景" class="headerlink" title="防抖和节流的应用场景"></a>防抖和节流的应用场景</h2><p>在前端开发的过程中，我们经常会需要绑定一些持续触发的事件，如 resize、scroll、mousemove 等等，但有些时候我们并不希望在事件持续触发的过程中那么频繁地去执行函数。</p>
-<h3 id="防抖"><a href="#防抖" class="headerlink" title="防抖"></a>防抖</h3><p><strong>所谓防抖，就是指触发事件后在 n 秒（或毫秒）内函数只能执行一次，如果在 n 秒（或毫秒）内又触发了事件，则会重新计算函数执行时间。</strong></p>
-<p>比如我们进行实时的搜索功能、对用户输入框进行监测，对用户的滚动条进行监测等等。</p>
-<h3 id="节流"><a href="#节流" class="headerlink" title="节流"></a>节流</h3><p><strong>所谓节流，就是指连续触发事件但是在 n 秒中只执行一次函数。</strong></p>
-<p>比如我们在做搜索输入时，用户连续点击多次搜索按钮，我们使用节流的方式。</p>
-<h2 id="防抖和节流的实现"><a href="#防抖和节流的实现" class="headerlink" title="防抖和节流的实现"></a>防抖和节流的实现</h2><h3 id="防抖-1"><a href="#防抖-1" class="headerlink" title="防抖"></a>防抖</h3><p>防抖可以分为两种，一种是延时、一种是立即执行。</p>
-<h4 id="延时版"><a href="#延时版" class="headerlink" title="延时版"></a>延时版</h4><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">debounce</span>(<span class="params">func, wait</span>) </span>&#123;</span><br><span class="line">    <span class="keyword">let</span> timeout;</span><br><span class="line">    <span class="keyword">return</span> <span class="function"><span class="keyword">function</span> (<span class="params"></span>) </span>&#123;</span><br><span class="line">        <span class="keyword">let</span> context = <span class="keyword">this</span>;</span><br><span class="line">        <span class="keyword">let</span> args = <span class="built_in">arguments</span>;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">if</span> (timeout) clearTimeout(timeout);</span><br><span class="line">        </span><br><span class="line">        timeout = setTimeout(<span class="function"><span class="params">()</span> =&gt;</span> &#123;</span><br><span class="line">            func.apply(context, args)</span><br><span class="line">        &#125;, wait);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<h4 id="立即执行版"><a href="#立即执行版" class="headerlink" title="立即执行版"></a>立即执行版</h4><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">debounce</span>(<span class="params">func,wait</span>) </span>&#123;</span><br><span class="line">    <span class="keyword">let</span> timeout;</span><br><span class="line">    <span class="keyword">return</span> <span class="function"><span class="keyword">function</span> (<span class="params"></span>) </span>&#123;</span><br><span class="line">        <span class="keyword">let</span> context = <span class="keyword">this</span>;</span><br><span class="line">        <span class="keyword">let</span> args = <span class="built_in">arguments</span>;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">if</span> (timeout) clearTimeout(timeout);</span><br><span class="line"></span><br><span class="line">        <span class="keyword">let</span> callNow = !timeout;</span><br><span class="line">        timeout = setTimeout(<span class="function"><span class="params">()</span> =&gt;</span> &#123;</span><br><span class="line">            timeout = <span class="literal">null</span>;</span><br><span class="line">        &#125;, wait)</span><br><span class="line"></span><br><span class="line">        <span class="keyword">if</span> (callNow) func.apply(context, args)</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-
-<p><strong>二者的区别在于，前者在延时n秒后执行，后者是立即执行，但是在n秒后才能再次执行。</strong></p>
-<h4 id="延时版和立即执行版结合"><a href="#延时版和立即执行版结合" class="headerlink" title="延时版和立即执行版结合"></a>延时版和立即执行版结合</h4><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@desc </span>函数防抖</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@param </span>func 函数</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@param </span>wait 延迟执行毫秒数</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@param </span>immediate true 表立即执行，false 表非立即执行</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">debounce</span>(<span class="params">func,wait,immediate</span>) </span>&#123;</span><br><span class="line">    <span class="keyword">let</span> timeout;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">return</span> <span class="function"><span class="keyword">function</span> (<span class="params"></span>) </span>&#123;</span><br><span class="line">        <span class="keyword">let</span> context = <span class="keyword">this</span>;</span><br><span class="line">        <span class="keyword">let</span> args = <span class="built_in">arguments</span>;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">if</span> (timeout) clearTimeout(timeout);</span><br><span class="line">        <span class="keyword">if</span> (immediate) &#123;</span><br><span class="line">            <span class="keyword">var</span> callNow = !timeout;</span><br><span class="line">            timeout = setTimeout(<span class="function"><span class="params">()</span> =&gt;</span> &#123;</span><br><span class="line">                timeout = <span class="literal">null</span>;</span><br><span class="line">            &#125;, wait)</span><br><span class="line">            <span class="keyword">if</span> (callNow) func.apply(context, args)</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">else</span> &#123;</span><br><span class="line">            timeout = setTimeout(<span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123;</span><br><span class="line">                func.apply(context, args)</span><br><span class="line">            &#125;, wait);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p><strong>这个方法可以作为公用的服务实现防抖。</strong></p>
-<h3 id="节流-1"><a href="#节流-1" class="headerlink" title="节流"></a>节流</h3><p>节流也可以分为两种，一种是时间戳版，一种是定时器版。</p>
-<h4 id="时间戳"><a href="#时间戳" class="headerlink" title="时间戳"></a>时间戳</h4><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">throttle</span>(<span class="params">func, wait</span>) </span>&#123;</span><br><span class="line">    <span class="keyword">let</span> previous = <span class="number">0</span>;</span><br><span class="line">    <span class="keyword">return</span> <span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">        <span class="keyword">let</span> now = <span class="built_in">Date</span>.now();</span><br><span class="line">        <span class="keyword">let</span> context = <span class="keyword">this</span>;</span><br><span class="line">        <span class="keyword">let</span> args = <span class="built_in">arguments</span>;</span><br><span class="line">        <span class="keyword">if</span> (now - previous &gt; wait) &#123;</span><br><span class="line">            func.apply(context, args);</span><br><span class="line">            previous = now;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<h4 id="定时器"><a href="#定时器" class="headerlink" title="定时器"></a>定时器</h4><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">throttle</span>(<span class="params">func, wait</span>) </span>&#123;</span><br><span class="line">    <span class="keyword">let</span> timeout;</span><br><span class="line">    <span class="keyword">return</span> <span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">        <span class="keyword">let</span> context = <span class="keyword">this</span>;</span><br><span class="line">        <span class="keyword">let</span> args = <span class="built_in">arguments</span>;</span><br><span class="line">        <span class="keyword">if</span> (!timeout) &#123;</span><br><span class="line">            timeout = setTimeout(<span class="function"><span class="params">()</span> =&gt;</span> &#123;</span><br><span class="line">                timeout = <span class="literal">null</span>;</span><br><span class="line">                func.apply(context, args)</span><br><span class="line">            &#125;, wait)</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-
-<p><strong>时间戳版和定时器版的节流函数的区别就是，时间戳版的函数触发是在时间段内开始的时候，而定时器版的函数触发是在时间段内结束的时候。</strong></p>
-<h4 id="结合版本"><a href="#结合版本" class="headerlink" title="结合版本"></a>结合版本</h4><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@desc </span>函数节流</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@param </span>func 函数</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@param </span>wait 延迟执行毫秒数</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@param </span>type 1 表时间戳版，2 表定时器版</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">throttle</span>(<span class="params">func, wait ,type</span>) </span>&#123;</span><br><span class="line">    <span class="keyword">if</span>(type===<span class="number">1</span>)&#123;</span><br><span class="line">        <span class="keyword">let</span> previous = <span class="number">0</span>;</span><br><span class="line">    &#125;<span class="keyword">else</span> <span class="keyword">if</span>(type===<span class="number">2</span>)&#123;</span><br><span class="line">        <span class="keyword">let</span> timeout;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> <span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">        <span class="keyword">let</span> context = <span class="keyword">this</span>;</span><br><span class="line">        <span class="keyword">let</span> args = <span class="built_in">arguments</span>;</span><br><span class="line">        <span class="keyword">if</span>(type===<span class="number">1</span>)&#123;</span><br><span class="line">            <span class="keyword">let</span> now = <span class="built_in">Date</span>.now();</span><br><span class="line"></span><br><span class="line">            <span class="keyword">if</span> (now - previous &gt; wait) &#123;</span><br><span class="line">                func.apply(context, args);</span><br><span class="line">                previous = now;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;<span class="keyword">else</span> <span class="keyword">if</span>(type===<span class="number">2</span>)&#123;</span><br><span class="line">            <span class="keyword">if</span> (!timeout) &#123;</span><br><span class="line">                timeout = setTimeout(<span class="function"><span class="params">()</span> =&gt;</span> &#123;</span><br><span class="line">                    timeout = <span class="literal">null</span>;</span><br><span class="line">                    func.apply(context, args)</span><br><span class="line">                &#125;, wait)</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+        <h2 id="页面提升性能的方法有哪些？"><a href="#页面提升性能的方法有哪些？" class="headerlink" title="页面提升性能的方法有哪些？"></a>页面提升性能的方法有哪些？</h2><ol>
+<li>资源压缩合并，减少HTTP请求</li>
+<li>非核心代码异步加载–&gt;异步加载的方式–&gt;异步加载的区别</li>
+<li>利用浏览器缓存–&gt;缓存的分类–&gt;缓存的原理</li>
+<li>使用CDN</li>
+<li>预解析DNS<a id="more"></a>
+<h2 id="异步加载"><a href="#异步加载" class="headerlink" title="异步加载"></a>异步加载</h2><h3 id="异步加载的方式"><a href="#异步加载的方式" class="headerlink" title="异步加载的方式"></a>异步加载的方式</h3><h4 id="动态脚本加载"><a href="#动态脚本加载" class="headerlink" title="动态脚本加载"></a>动态脚本加载</h4></li>
+</ol>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">script</span> <span class="attr">src</span>=<span class="string">"script.js"</span>&gt;</span><span class="tag">&lt;/<span class="name">script</span>&gt;</span></span><br></pre></td></tr></table></figure>
+<p>没有 defer 或 async，浏览器会立即加载并执行指定的脚本，“立即”指的是在渲染该 script 标签之下的文档元素之前，也就是说不等待后续载入的文档元素，读到就加载并执行。</p>
+<h4 id="async"><a href="#async" class="headerlink" title="async"></a>async</h4><figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">script</span> <span class="attr">async</span> <span class="attr">src</span>=<span class="string">"script.js"</span>&gt;</span><span class="tag">&lt;/<span class="name">script</span>&gt;</span></span><br></pre></td></tr></table></figure>
+<p>有 async，加载和渲染后续文档元素的过程将和 script.js 的加载与执行并行进行（异步）。</p>
+<h4 id="defer"><a href="#defer" class="headerlink" title="defer"></a>defer</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&lt;script defer src&#x3D;&quot;myscript.js&quot;&gt;&lt;&#x2F;script&gt;</span><br></pre></td></tr></table></figure>
+<p>有 defer，加载后续文档元素的过程将和 script.js 的加载并行进行（异步），但是 script.js 的执行要在所有元素解析完成之后，DOMContentLoaded 事件触发之前完成。</p>
+<p><img src="/2019/10/11/%E9%A1%B5%E9%9D%A2%E6%80%A7%E8%83%BD%E4%BC%98%E5%8C%96/youhua1.png" alt="image"></p>
+<h3 id="异步加载的区别"><a href="#异步加载的区别" class="headerlink" title="异步加载的区别"></a>异步加载的区别</h3><ol>
+<li>defer 和 async 在网络读取（下载）这块儿是一样的，都是异步的（相较于 HTML 解析）</li>
+<li>它俩的差别在于脚本下载完之后何时执行，显然 defer 是最接近我们对于应用脚本加载和执行的要求的</li>
+<li>关于 defer，此图未尽之处在于它是按照加载顺序执行脚本的，这一点要善加利用</li>
+<li>async 则是一个乱序执行的主，反正对它来说脚本的加载和执行是紧紧挨着的，所以不管你声明的顺序如何，只要它加载完了就会立刻执行</li>
+<li>仔细想想，async 对于应用脚本的用处不大，因为它完全不考虑依赖（哪怕是最低级的顺序执行），不过它对于那些可以不依赖任何脚本或不被任何脚本依赖的脚本来说却是非常合适的，最典型的例子：Google Analytics</li>
+</ol>
+<h2 id="浏览器缓存"><a href="#浏览器缓存" class="headerlink" title="浏览器缓存"></a>浏览器缓存</h2><h3 id="缓存的分类"><a href="#缓存的分类" class="headerlink" title="缓存的分类"></a>缓存的分类</h3><p>浏览器的缓存分类有两个：</p>
+<ol>
+<li>强缓存</li>
+<li>协商缓存</li>
+</ol>
+<h3 id="强缓存"><a href="#强缓存" class="headerlink" title="强缓存"></a>强缓存</h3><p>什么是强缓存？强在哪？其实强是强制的意思。当浏览器去请求某个文件的时候，服务端就在respone header里面对该文件做了缓存配置。缓存的时间、缓存类型都由服务端控制。</p>
+<h4 id="Expires"><a href="#Expires" class="headerlink" title="Expires"></a>Expires</h4><p>Expires: Thu, 01 Dec 1994 16:00:00 GMT<br>使用的是本地时间和服务器时间做对比</p>
+<h4 id="Cache-Control"><a href="#Cache-Control" class="headerlink" title="Cache-Control"></a>Cache-Control</h4><ol>
+<li><p>cache-control: max-age=xxxx，public<br>客户端和代理服务器都可以缓存该资源；<br>客户端在xxx秒的有效期内，如果有请求该资源的需求的话就直接读取缓存,statu code:200 ，如果用户做了刷新操作，就向服务器发起http请求</p>
+</li>
+<li><p>cache-control: max-age=xxxx，private<br>只让客户端可以缓存该资源；代理服务器不缓存<br>客户端在xxx秒内直接读取缓存,statu code:200</p>
+</li>
+<li><p>cache-control: max-age=xxxx，immutable<br>客户端在xxx秒的有效期内，如果有请求该资源的需求的话就直接读取缓存,statu code:200 ，即使用户做了刷新操作，也不向服务器发起http请求</p>
+</li>
+<li><p>cache-control: no-cache<br>跳过设置强缓存，但是不妨碍设置协商缓存；一般如果你做了强缓存，只有在强缓存失效了才走协商缓存的，设置了no-cache就不会走强缓存了，每次请求都回询问服务端。</p>
+</li>
+<li><p>cache-control: no-store<br>不缓存，这个会让客户端、服务器都不缓存，也就没有所谓的强缓存、协商缓存了。</p>
+</li>
+</ol>
+<p><strong>Cache-Control优先于Expires</strong></p>
+<h3 id="协商缓存"><a href="#协商缓存" class="headerlink" title="协商缓存"></a>协商缓存</h3><p>上面说到的强缓存就是给资源设置个过期时间，客户端每次请求资源时都会看是否过期；只有在过期才会去询问服务器。所以，强缓存就是为了给客户端自给自足用的。而当某天，客户端请求该资源时发现其过期了，这是就会去请求服务器了，而这时候去请求服务器的这过程就可以设置协商缓存。这时候，协商缓存就是需要客户端和服务器两端进行交互的。</p>
+<h4 id="Last-Modified（服务器下发值）-If-Modified-Since（浏览器请求头）"><a href="#Last-Modified（服务器下发值）-If-Modified-Since（浏览器请求头）" class="headerlink" title="Last-Modified（服务器下发值） If-Modified-Since（浏览器请求头）"></a>Last-Modified（服务器下发值） If-Modified-Since（浏览器请求头）</h4><p>Last-Modified：上次修改时间<br>每次请求加上上次返回的修改时间，服务器进行对比，如果资源正确，返回304，使用缓存。</p>
+<h4 id="Etag（Hash值）-If-None-Match"><a href="#Etag（Hash值）-If-None-Match" class="headerlink" title="Etag（Hash值） If-None-Match"></a>Etag（Hash值） If-None-Match</h4><p>每次请求加上之前返回的hash值，如果正确，则返回304，使用缓存。</p>
 
     </article>
     <!-- license  -->
@@ -436,17 +454,12 @@ height:50vh;
     <ul class="post-paginator">
         <li class="next">
             
-                <div class="nextSlogan">Next Post</div>
-                <a href= "/2019/04/19/%E9%A1%B5%E9%9D%A2%E5%B8%83%E5%B1%80/" title= "页面布局">
-                    <div class="nextTitle">页面布局</div>
-                </a>
-            
         </li>
         <li class="previous">
             
                 <div class="prevSlogan">Previous Post</div>
-                <a href= "/2019/04/01/vue%E7%94%9F%E5%91%BD%E5%91%A8%E6%9C%9F%E4%BB%A5%E5%8F%8AnextTick%E5%BA%94%E7%94%A8/" title= "vue生命周期以及nextTick应用">
-                    <div class="prevTitle">vue生命周期以及nextTick应用</div>
+                <a href= "/2019/10/07/%E4%BA%8B%E4%BB%B6%E5%BE%AA%E7%8E%AFEventLoop/" title= "事件循环EventLoop">
+                    <div class="prevTitle">事件循环EventLoop</div>
                 </a>
             
         </li>
@@ -557,7 +570,7 @@ top:50vh;
         <div class="toc-catalog">
             <span class="iconfont-archer catalog-icon">&#xe613;</span><span>CATALOG</span>
         </div>
-        <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#什么是防抖？什么是节流？"><span class="toc-number">1.</span> <span class="toc-text">什么是防抖？什么是节流？</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#防抖（debounce）"><span class="toc-number">1.1.</span> <span class="toc-text">防抖（debounce）</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#节流（throttle）"><span class="toc-number">1.2.</span> <span class="toc-text">节流（throttle）</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#防抖和节流的应用场景"><span class="toc-number">2.</span> <span class="toc-text">防抖和节流的应用场景</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#防抖"><span class="toc-number">2.1.</span> <span class="toc-text">防抖</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#节流"><span class="toc-number">2.2.</span> <span class="toc-text">节流</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#防抖和节流的实现"><span class="toc-number">3.</span> <span class="toc-text">防抖和节流的实现</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#防抖-1"><span class="toc-number">3.1.</span> <span class="toc-text">防抖</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#延时版"><span class="toc-number">3.1.1.</span> <span class="toc-text">延时版</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#立即执行版"><span class="toc-number">3.1.2.</span> <span class="toc-text">立即执行版</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#延时版和立即执行版结合"><span class="toc-number">3.1.3.</span> <span class="toc-text">延时版和立即执行版结合</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#节流-1"><span class="toc-number">3.2.</span> <span class="toc-text">节流</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#时间戳"><span class="toc-number">3.2.1.</span> <span class="toc-text">时间戳</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#定时器"><span class="toc-number">3.2.2.</span> <span class="toc-text">定时器</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#结合版本"><span class="toc-number">3.2.3.</span> <span class="toc-text">结合版本</span></a></li></ol></li></ol></li></ol>
+        <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#页面提升性能的方法有哪些？"><span class="toc-number">1.</span> <span class="toc-text">页面提升性能的方法有哪些？</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#异步加载"><span class="toc-number">2.</span> <span class="toc-text">异步加载</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#异步加载的方式"><span class="toc-number">2.1.</span> <span class="toc-text">异步加载的方式</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#动态脚本加载"><span class="toc-number">2.1.1.</span> <span class="toc-text">动态脚本加载</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#async"><span class="toc-number">2.1.2.</span> <span class="toc-text">async</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#defer"><span class="toc-number">2.1.3.</span> <span class="toc-text">defer</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#异步加载的区别"><span class="toc-number">2.2.</span> <span class="toc-text">异步加载的区别</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#浏览器缓存"><span class="toc-number">3.</span> <span class="toc-text">浏览器缓存</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#缓存的分类"><span class="toc-number">3.1.</span> <span class="toc-text">缓存的分类</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#强缓存"><span class="toc-number">3.2.</span> <span class="toc-text">强缓存</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#Expires"><span class="toc-number">3.2.1.</span> <span class="toc-text">Expires</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#Cache-Control"><span class="toc-number">3.2.2.</span> <span class="toc-text">Cache-Control</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#协商缓存"><span class="toc-number">3.3.</span> <span class="toc-text">协商缓存</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#Last-Modified（服务器下发值）-If-Modified-Since（浏览器请求头）"><span class="toc-number">3.3.1.</span> <span class="toc-text">Last-Modified（服务器下发值） If-Modified-Since（浏览器请求头）</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#Etag（Hash值）-If-None-Match"><span class="toc-number">3.3.2.</span> <span class="toc-text">Etag（Hash值） If-None-Match</span></a></li></ol></li></ol></li></ol>
     </div>
     
     <div class="back-top iconfont-archer">&#xe639;</div>
