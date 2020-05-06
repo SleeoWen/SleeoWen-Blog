@@ -2,7 +2,7 @@
 layout: '[post]'
 title: vue生命周期以及nextTick应用
 date: 2019-04-01 10:14:30
-tags: vue
+tags: Vue
 ---
 
 ## vue 的生命周期
