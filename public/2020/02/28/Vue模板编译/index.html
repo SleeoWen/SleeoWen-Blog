@@ -404,20 +404,19 @@ height:50vh;
         <h2 id="模版编译"><a href="#模版编译" class="headerlink" title="模版编译"></a>模版编译</h2><ul>
 <li>模版是vue开发中最常用的部分，即与使用相关的原理</li>
 <li>不是html，有指令等</li>
-<li>组件渲染和更新的过程<a id="more"></a>
+<li>组件渲染和更新的过程</li>
+</ul>
+<a id="more"></a>
 <h3 id="js的with语法"><a href="#js的with语法" class="headerlink" title="js的with语法"></a>js的with语法</h3><ul>
 <li>改变{}内自由变量的查找规则，当作obj的属性来查找</li>
 <li>如果找不到匹配的属性，则报错</li>
 <li>with慎用，打破了作用域的规则，易读性差</li>
 </ul>
-</li>
-</ul>
 <h3 id="vue-template-complier将模版编译为render函数"><a href="#vue-template-complier将模版编译为render函数" class="headerlink" title="vue template complier将模版编译为render函数"></a>vue template complier将模版编译为render函数</h3><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> compiler = <span class="built_in">require</span>(<span class="string">'vue-template-compiler'</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment">// 插值</span></span><br><span class="line"><span class="keyword">const</span> template = <span class="string">`&lt;p&gt;&#123;&#123;message&#125;&#125;&lt;/p&gt;`</span></span><br><span class="line"><span class="comment">// with(this)&#123;return createElement('p',[createTextVNode(toString(message))])&#125;</span></span><br><span class="line"><span class="comment">// h -&gt; vnode</span></span><br><span class="line"><span class="comment">// createElement -&gt; vnode</span></span><br><span class="line"></span><br><span class="line"><span class="comment">// // 表达式</span></span><br><span class="line"><span class="keyword">const</span> template = <span class="string">`&lt;p&gt;&#123;&#123;flag ? message : 'no message found'&#125;&#125;&lt;/p&gt;`</span></span><br><span class="line"><span class="comment">// // with(this)&#123;return _c('p',[_v(_s(flag ? message : 'no message found'))])&#125;</span></span><br><span class="line"></span><br><span class="line"><span class="comment">// // 属性和动态属性</span></span><br><span class="line"><span class="keyword">const</span> template = <span class="string">`</span></span><br><span class="line"><span class="string">    &lt;div id="div1" class="container"&gt;</span></span><br><span class="line"><span class="string">        &lt;img :src="imgUrl"/&gt;</span></span><br><span class="line"><span class="string">    &lt;/div&gt;</span></span><br><span class="line"><span class="string">`</span></span><br><span class="line"><span class="comment">// with(this)&#123;return _c('div',</span></span><br><span class="line"><span class="comment">//      &#123;staticClass:"container",attrs:&#123;"id":"div1"&#125;&#125;,</span></span><br><span class="line"><span class="comment">//      [</span></span><br><span class="line"><span class="comment">//          _c('img',&#123;attrs:&#123;"src":imgUrl&#125;&#125;)])&#125;</span></span><br><span class="line"></span><br><span class="line"><span class="comment">// // 条件</span></span><br><span class="line"><span class="keyword">const</span> template = <span class="string">`</span></span><br><span class="line"><span class="string">    &lt;div&gt;</span></span><br><span class="line"><span class="string">        &lt;p v-if="flag === 'a'"&gt;A&lt;/p&gt;</span></span><br><span class="line"><span class="string">        &lt;p v-else-if="flag === 'b'"&gt;C&lt;/p&gt;</span></span><br><span class="line"><span class="string">        &lt;p v-else&gt;B&lt;/p&gt;</span></span><br><span class="line"><span class="string">    &lt;/div&gt;</span></span><br><span class="line"><span class="string">`</span></span><br><span class="line"><span class="comment">// with(this)&#123;return _c('div',[(flag === 'a')?_c('p',[_v("A")]):_c('p',[_v("B")])])&#125;</span></span><br><span class="line"></span><br><span class="line"><span class="comment">// 循环</span></span><br><span class="line"><span class="keyword">const</span> template = <span class="string">`</span></span><br><span class="line"><span class="string">    &lt;ul&gt;</span></span><br><span class="line"><span class="string">        &lt;li v-for="item in list" :key="item.id"&gt;&#123;&#123;item.title&#125;&#125;&lt;/li&gt;</span></span><br><span class="line"><span class="string">    &lt;/ul&gt;</span></span><br><span class="line"><span class="string">`</span></span><br><span class="line"><span class="comment">// with(this)&#123;return _c('ul',_l((list),function(item)&#123;return _c('li',&#123;key:item.id&#125;,[_v(_s(item.title))])&#125;),0)&#125;</span></span><br><span class="line"></span><br><span class="line"><span class="comment">// 事件</span></span><br><span class="line"><span class="keyword">const</span> template = <span class="string">`</span></span><br><span class="line"><span class="string">    &lt;button @click="clickHandler"&gt;submit&lt;/button&gt;</span></span><br><span class="line"><span class="string">`</span></span><br><span class="line"><span class="comment">// with(this)&#123;return _c('button',&#123;on:&#123;"click":clickHandler&#125;&#125;,[_v("submit")])&#125;</span></span><br><span class="line"></span><br><span class="line"><span class="comment">// v-model</span></span><br><span class="line"><span class="keyword">const</span> template = <span class="string">`&lt;input type="text" v-model="name"&gt;`</span></span><br><span class="line"><span class="comment">// 主要看 input 事件</span></span><br><span class="line"><span class="comment">// with(this)&#123;return _c('input',&#123;directives:[&#123;name:"model",rawName:"v-model",value:(name),expression:"name"&#125;],attrs:&#123;"type":"text"&#125;,domProps:&#123;"value":(name)&#125;,on:&#123;"input":function($event)&#123;if($event.target.composing)return;name=$event.target.value&#125;&#125;&#125;)&#125;</span></span><br><span class="line"></span><br><span class="line"><span class="comment">// render 函数</span></span><br><span class="line"><span class="comment">// 返回 vnode</span></span><br><span class="line"><span class="comment">// patch</span></span><br><span class="line"></span><br><span class="line"><span class="comment">// 编译</span></span><br><span class="line"><span class="keyword">const</span> res = compiler.compile(template)</span><br><span class="line"><span class="built_in">console</span>.log(res.render)</span><br><span class="line"></span><br><span class="line"><span class="comment">// ---------------分割线--------------</span></span><br><span class="line"></span><br><span class="line"><span class="comment">// // 从 vue 源码中找到缩写函数的含义</span></span><br><span class="line"><span class="comment">// function installRenderHelpers (target) &#123;</span></span><br><span class="line"><span class="comment">//     target._o = markOnce;</span></span><br><span class="line"><span class="comment">//     target._n = toNumber;</span></span><br><span class="line"><span class="comment">//     target._s = toString;</span></span><br><span class="line"><span class="comment">//     target._l = renderList;</span></span><br><span class="line"><span class="comment">//     target._t = renderSlot;</span></span><br><span class="line"><span class="comment">//     target._q = looseEqual;</span></span><br><span class="line"><span class="comment">//     target._i = looseIndexOf;</span></span><br><span class="line"><span class="comment">//     target._m = renderStatic;</span></span><br><span class="line"><span class="comment">//     target._f = resolveFilter;</span></span><br><span class="line"><span class="comment">//     target._k = checkKeyCodes;</span></span><br><span class="line"><span class="comment">//     target._b = bindObjectProps;</span></span><br><span class="line"><span class="comment">//     target._v = createTextVNode;</span></span><br><span class="line"><span class="comment">//     target._e = createEmptyVNode;</span></span><br><span class="line"><span class="comment">//     target._u = resolveScopedSlots;</span></span><br><span class="line"><span class="comment">//     target._g = bindObjectListeners;</span></span><br><span class="line"><span class="comment">//     target._d = bindDynamicKeys;</span></span><br><span class="line"><span class="comment">//     target._p = prependModifier;</span></span><br><span class="line"><span class="comment">// &#125;</span></span><br></pre></td></tr></table></figure>
 
 
 <h3 id="执行render-生成-vnode"><a href="#执行render-生成-vnode" class="headerlink" title="执行render 生成 vnode"></a>执行render 生成 vnode</h3><p>执行render函数生成vnode</p>
-<p>###总结</p>
-<ul>
+<h3 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h3><ul>
 <li>模版编译为render函数，执行render函数返回vnode</li>
 <li>基于vonde再执行patch和diff</li>
 <li>使用webpack vue-loader，会在开发环境下编译模版</li>
@@ -439,8 +438,8 @@ height:50vh;
         <li class="previous">
             
                 <div class="prevSlogan">Previous Post</div>
-                <a href= "/2020/02/13/%E8%99%9A%E6%8B%9FDOM/" title= "虚拟DOM">
-                    <div class="prevTitle">虚拟DOM</div>
+                <a href= "/2020/02/12/Vue%E8%99%9A%E6%8B%9FDOM/" title= "Vue虚拟DOM">
+                    <div class="prevTitle">Vue虚拟DOM</div>
                 </a>
             
         </li>
@@ -551,7 +550,7 @@ top:50vh;
         <div class="toc-catalog">
             <span class="iconfont-archer catalog-icon">&#xe613;</span><span>CATALOG</span>
         </div>
-        <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#模版编译"><span class="toc-number">1.</span> <span class="toc-text">模版编译</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#js的with语法"><span class="toc-number">1.1.</span> <span class="toc-text">js的with语法</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#vue-template-complier将模版编译为render函数"><span class="toc-number">1.2.</span> <span class="toc-text">vue template complier将模版编译为render函数</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#执行render-生成-vnode"><span class="toc-number">1.3.</span> <span class="toc-text">执行render 生成 vnode</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#可以使用render代替template"><span class="toc-number">1.4.</span> <span class="toc-text">可以使用render代替template</span></a></li></ol></li></ol>
+        <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#模版编译"><span class="toc-number">1.</span> <span class="toc-text">模版编译</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#js的with语法"><span class="toc-number">1.1.</span> <span class="toc-text">js的with语法</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#vue-template-complier将模版编译为render函数"><span class="toc-number">1.2.</span> <span class="toc-text">vue template complier将模版编译为render函数</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#执行render-生成-vnode"><span class="toc-number">1.3.</span> <span class="toc-text">执行render 生成 vnode</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#总结"><span class="toc-number">1.4.</span> <span class="toc-text">总结</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#可以使用render代替template"><span class="toc-number">1.5.</span> <span class="toc-text">可以使用render代替template</span></a></li></ol></li></ol>
     </div>
     
     <div class="back-top iconfont-archer">&#xe639;</div>
@@ -1030,24 +1029,9 @@ top:50vh;
     
     
     
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
     <div class="total-and-search">
         <div class="total-archive">
-        Total : 37
+        Total : 36
         </div>
         <!-- search  -->
         
@@ -1074,11 +1058,6 @@ top:50vh;
     
         <li class="archive-post-item">
             <span class="archive-post-date">02/28</span><a class="archive-post-title" href= "/2020/02/28/Vue%E6%A8%A1%E6%9D%BF%E7%BC%96%E8%AF%91/" >Vue模板编译</a>
-        </li>
-    
-    
-        <li class="archive-post-item">
-            <span class="archive-post-date">02/13</span><a class="archive-post-title" href= "/2020/02/13/%E8%99%9A%E6%8B%9FDOM/" >虚拟DOM</a>
         </li>
     
     

@@ -5,11 +5,14 @@ date: 2020-02-28 13:57:05
 tags: Vue
 ---
 ## 模版编译
+
 - 模版是vue开发中最常用的部分，即与使用相关的原理
 - 不是html，有指令等
 - 组件渲染和更新的过程
+
 <!-- more -->
 ### js的with语法
+
  - 改变{}内自由变量的查找规则，当作obj的属性来查找
  - 如果找不到匹配的属性，则报错
  - with慎用，打破了作用域的规则，易读性差
@@ -104,9 +107,11 @@ console.log(res.render)
 
 
 ### 执行render 生成 vnode
+
 执行render函数生成vnode
 
-###总结
+### 总结
+
 - 模版编译为render函数，执行render函数返回vnode
 - 基于vonde再执行patch和diff
 - 使用webpack vue-loader，会在开发环境下编译模版
