@@ -7,7 +7,7 @@
     "clean": "hexo clean",
     "deploy": "hexo deploy",
     "server": "hexo server",
-    "newPage": "hexo new [post] 算法高频问题",
+    "newPage": "hexo new [post] 如何实现一个深拷贝",
     "update": "hexo deploy"
   },
   "hexo": {
