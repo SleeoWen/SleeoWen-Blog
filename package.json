@@ -7,7 +7,7 @@
     "clean": "hexo clean",
     "deploy": "hexo deploy",
     "server": "hexo server",
-    "newPage": "hexo new [post] 如何实现一个深拷贝",
+    "newPage": "hexo new [post] call、apply、bind",
     "update": "hexo deploy"
   },
   "hexo": {
