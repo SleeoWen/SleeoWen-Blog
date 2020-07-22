@@ -266,7 +266,7 @@ height:50vh;
                 
                     <div class= post-intro-tags >
     
-        <a class="post-tag" href="javascript:void(0);" data-tags = "vue">vue</a>
+        <a class="post-tag" href="javascript:void(0);" data-tags = "Vue">Vue</a>
     
 </div>
                 
@@ -401,8 +401,8 @@ height:50vh;
         <div class="container container-unloaded">
             <main class="main post-page">
     <article class="article-entry">
-        <a id="more"></a>
-<h2 id="vm-on-event-callback-vue-API"><a href="#vm-on-event-callback-vue-API" class="headerlink" title="vm.$on(event, callback)vue API"></a>vm.$on(event, callback)<a href="https://cn.vuejs.org/v2/api/#vm-on" target="_blank" rel="noopener">vue API</a></h2><p><strong>用法：</strong> 监听当前实例上的自定义事件。事件可以由 <code>vm.$emit</code> 触发。回调函数会接收所有传入事件触发函数的额外参数。</p>
+        <h2 id="vm-on-event-callback-vue-API"><a href="#vm-on-event-callback-vue-API" class="headerlink" title="vm.$on(event, callback)vue API"></a>vm.$on(event, callback)<a href="https://cn.vuejs.org/v2/api/#vm-on" target="_blank" rel="noopener">vue API</a></h2><a id="more"></a>
+<p><strong>用法：</strong> 监听当前实例上的自定义事件。事件可以由 <code>vm.$emit</code> 触发。回调函数会接收所有传入事件触发函数的额外参数。</p>
 <figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">vm.$on(<span class="string">'test'</span>, <span class="function"><span class="keyword">function</span> (<span class="params">msg</span>) </span>&#123;</span><br><span class="line">  <span class="built_in">console</span>.log(msg)</span><br><span class="line">&#125;)</span><br><span class="line">vm.$emit(<span class="string">'test'</span>, <span class="string">'hi'</span>)</span><br><span class="line"><span class="comment">// =&gt; "hi"</span></span><br></pre></td></tr></table></figure>
 
 <h2 id="vm-once-event-callback-vue-API"><a href="#vm-once-event-callback-vue-API" class="headerlink" title="vm.$once(event, callback) vue API"></a>vm.$once(event, callback) <a href="https://cn.vuejs.org/v2/api/#vm-once" target="_blank" rel="noopener">vue API</a></h2><p><strong>用法：</strong> 监听一个自定义事件，但是只触发一次。一旦触发之后，监听器就会被移除。</p>
@@ -432,6 +432,11 @@ height:50vh;
     <!-- paginator  -->
     <ul class="post-paginator">
         <li class="next">
+            
+                <div class="nextSlogan">Next Post</div>
+                <a href= "/2020/07/22/vue%E5%BC%80%E5%8F%91%E6%8A%80%E5%B7%A7%EF%BC%88%E4%B8%80%EF%BC%89/" title= "vue开发技巧（一）">
+                    <div class="nextTitle">vue开发技巧（一）</div>
+                </a>
             
         </li>
         <li class="previous">
@@ -1331,9 +1336,26 @@ top:50vh;
     
     
     
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
     <div class="total-and-search">
         <div class="total-archive">
-        Total : 55
+        Total : 56
         </div>
         <!-- search  -->
         
@@ -1346,6 +1368,11 @@ top:50vh;
     
     <div class="archive-year"> 2020 </div>
     <ul class="year-list">
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">07/22</span><a class="archive-post-title" href= "/2020/07/22/vue%E5%BC%80%E5%8F%91%E6%8A%80%E5%B7%A7%EF%BC%88%E4%B8%80%EF%BC%89/" >vue开发技巧（一）</a>
+        </li>
     
     
         <li class="archive-post-item">
@@ -1645,8 +1672,6 @@ top:50vh;
         <span class="sidebar-tag-name" data-tags="Vue"><span class="iconfont-archer">&#xe606;</span>Vue</span>
     
         <span class="sidebar-tag-name" data-tags="http"><span class="iconfont-archer">&#xe606;</span>http</span>
-    
-        <span class="sidebar-tag-name" data-tags="vue"><span class="iconfont-archer">&#xe606;</span>vue</span>
     
         <span class="sidebar-tag-name" data-tags="css"><span class="iconfont-archer">&#xe606;</span>css</span>
     

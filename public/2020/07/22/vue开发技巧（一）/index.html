@@ -1,0 +1,1843 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+    <!-- title -->
+
+
+
+
+<!-- keywords -->
+
+
+
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no" >
+    <meta name="author" content="文宇函">
+    <meta name="renderer" content="webkit">
+    <meta name="copyright" content="文宇函">
+    
+    <meta name="keywords" content="hexo,前端,js,vue,web">
+    
+    <meta name="description" content="个人的学习经历">
+    <meta http-equiv="Cache-control" content="no-cache">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1"/>
+    <title>vue开发技巧（一） · SleeoWen-Blog</title>
+    <style type="text/css">
+    @font-face {
+        font-family: 'Oswald-Regular';
+        src: url("/font/Oswald-Regular.ttf");
+    }
+
+    body {
+        margin: 0;
+    }
+
+    header,
+    footer,
+    .back-top,
+    .sidebar,
+    .container,
+    .site-intro-meta,
+    .toc-wrapper {
+        display: none;
+    }
+
+    .site-intro {
+        position: relative;
+        z-index: 3;
+        width: 100%;
+        /* height: 50vh; */
+        overflow: hidden;
+    }
+
+    .site-intro-placeholder {
+        position: absolute;
+        z-index: -2;
+        top: 0;
+        left: 0;
+        width: calc(100% + 300px);
+        height: 100%;
+        background: repeating-linear-gradient(-45deg, #444 0, #444 80px, #333 80px, #333 160px);
+        background-position: center center;
+        transform: translate3d(-226px, 0, 0);
+        animation: gradient-move 2.5s ease-out 0s infinite;
+    }
+
+    @keyframes gradient-move {
+        0% {
+            transform: translate3d(-226px, 0, 0);
+        }
+        100% {
+            transform: translate3d(0, 0, 0);
+        }
+    }
+
+</style>
+
+    <link rel="preload" href= "/css/style.css?v=20180824" as="style" onload="this.onload=null;this.rel='stylesheet'" />
+    <link rel="stylesheet" href= "/css/mobile.css?v=20180824" media="(max-width: 980px)">
+    
+    <link rel="preload" href="https://cdnjs.cloudflare.com/ajax/libs/fancybox/3.2.5/jquery.fancybox.min.css" as="style" onload="this.onload=null;this.rel='stylesheet'" />
+    
+    <!-- /*! loadCSS. [c]2017 Filament Group, Inc. MIT License */
+/* This file is meant as a standalone workflow for
+- testing support for link[rel=preload]
+- enabling async CSS loading in browsers that do not support rel=preload
+- applying rel preload css once loaded, whether supported or not.
+*/ -->
+<script>
+(function( w ){
+	"use strict";
+	// rel=preload support test
+	if( !w.loadCSS ){
+		w.loadCSS = function(){};
+	}
+	// define on the loadCSS obj
+	var rp = loadCSS.relpreload = {};
+	// rel=preload feature support test
+	// runs once and returns a function for compat purposes
+	rp.support = (function(){
+		var ret;
+		try {
+			ret = w.document.createElement( "link" ).relList.supports( "preload" );
+		} catch (e) {
+			ret = false;
+		}
+		return function(){
+			return ret;
+		};
+	})();
+
+	// if preload isn't supported, get an asynchronous load by using a non-matching media attribute
+	// then change that media back to its intended value on load
+	rp.bindMediaToggle = function( link ){
+		// remember existing media attr for ultimate state, or default to 'all'
+		var finalMedia = link.media || "all";
+
+		function enableStylesheet(){
+			link.media = finalMedia;
+		}
+
+		// bind load handlers to enable media
+		if( link.addEventListener ){
+			link.addEventListener( "load", enableStylesheet );
+		} else if( link.attachEvent ){
+			link.attachEvent( "onload", enableStylesheet );
+		}
+
+		// Set rel and non-applicable media type to start an async request
+		// note: timeout allows this to happen async to let rendering continue in IE
+		setTimeout(function(){
+			link.rel = "stylesheet";
+			link.media = "only x";
+		});
+		// also enable media after 3 seconds,
+		// which will catch very old browsers (android 2.x, old firefox) that don't support onload on link
+		setTimeout( enableStylesheet, 3000 );
+	};
+
+	// loop through link elements in DOM
+	rp.poly = function(){
+		// double check this to prevent external calls from running
+		if( rp.support() ){
+			return;
+		}
+		var links = w.document.getElementsByTagName( "link" );
+		for( var i = 0; i < links.length; i++ ){
+			var link = links[ i ];
+			// qualify links to those with rel=preload and as=style attrs
+			if( link.rel === "preload" && link.getAttribute( "as" ) === "style" && !link.getAttribute( "data-loadcss" ) ){
+				// prevent rerunning on link
+				link.setAttribute( "data-loadcss", true );
+				// bind listeners to toggle media back
+				rp.bindMediaToggle( link );
+			}
+		}
+	};
+
+	// if unsupported, run the polyfill
+	if( !rp.support() ){
+		// run once at least
+		rp.poly();
+
+		// rerun poly on an interval until onload
+		var run = w.setInterval( rp.poly, 500 );
+		if( w.addEventListener ){
+			w.addEventListener( "load", function(){
+				rp.poly();
+				w.clearInterval( run );
+			} );
+		} else if( w.attachEvent ){
+			w.attachEvent( "onload", function(){
+				rp.poly();
+				w.clearInterval( run );
+			} );
+		}
+	}
+
+
+	// commonjs
+	if( typeof exports !== "undefined" ){
+		exports.loadCSS = loadCSS;
+	}
+	else {
+		w.loadCSS = loadCSS;
+	}
+}( typeof global !== "undefined" ? global : this ) );
+</script>
+
+    <link rel="icon" href= "/assets/favicon.ico" />
+    <link rel="preload" href="https://cdn.jsdelivr.net/npm/webfontloader@1.6.28/webfontloader.min.js" as="script" />
+    <link rel="preload" href="https://cdn.jsdelivr.net/npm/jquery@3.3.1/dist/jquery.min.js" as="script" />
+    <link rel="preload" href="/scripts/main.js" as="script" />
+    <link rel="preload" as="font" href="/font/Oswald-Regular.ttf" crossorigin>
+    <link rel="preload" as="font" href="https://at.alicdn.com/t/font_327081_1dta1rlogw17zaor.woff" crossorigin>
+    
+    <!-- fancybox -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/fancybox/3.2.5/jquery.fancybox.min.js" defer></script>
+    <!-- 百度统计  -->
+    
+    <!-- 谷歌统计  -->
+    
+<meta name="generator" content="Hexo 4.2.0"></head>
+
+    
+        <body class="post-body">
+    
+    
+<header class="header">
+
+    <div class="read-progress"></div>
+    <div class="header-sidebar-menu">&#xe775;</div>
+    <!-- post页的toggle banner  -->
+    
+    <div class="banner">
+            <div class="blog-title">
+                <a href="/" >Sleeo&#39;s Blog.</a>
+            </div>
+            <div class="post-title">
+                <a href="#" class="post-name">vue开发技巧（一）</a>
+            </div>
+    </div>
+    
+    <a class="home-link" href=/>Sleeo's Blog.</a>
+</header>
+    <div class="wrapper">
+        <div class="site-intro" style="
+
+
+
+
+
+
+
+height:50vh;
+">
+    
+    <!-- 主页  -->
+    
+    
+    <!-- 404页  -->
+            
+    <div class="site-intro-placeholder"></div>
+    <div class="site-intro-img" style="background-image: url(/intro/post-bg.jpg)"></div>
+    <div class="site-intro-meta">
+        <!-- 标题  -->
+        <h1 class="intro-title">
+            <!-- 主页  -->
+            
+            vue开发技巧（一）
+            <!-- 404 -->
+            
+        </h1>
+        <!-- 副标题 -->
+        <p class="intro-subtitle">
+            <!-- 主页副标题  -->
+            
+            
+            <!-- 404 -->
+            
+        </p>
+        <!-- 文章页meta -->
+        
+            <div class="post-intros">
+                <!-- 文章页标签  -->
+                
+                    <div class= post-intro-tags >
+    
+        <a class="post-tag" href="javascript:void(0);" data-tags = "Vue">Vue</a>
+    
+</div>
+                
+                
+                    <div class="post-intro-read">
+                        <span>字数统计: <span class="post-count word-count">3.2k</span>阅读时长: <span class="post-count reading-time">12 min</span></span>
+                    </div>
+                
+                <div class="post-intro-meta">
+                    <span class="post-intro-calander iconfont-archer">&#xe676;</span>
+                    <span class="post-intro-time">2020/07/22</span>
+                    
+                    <span id="busuanzi_container_page_pv" class="busuanzi-pv">
+                        <span class="iconfont-archer">&#xe602;</span>
+                        <span id="busuanzi_value_page_pv"></span>
+                    </span>
+                    
+                    <span class="shareWrapper">
+                        <span class="iconfont-archer shareIcon">&#xe71d;</span>
+                        <span class="shareText">Share</span>
+                        <ul class="shareList">
+                            <li class="iconfont-archer share-qr" data-type="qr">&#xe75b;
+                                <div class="share-qrcode"></div>
+                            </li>
+                            <li class="iconfont-archer" data-type="weibo">&#xe619;</li>
+                            <li class="iconfont-archer" data-type="qzone">&#xe62e;</li>
+                            <li class="iconfont-archer" data-type="twitter">&#xe634;</li>
+                            <li class="iconfont-archer" data-type="facebook">&#xe67a;</li>
+                        </ul>
+                    </span>
+                </div>
+            </div>
+        
+    </div>
+</div>
+        <script>
+ 
+  // get user agent
+  var browser = {
+    versions: function () {
+      var u = window.navigator.userAgent;
+      return {
+        userAgent: u,
+        trident: u.indexOf('Trident') > -1, //IE内核
+        presto: u.indexOf('Presto') > -1, //opera内核
+        webKit: u.indexOf('AppleWebKit') > -1, //苹果、谷歌内核
+        gecko: u.indexOf('Gecko') > -1 && u.indexOf('KHTML') == -1, //火狐内核
+        mobile: !!u.match(/AppleWebKit.*Mobile.*/), //是否为移动终端
+        ios: !!u.match(/\(i[^;]+;( U;)? CPU.+Mac OS X/), //ios终端
+        android: u.indexOf('Android') > -1 || u.indexOf('Linux') > -1, //android终端或者uc浏览器
+        iPhone: u.indexOf('iPhone') > -1 || u.indexOf('Mac') > -1, //是否为iPhone或者安卓QQ浏览器
+        iPad: u.indexOf('iPad') > -1, //是否为iPad
+        webApp: u.indexOf('Safari') == -1, //是否为web应用程序，没有头部与底部
+        weixin: u.indexOf('MicroMessenger') == -1, //是否为微信浏览器
+        uc: u.indexOf('UCBrowser') > -1 //是否为android下的UC浏览器
+      };
+    }()
+  }
+  console.log("userAgent:" + browser.versions.userAgent);
+
+  // callback
+  function fontLoaded() {
+    console.log('font loaded');
+    if (document.getElementsByClassName('site-intro-meta')) {
+      document.getElementsByClassName('intro-title')[0].classList.add('intro-fade-in');
+      document.getElementsByClassName('intro-subtitle')[0].classList.add('intro-fade-in');
+      var postIntros = document.getElementsByClassName('post-intros')[0]
+      if (postIntros) {
+        postIntros.classList.add('post-fade-in');
+      }
+    }
+  }
+
+  // UC不支持跨域，所以直接显示
+  function asyncCb(){
+    if (browser.versions.uc) {
+      console.log("UCBrowser");
+      fontLoaded();
+    } else {
+      WebFont.load({
+        custom: {
+          families: ['Oswald-Regular']
+        },
+        loading: function () {  //所有字体开始加载
+          // console.log('loading');
+        },
+        active: function () {  //所有字体已渲染
+          fontLoaded();
+        },
+        inactive: function () { //字体预加载失败，无效字体或浏览器不支持加载
+          console.log('inactive: timeout');
+          fontLoaded();
+        },
+        timeout: 5000 // Set the timeout to two seconds
+      });
+    }
+  }
+
+  function asyncErr(){
+    console.warn('script load from CDN failed, will load local script')
+  }
+
+  // load webfont-loader async, and add callback function
+  function async(u, cb, err) {
+    var d = document, t = 'script',
+      o = d.createElement(t),
+      s = d.getElementsByTagName(t)[0];
+    o.src = u;
+    if (cb) { o.addEventListener('load', function (e) { cb(null, e); }, false); }
+    if (err) { o.addEventListener('error', function (e) { err(null, e); }, false); }
+    s.parentNode.insertBefore(o, s);
+  }
+
+  var asyncLoadWithFallBack = function(arr, success, reject) {
+      var currReject = function(){
+        reject()
+        arr.shift()
+        if(arr.length)
+          async(arr[0], success, currReject)
+        }
+
+      async(arr[0], success, currReject)
+  }
+
+  asyncLoadWithFallBack([
+    "https://cdn.jsdelivr.net/npm/webfontloader@1.6.28/webfontloader.min.js", 
+    "https://cdn.bootcss.com/webfont/1.6.28/webfontloader.js",
+    "/lib/webfontloader.min.js"
+  ], asyncCb, asyncErr)
+</script>        
+        <img class="loading" src="/assets/loading.svg" style="display: block; margin: 6rem auto 0 auto; width: 6rem; height: 6rem;" />
+        <div class="container container-unloaded">
+            <main class="main post-page">
+    <article class="article-entry">
+        <blockquote>
+<h3 id="学会使用-attrs-与-listeners，二次包装组件就靠它了"><a href="#学会使用-attrs-与-listeners，二次包装组件就靠它了" class="headerlink" title="学会使用$attrs 与 $listeners，二次包装组件就靠它了"></a>学会使用<code>$attrs</code> 与 <code>$listeners</code>，二次包装组件就靠它了</h3></blockquote>
+<a id="more"></a>
+<p>前几天产品经理给我甩过来一份管理系统的设计原型，我打开看了看，虽然内心是拒绝的，但是为了活着，还是要做的。小编看了看原型，发现系统中的大部分弹框右下角都是确定和取消两个按钮。如果使用 element-ui 提供的<code>Dialog</code>，那么每一个弹框都要手动加按钮，不但代码量增多，而且后面如果按钮 UI，需求发生变化，改动量也比较大。</p>
+<p><img src="https://user-gold-cdn.xitu.io/2020/6/10/1729c9983361f8d6?imageView2/0/w/1280/h/960/format/webp/ignore-error/1" alt></p>
+<p>如果可以将<code>Dialog</code>进行二次封装，将按钮封装到组件内部，就可以不用重复去写了。说干就干。</p>
+<h4 id="定义基本弹框代码"><a href="#定义基本弹框代码" class="headerlink" title="定义基本弹框代码"></a>定义基本弹框代码</h4><figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">template</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">el-dialog</span> <span class="attr">:visible.sync</span>=<span class="string">"visibleDialog"</span>&gt;</span></span><br><span class="line">    <span class="comment">&lt;!--内容区域的默认插槽--&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">slot</span>&gt;</span><span class="tag">&lt;/<span class="name">slot</span>&gt;</span></span><br><span class="line">    <span class="comment">&lt;!--使用弹框的footer插槽添加按钮--&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">template</span> #<span class="attr">footer</span>&gt;</span></span><br><span class="line">      <span class="comment">&lt;!--对外继续暴露footer插槽，有个别弹框按钮需要自定义--&gt;</span></span><br><span class="line">      <span class="tag">&lt;<span class="name">slot</span> &gt;</span></span><br><span class="line">        <span class="comment">&lt;!--将取消与确定按钮集成到内部--&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">span</span>&gt;</span></span><br><span class="line">          <span class="tag">&lt;<span class="name">el-button</span> @<span class="attr">click</span>=<span class="string">"$_handleCancel"</span>&gt;</span>取 消<span class="tag">&lt;/<span class="name">el-button</span>&gt;</span></span><br><span class="line">          <span class="tag">&lt;<span class="name">el-button</span> <span class="attr">type</span>=<span class="string">"primary"</span> @<span class="attr">click</span>=<span class="string">"$_handleConfirm"</span>&gt;</span></span><br><span class="line">            确 定</span><br><span class="line">          <span class="tag">&lt;/<span class="name">el-button</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;/<span class="name">span</span>&gt;</span></span><br><span class="line">      <span class="tag">&lt;/<span class="name">slot</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">template</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;/<span class="name">el-dialog</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">template</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">script</span>&gt;</span></span><br><span class="line"><span class="javascript"><span class="keyword">export</span> <span class="keyword">default</span> &#123;</span></span><br><span class="line">  props: &#123;</span><br><span class="line"><span class="actionscript">    <span class="comment">// 对外暴露visible属性，用于显示隐藏弹框</span></span></span><br><span class="line">    visible: &#123;</span><br><span class="line"><span class="javascript">      type: <span class="built_in">Boolean</span>,</span></span><br><span class="line"><span class="actionscript">      <span class="keyword">default</span>: <span class="literal">false</span></span></span><br><span class="line">    &#125;</span><br><span class="line">  &#125;,</span><br><span class="line">  computed: &#123;</span><br><span class="line"><span class="actionscript">    <span class="comment">// 通过计算属性，对.sync进行转换，外部也可以直接使用visible.sync</span></span></span><br><span class="line">    visibleDialog: &#123;</span><br><span class="line"><span class="javascript">      <span class="keyword">get</span>() &#123;</span></span><br><span class="line"><span class="actionscript">        <span class="keyword">return</span> <span class="keyword">this</span>.visible;</span></span><br><span class="line">      &#125;,</span><br><span class="line"><span class="javascript">      <span class="keyword">set</span>(val) &#123;</span></span><br><span class="line"><span class="actionscript">        <span class="keyword">this</span>.$emit(<span class="string">"update:visible"</span>,val);</span></span><br><span class="line">      &#125;</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;,</span><br><span class="line">  methods: &#123;</span><br><span class="line"><span class="actionscript">    <span class="comment">// 对外抛出cancel事件</span></span></span><br><span class="line">    $_handleCancel() &#123;</span><br><span class="line"><span class="actionscript">      <span class="keyword">this</span>.$emit(<span class="string">"cancel"</span>);</span></span><br><span class="line">    &#125;,</span><br><span class="line"><span class="actionscript">    <span class="comment">// 对外抛出 confirm事件</span></span></span><br><span class="line">    $_handleConfirm() &#123;</span><br><span class="line"><span class="actionscript">      <span class="keyword">this</span>.$emit(<span class="string">"confirm"</span>);</span></span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;;</span><br><span class="line"><span class="tag">&lt;/<span class="name">script</span>&gt;</span></span><br><span class="line">复制代码</span><br></pre></td></tr></table></figure>
+
+<p>通过上面的代码，我们已经将按钮封装到组件内部了，效果如下图所示：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">&lt;!--外部使用方式 confirm cancel 是自定义的事件 opened是包装el-dialog的事件，通过$listeners传入到el-dialog里面--&gt;</span><br><span class="line">&lt;custom-dialog :visible.sync&#x3D;&quot;visibleDialog&quot; @opened&#x3D;&quot;$_handleOpened&quot; @confirm&#x3D;&quot;$_handleConfirm&quot; @cancel&#x3D;&quot;$_handleCancel&quot;&gt;这是一段内容&lt;&#x2F;custom-dialog&gt;</span><br><span class="line">复制代码</span><br></pre></td></tr></table></figure>
+
+<p>效果图</p>
+<p><img src="https://user-gold-cdn.xitu.io/2020/6/10/1729ca8606fb94de?imageView2/0/w/1280/h/960/format/webp/ignore-error/1" alt></p>
+<p>但上面的代码存在一个问题，无法将<code>Dialog</code>自身的属性和事件暴露到外部（虽然可以通过<code>props</code>及<code>$emit</code>一个一个添加，但是很麻烦）, 这时候就可以使用<code>$attrs</code>与<code>$listeners</code></p>
+<h4 id="使用-attrs与-listeners"><a href="#使用-attrs与-listeners" class="headerlink" title="使用$attrs与$listeners"></a>使用<code>$attrs</code>与<code>$listeners</code></h4><blockquote>
+<p><code>$attrs</code>: 当组件在调用时传入的属性没有在<code>props</code>里面定义时，传入的属性将被绑定到<code>$attrs</code>属性内（<code>class</code>与<code>style</code>除外，他们会挂载到组件最外层元素上）。并可通过<code>v-bind=&quot;$attrs&quot;</code>传入到内部组件中</p>
+</blockquote>
+<blockquote>
+<p><code>$listeners</code>: 当组件被调用时，外部监听的这个组件的所有事件都可以通过<code>$listeners</code>获取到。并可通过<code>v-on=&quot;$listeners&quot;</code>传入到内部组件中。</p>
+</blockquote>
+<p>修改弹框代码</p>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">&lt;!---使用了v-bind与v-on监听属性与事件--&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">template</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">el-dialog</span> <span class="attr">:visible.sync</span>=<span class="string">"visibleDialog"</span> <span class="attr">v-bind</span>=<span class="string">"$attrs"</span> <span class="attr">v-on</span>=<span class="string">"$listeners"</span>&gt;</span></span><br><span class="line">    <span class="comment">&lt;!--其他代码不变--&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">el-dialog</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">template</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">script</span>&gt;</span></span><br><span class="line"><span class="javascript">  <span class="keyword">export</span> <span class="keyword">default</span> &#123;</span></span><br><span class="line"><span class="actionscript">    <span class="comment">//默认情况下父作用域的不被认作 props 的 attribute 绑定 (attribute bindings) </span></span></span><br><span class="line"><span class="actionscript">    <span class="comment">//将会“回退”且作为普通的 HTML attribute 应用在子组件的根元素上。</span></span></span><br><span class="line"><span class="actionscript">    <span class="comment">//通过设置 inheritAttrs 到 false，这些默认行为将会被去掉</span></span></span><br><span class="line"><span class="actionscript">    inheritAttrs: <span class="literal">false</span></span></span><br><span class="line"> &#125;</span><br><span class="line"><span class="tag">&lt;/<span class="name">script</span>&gt;</span></span><br><span class="line"></span><br><span class="line"><span class="comment">&lt;!---外部使用方式--&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">custom-dialog</span></span></span><br><span class="line"><span class="tag">  <span class="attr">:visible.sync</span>=<span class="string">"visibleDialog"</span></span></span><br><span class="line"><span class="tag">  <span class="attr">title</span>=<span class="string">"测试弹框"</span></span></span><br><span class="line"><span class="tag">  @<span class="attr">opened</span>=<span class="string">"$_handleOpened"</span></span></span><br><span class="line"><span class="tag">&gt;</span></span><br><span class="line">  这是一段内容</span><br><span class="line"><span class="tag">&lt;/<span class="name">custom-dialog</span>&gt;</span></span><br><span class="line">复制代码</span><br></pre></td></tr></table></figure>
+
+<p>对于<code>$attrs</code>，我们也可以使用<code>$props</code>来代替, 实现代码如下</p>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">template</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">el-dialog</span> <span class="attr">:visible.sync</span>=<span class="string">"visibleDialog"</span> <span class="attr">v-bind</span>=<span class="string">"$props"</span> <span class="attr">v-on</span>=<span class="string">"$listeners"</span>&gt;</span></span><br><span class="line">    <span class="comment">&lt;!--其他代码不变--&gt;</span></span><br><span class="line">  <span class="tag">&lt;/<span class="name">el-dialog</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">template</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">script</span>&gt;</span></span><br><span class="line"><span class="javascript"><span class="keyword">import</span> &#123; Dialog &#125; <span class="keyword">from</span> <span class="string">'element-ui'</span></span></span><br><span class="line"><span class="javascript"><span class="keyword">export</span> <span class="keyword">default</span> &#123;</span></span><br><span class="line">  props: &#123;</span><br><span class="line"><span class="actionscript">    <span class="comment">// 将Dialog的props通过扩展运算符展开到props属性里面</span></span></span><br><span class="line">    ...Dialog.props</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line"><span class="tag">&lt;/<span class="name">script</span>&gt;</span></span><br><span class="line">复制代码</span><br></pre></td></tr></table></figure>
+
+<p>但上面的代码存在一定的缺陷，有些组件存在非<code>props</code>的属性，比如对于一些封装的表单组件，我们可能需要给组件传入原生属性，但实际原生属性并没有在组件的<code>props</code>上面定义，这时候，如果通过上面的方式去包装组件，那么这些原生组件将无法传递到内部组件里面。</p>
+<p>感谢 @陌上兮月的提醒</p>
+<blockquote>
+<h3 id="使用require-context实现前端工程自动化"><a href="#使用require-context实现前端工程自动化" class="headerlink" title="使用require.context实现前端工程自动化"></a>使用<code>require.context</code>实现前端工程自动化</h3></blockquote>
+<p><code>require.context</code>是一个<code>webpack</code>提供的 Api, 通过执行<code>require.context</code>函数获取一个特定的上下文, 主要是用于实现自动化导入模块。</p>
+<p>什么时候用？ 当一个 js 里面需要手动引入过多的其他文件夹里面的文件时，就可以使用。</p>
+<p>在 Vue 项目开发过程中，我们可能会遇到这些可能会用到<code>require.context</code>的场景</p>
+<ol>
+<li>当我们路由页面比较多的时候，可能会将路由文件拆分成多个，然后再通过<code>import</code>引入到<code>index.js</code>路由主入口文件中</li>
+<li>当使用 svg symbol 时候，需要将所有的 svg 图片导入到系统中（建议使用 svg-sprite-loader）</li>
+<li>开发了一系列基础组件，然后把所有组件都导入到<code>index.js</code>中，然后再放入一个数组中，通过遍历数组将所有组件进行安装。</li>
+</ol>
+<p>对于上述的几个场景，如果我们需要导入的文件比较少的情况下，通过<code>import</code>一个一个去导入还可以接受，但对于量比较大的情况，就变成了纯体力活，而且每次修改增加都需要在主入口文件内进行调整。这时候我们就可以通过<code>require.context</code>去简化这个过程。</p>
+<p>现在以上述第三条为例, 来说明<code>require.context</code>的用法</p>
+<h4 id="常规用法"><a href="#常规用法" class="headerlink" title="常规用法"></a>常规用法</h4><p><img src="https://user-gold-cdn.xitu.io/2020/6/12/172a8f846a8e5b05?imageView2/0/w/1280/h/960/format/webp/ignore-error/1" alt></p>
+<p>组件通过常规方式安装</p>
+<p><img src="https://user-gold-cdn.xitu.io/2020/6/12/172a8dbf913be740?imageView2/0/w/1280/h/960/format/webp/ignore-error/1" alt></p>
+<h4 id="require-context基本语法"><a href="#require-context基本语法" class="headerlink" title="require.context基本语法"></a><code>require.context</code>基本语法</h4><p><img src="https://user-gold-cdn.xitu.io/2020/6/12/172a900bd9c4737a?imageView2/0/w/1280/h/960/format/webp/ignore-error/1" alt></p>
+<h4 id="通过require-context安装Vue组件"><a href="#通过require-context安装Vue组件" class="headerlink" title="通过require.context安装Vue组件"></a>通过<code>require.context</code>安装<code>Vue</code>组件</h4><p><img src="https://user-gold-cdn.xitu.io/2020/6/12/172a907e5f763528?imageView2/0/w/1280/h/960/format/webp/ignore-error/1" alt></p>
+<blockquote>
+<h3 id="自定义v-model-原来这么简单"><a href="#自定义v-model-原来这么简单" class="headerlink" title="自定义v-model, 原来这么简单"></a>自定义<code>v-model</code>, 原来这么简单</h3></blockquote>
+<p>在用 Vue 开发前端时，不论使用原生还是封装好的 UI 库，对于表单组件，一般都会使用到<code>v-model</code>。虽然<code>v-model</code>是一个语法糖，但是吃到嘴里挺甜的啊。学会自定义<code>v-model</code>，还是很有必要的。</p>
+<h4 id="基本用法"><a href="#基本用法" class="headerlink" title="基本用法"></a>基本用法</h4><p>一个组件上的<code>v-model</code>默认是通过在组件上面定义一个名为<code>value</code>的 props, 同时对外暴露一个名为<code>input</code>的事件。</p>
+<p>源码：</p>
+<p><img src="https://user-gold-cdn.xitu.io/2020/6/11/172a1c3637bed854?imageView2/0/w/1280/h/960/format/webp/ignore-error/1" alt></p>
+<p>使用方式：</p>
+<p><img src="https://user-gold-cdn.xitu.io/2020/6/11/172a1c469f10e131?imageView2/0/w/1280/h/960/format/webp/ignore-error/1" alt></p>
+<h4 id="自定义属性与事件"><a href="#自定义属性与事件" class="headerlink" title="自定义属性与事件"></a>自定义属性与事件</h4><p>通常情况下，使用<code>value</code>属性与<code>input</code>事件没有问题，但是有时候有些组件会将<code>value</code>属性或<code>input</code>事件用于不同的目的，比如对于单选框、复选框等类型的表单组件的<code>value</code>属性就有其他用处，参考（<a href="https://developer.mozilla.org/en-US/docs/Web/HTML/Element/input/checkbox#Value" target="_blank" rel="noopener">developer.mozilla.org/en-US/docs/…</a>）。或者希望属性名称或事件名称与实际行为更贴切，比如<code>active</code>,<code>checked</code>等属性名。</p>
+<p><img src="https://user-gold-cdn.xitu.io/2020/6/11/172a1d912a292ee2?imageView2/0/w/1280/h/960/format/webp/ignore-error/1" alt></p>
+<blockquote>
+<h3 id="使用-sync-更优雅的实现数据双向绑定"><a href="#使用-sync-更优雅的实现数据双向绑定" class="headerlink" title="使用.sync, 更优雅的实现数据双向绑定"></a>使用<code>.sync</code>, 更优雅的实现数据双向绑定</h3></blockquote>
+<p>在<code>Vue</code>中，<code>props</code>属性是单向数据传输的, 父级的 prop 的更新会向下流动到子组件中，但是反过来不行。可是有些情况，我们需要对 prop 进行 “双向绑定”。上文中，我们提到了使用<code>v-model</code>实现双向绑定。但有时候我们希望一个组件可以实现多个数据的 “双向绑定”，而<code>v-model</code>一个组件只能有一个 (Vue3.0 可以有多个)，这时候就需要使用到<code>.sync</code>。</p>
+<h4 id="sync与v-model的异同"><a href="#sync与v-model的异同" class="headerlink" title=".sync与v-model的异同"></a><code>.sync</code>与<code>v-model</code>的异同</h4><p>相同点：</p>
+<ul>
+<li>两者的本质都是语法糖，目的都是实现组件与外部数据的双向绑定</li>
+<li>两个都是通过属性 + 事件来实现的</li>
+</ul>
+<p>不同点 (个人观点，如有不对，麻烦下方评论指出，谢谢)：</p>
+<ul>
+<li>一个组件只能定义一个<code>v-model</code>, 但可以定义多个<code>.sync</code></li>
+<li><code>v-model</code>与<code>.sync</code>对于的事件名称不同，<code>v-model</code>默认事件为<code>input</code>, 可以通过配置<code>model</code>来修改，<code>.sync</code>事件名称固定为<code>update:属性名</code></li>
+</ul>
+<h4 id="自定义-sync"><a href="#自定义-sync" class="headerlink" title="自定义.sync"></a>自定义<code>.sync</code></h4><p>在开发业务时，有时候需要使用一个遮罩层来阻止用户的行为（更多会使用遮罩层 + loading 动画），下面通过自定义<code>.sync</code>来实现一个遮罩层</p>
+<p><img src="https://user-gold-cdn.xitu.io/2020/6/12/172a70e9a027bdc8?imageView2/0/w/1280/h/960/format/webp/ignore-error/1" alt></p>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">&lt;!--调用方式--&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">template</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">custom-overlay</span> <span class="attr">:visible.sync</span>=<span class="string">"visible"</span> /&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">template</span>&gt;</span></span><br><span class="line"></span><br><span class="line"><span class="tag">&lt;<span class="name">script</span>&gt;</span></span><br><span class="line"><span class="javascript"><span class="keyword">export</span> <span class="keyword">default</span> &#123;</span></span><br><span class="line">  data() &#123;</span><br><span class="line"><span class="actionscript">    <span class="keyword">return</span> &#123;</span></span><br><span class="line"><span class="actionscript">      visible: <span class="literal">false</span></span></span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line"><span class="tag">&lt;/<span class="name">script</span>&gt;</span></span><br><span class="line">复制代码</span><br></pre></td></tr></table></figure>
+
+<blockquote>
+<h3 id="动态组件，让页面渲染更灵活"><a href="#动态组件，让页面渲染更灵活" class="headerlink" title="动态组件，让页面渲染更灵活"></a>动态组件，让页面渲染更灵活</h3></blockquote>
+<p>前两天产品经理来了新的需求了，告诉我，需要根据用户的权限不同，页面上要显示不同的内容，然后我就哼哧哼哧的将不同权限对应的组件写了出来，然后再通过<code>v-if</code>来判断要显示哪个组件，就有了下面的代码</p>
+<p><img src="https://user-gold-cdn.xitu.io/2020/6/12/172a9129b675bca4?imageView2/0/w/1280/h/960/format/webp/ignore-error/1" alt></p>
+<p>但是看到上面代码的那一长串<code>v-if</code>,<code>v-else-if</code>, 我感觉我的代码洁癖症要犯了，不行，这样<code>code review</code>过不了关，我连自己这一关都过不了，这时候就改动态组件发挥作用了。</p>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">template</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">div</span> <span class="attr">class</span>=<span class="string">"info"</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">component</span> <span class="attr">:is</span>=<span class="string">"roleComponent"</span> <span class="attr">v-if</span>=<span class="string">"roleComponent"</span> /&gt;</span></span><br><span class="line">  <span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">template</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">script</span>&gt;</span></span><br><span class="line"><span class="javascript"><span class="keyword">import</span> AdminInfo <span class="keyword">from</span> <span class="string">'./admin-info'</span></span></span><br><span class="line"><span class="javascript"><span class="keyword">import</span> BookkeeperInfo <span class="keyword">from</span> <span class="string">'./bookkeeper-info'</span></span></span><br><span class="line"><span class="javascript"><span class="keyword">import</span> HrInfo <span class="keyword">from</span> <span class="string">'./hr-info'</span></span></span><br><span class="line"><span class="javascript"><span class="keyword">import</span> UserInfo <span class="keyword">from</span> <span class="string">'./user-info'</span></span></span><br><span class="line"><span class="javascript"><span class="keyword">export</span> <span class="keyword">default</span> &#123;</span></span><br><span class="line">  components: &#123;</span><br><span class="line">    AdminInfo,</span><br><span class="line">    BookkeeperInfo,</span><br><span class="line">    HrInfo,</span><br><span class="line">    UserInfo</span><br><span class="line">  &#125;,</span><br><span class="line">  data() &#123;</span><br><span class="line"><span class="actionscript">    <span class="keyword">return</span> &#123;</span></span><br><span class="line">      roleComponents: &#123;</span><br><span class="line">        admin: AdminInfo,</span><br><span class="line">        bookkeeper: BookkeeperInfo,</span><br><span class="line">        hr: HrInfo,</span><br><span class="line">        user: UserInfo</span><br><span class="line">      &#125;,</span><br><span class="line"><span class="actionscript">      role: <span class="string">'user'</span>,</span></span><br><span class="line"><span class="actionscript">      roleComponent: <span class="literal">undefined</span></span></span><br><span class="line">    &#125;</span><br><span class="line">  &#125;,</span><br><span class="line">  created() &#123;</span><br><span class="line"><span class="actionscript">    <span class="keyword">const</span> &#123; role, roleComponents &#125; = <span class="keyword">this</span></span></span><br><span class="line"><span class="actionscript">    <span class="keyword">this</span>.roleComponent = roleComponents[role]</span></span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line"><span class="tag">&lt;/<span class="name">script</span>&gt;</span></span><br><span class="line">复制代码</span><br></pre></td></tr></table></figure>
+
+<blockquote>
+<h3 id="mixins，更高效的实现组件内容的复用"><a href="#mixins，更高效的实现组件内容的复用" class="headerlink" title="mixins，更高效的实现组件内容的复用"></a><code>mixins</code>，更高效的实现组件内容的复用</h3></blockquote>
+<p><code>mixins</code>是<code>Vue</code>提供的一种混合机制，用来更高效的实现组件内容的复用。怎么去理解混入呢，我觉得和<code>Object.assign</code>，但实际与<code>Object.assign</code>又有所不同。</p>
+<h4 id="基本示例"><a href="#基本示例" class="headerlink" title="基本示例"></a>基本示例</h4><p>在开发 echarts 图表组件时，需要在窗口尺寸发生变化时，重置图表的大小，此时如果在每个组件里面都去实现一段监听代码，代码重复太多了，此时就可以使用混入来解决这个问题</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 混入代码 resize-mixins.js</span></span><br><span class="line"><span class="keyword">import</span> &#123; debounce &#125; <span class="keyword">from</span> <span class="string">'lodash'</span></span><br><span class="line"><span class="keyword">const</span> resizeChartMethod = <span class="string">'$__resizeChartMethod'</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">export</span> <span class="keyword">default</span> &#123;</span><br><span class="line">  data() &#123;</span><br><span class="line">    <span class="comment">// 在组件内部将图表init的引用映射到chart属性上</span></span><br><span class="line">    <span class="keyword">return</span> &#123;</span><br><span class="line">      chart: <span class="literal">null</span></span><br><span class="line">    &#125;</span><br><span class="line">  &#125;,</span><br><span class="line">  created() &#123;</span><br><span class="line">    <span class="built_in">window</span>.addEventListener(<span class="string">'resize'</span>, <span class="keyword">this</span>[resizeChartMethod])</span><br><span class="line">  &#125;,</span><br><span class="line">  beforeDestroy() &#123;</span><br><span class="line">    <span class="built_in">window</span>.removeEventListener(<span class="string">'reisze'</span>, <span class="keyword">this</span>[resizeChartMethod])</span><br><span class="line">  &#125;,</span><br><span class="line">  methods: &#123;</span><br><span class="line">    <span class="comment">// 通过lodash的防抖函数来控制resize的频率</span></span><br><span class="line">    [resizeChartMethod]: debounce(<span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">      <span class="keyword">if</span> (<span class="keyword">this</span>.chart) &#123;</span><br><span class="line">        <span class="keyword">this</span>.chart.resize()</span><br><span class="line">      &#125;</span><br><span class="line">    &#125;, <span class="number">100</span>)</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">复制代码</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">&lt;!--图表组件代码--&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">template</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">div</span> <span class="attr">class</span>=<span class="string">"chart"</span>&gt;</span><span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">template</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">script</span>&gt;</span></span><br><span class="line"><span class="javascript"><span class="keyword">import</span> echartMixins <span class="keyword">from</span> <span class="string">'./echarts-mixins'</span></span></span><br><span class="line"><span class="javascript"><span class="keyword">export</span> <span class="keyword">default</span> &#123;</span></span><br><span class="line"><span class="actionscript">  <span class="comment">// mixins属性用于导入混入，是一个数组，数组可以传入多个混入对象</span></span></span><br><span class="line">  mixins: [echartMixins],</span><br><span class="line">  data() &#123;</span><br><span class="line"><span class="actionscript">    <span class="keyword">return</span> &#123;</span></span><br><span class="line"><span class="actionscript">      chart: <span class="literal">null</span></span></span><br><span class="line">    &#125;</span><br><span class="line">  &#125;,</span><br><span class="line">  mounted() &#123;</span><br><span class="line"><span class="actionscript">    <span class="keyword">this</span>.chart = echarts.init(<span class="keyword">this</span>.$el)</span></span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line"><span class="tag">&lt;/<span class="name">script</span>&gt;</span></span><br><span class="line">复制代码</span><br></pre></td></tr></table></figure>
+
+<h4 id="不同位置的混入规则"><a href="#不同位置的混入规则" class="headerlink" title="不同位置的混入规则"></a>不同位置的混入规则</h4><p>在<code>Vue</code>中，一个混入对象可以包含任意组件选项，但是对于不同的组件选项，会有不同的合并策略。</p>
+<ol>
+<li><p><code>data</code> 对于<code>data</code>, 在混入时会进行递归合并，如果两个属性发生冲突，则以组件自身为主，如上例中的<code>chart</code>属性</p>
+</li>
+<li><p>生命周期钩子函数</p>
+</li>
+</ol>
+<p>对于生命周期钩子函数，混入时会将同名钩子函数加入到一个数组中，然后在调用时依次执行。混入对象里面的钩子函数会优先于组件的钩子函数执行。如果一个组件混入了多个对象，对于混入对象里面的同名钩子函数，将按照数组顺序依次执行，如下代码:</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> mixin1 = &#123;</span><br><span class="line">  created() &#123;</span><br><span class="line">    <span class="built_in">console</span>.log(<span class="string">'我是第一个输出的'</span>)</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">const</span> mixin2 = &#123;</span><br><span class="line">  created() &#123;</span><br><span class="line">    <span class="built_in">console</span>.log(<span class="string">'我是第二个输出的'</span>)</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">export</span> <span class="keyword">default</span> &#123;</span><br><span class="line">  mixins: [mixin1, mixin2],</span><br><span class="line">  created() &#123;</span><br><span class="line">    <span class="built_in">console</span>.log(<span class="string">'我是第三个输出的'</span>)</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line">复制代码</span><br></pre></td></tr></table></figure>
+
+<ol start="3">
+<li>其他选项 对于值为对象的选项，如<code>methods</code>,<code>components</code>,<code>filter</code>,<code>directives</code>,<code>props</code>等等，将被合并为同一个对象。两个对象键名冲突时，取组件对象的键值对。</li>
+</ol>
+<h4 id="全局混入"><a href="#全局混入" class="headerlink" title="全局混入"></a>全局混入</h4><p>混入也可以进行全局注册。一旦使用全局混入，那么混入的选项将在所有的组件内生效，如下代码所示：</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">Vue.mixin(&#123;</span><br><span class="line">  methods: &#123;</span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">     * 将埋点方法通过全局混入添加到每个组件内部</span></span><br><span class="line"><span class="comment">     * </span></span><br><span class="line"><span class="comment">     * 建议将埋点方法绑定到Vue的原型链上面，如： Vue.prototype.$track = () =&gt; &#123;&#125;</span></span><br><span class="line"><span class="comment">     * */</span></span><br><span class="line">    track(message) &#123;</span><br><span class="line">      <span class="built_in">console</span>.log(message)</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;)</span><br><span class="line"></span><br><span class="line">复制代码</span><br></pre></td></tr></table></figure>
+
+<p><strong>请谨慎使用全局混入，因为它会影响每个单独创建的 Vue 实例 (包括第三方组件)。大多数情况下，只应当应用于自定义选项，</strong></p>
+<p>原文地址 <a href="https://juejin.im/post/5eddbaee5188254344768fdc" target="_blank" rel="noopener">juejin.im</a></p>
+
+    </article>
+    <!-- license  -->
+    
+    <!-- paginator  -->
+    <ul class="post-paginator">
+        <li class="next">
+            
+        </li>
+        <li class="previous">
+            
+                <div class="prevSlogan">Previous Post</div>
+                <a href= "/2020/07/20/vue%E5%85%84%E5%BC%9F%E7%BB%84%E4%BB%B6%E9%97%B4%E4%BC%A0%E6%95%B0%E6%8D%AE%E7%9A%84%E6%96%B9%E6%B3%95-%E4%BA%8B%E4%BB%B6/" title= "vue兄弟组件间传数据的方法-事件">
+                    <div class="prevTitle">vue兄弟组件间传数据的方法-事件</div>
+                </a>
+            
+        </li>
+    </ul>
+    <!-- 评论插件 -->
+    <!-- 来必力City版安装代码 -->
+
+<!-- City版安装代码已完成 -->
+    
+    
+    <!-- partial('_partial/comment/changyan') -->
+    <!--PC版-->
+
+
+    
+    
+
+    <!-- 评论 -->
+</main>
+            <!-- profile -->
+            
+        </div>
+        <footer class="footer footer-unloaded">
+    <!-- social  -->
+    
+    <div class="social">
+        
+    
+        
+            
+                <a href="mailto:wenyuhan2770@foxmail.com" class="iconfont-archer email" title=email ></a>
+            
+        
+    
+        
+            
+                <a href="//github.com/SleeoWen/SleeoWen-Blog" class="iconfont-archer github" target="_blank" title=github></a>
+            
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+
+    </div>
+    
+    <!-- powered by Hexo  -->
+    <div class="copyright">
+        <span id="hexo-power">Powered by <a href="https://hexo.io/" target="_blank">Hexo</a></span>
+    </div>
+    <!-- 不蒜子  -->
+    
+    <div class="busuanzi-container">
+    
+
+    </div>
+    
+</footer>
+
+    </div>
+    <!-- toc -->
+    
+    <div class="toc-wrapper" style=
+    
+
+
+
+
+
+
+
+top:50vh;
+
+    >
+        <div class="toc-catalog">
+            <span class="iconfont-archer catalog-icon">&#xe613;</span><span>CATALOG</span>
+        </div>
+        <ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#学会使用-attrs-与-listeners，二次包装组件就靠它了"><span class="toc-number">1.</span> <span class="toc-text">学会使用$attrs 与 $listeners，二次包装组件就靠它了</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#定义基本弹框代码"><span class="toc-number">1.1.</span> <span class="toc-text">定义基本弹框代码</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#使用-attrs与-listeners"><span class="toc-number">1.2.</span> <span class="toc-text">使用$attrs与$listeners</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#使用require-context实现前端工程自动化"><span class="toc-number">2.</span> <span class="toc-text">使用require.context实现前端工程自动化</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#常规用法"><span class="toc-number">2.1.</span> <span class="toc-text">常规用法</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#require-context基本语法"><span class="toc-number">2.2.</span> <span class="toc-text">require.context基本语法</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#通过require-context安装Vue组件"><span class="toc-number">2.3.</span> <span class="toc-text">通过require.context安装Vue组件</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#自定义v-model-原来这么简单"><span class="toc-number">3.</span> <span class="toc-text">自定义v-model, 原来这么简单</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#基本用法"><span class="toc-number">3.1.</span> <span class="toc-text">基本用法</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#自定义属性与事件"><span class="toc-number">3.2.</span> <span class="toc-text">自定义属性与事件</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#使用-sync-更优雅的实现数据双向绑定"><span class="toc-number">4.</span> <span class="toc-text">使用.sync, 更优雅的实现数据双向绑定</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#sync与v-model的异同"><span class="toc-number">4.1.</span> <span class="toc-text">.sync与v-model的异同</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#自定义-sync"><span class="toc-number">4.2.</span> <span class="toc-text">自定义.sync</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#动态组件，让页面渲染更灵活"><span class="toc-number">5.</span> <span class="toc-text">动态组件，让页面渲染更灵活</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#mixins，更高效的实现组件内容的复用"><span class="toc-number">6.</span> <span class="toc-text">mixins，更高效的实现组件内容的复用</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#基本示例"><span class="toc-number">6.1.</span> <span class="toc-text">基本示例</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#不同位置的混入规则"><span class="toc-number">6.2.</span> <span class="toc-text">不同位置的混入规则</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#全局混入"><span class="toc-number">6.3.</span> <span class="toc-text">全局混入</span></a></li></ol></li></ol>
+    </div>
+    
+    <div class="back-top iconfont-archer">&#xe639;</div>
+    <div class="sidebar sidebar-hide">
+    <ul class="sidebar-tabs sidebar-tabs-active-0">
+        <li class="sidebar-tab-archives"><span class="iconfont-archer">&#xe67d;</span><span class="tab-name">Archive</span></li>
+        <li class="sidebar-tab-tags"><span class="iconfont-archer">&#xe61b;</span><span class="tab-name">Tag</span></li>
+        <li class="sidebar-tab-categories"><span class="iconfont-archer">&#xe666;</span><span class="tab-name">Cate</span></li>
+    </ul>
+    <div class="sidebar-content sidebar-content-show-archive">
+          <div class="sidebar-panel-archives">
+    <!-- 在ejs中将archive按照时间排序 -->
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    <div class="total-and-search">
+        <div class="total-archive">
+        Total : 56
+        </div>
+        <!-- search  -->
+        
+    </div>
+    
+    <div class="post-archive">
+    
+    
+    
+    
+    <div class="archive-year"> 2020 </div>
+    <ul class="year-list">
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">07/22</span><a class="archive-post-title" href= "/2020/07/22/vue%E5%BC%80%E5%8F%91%E6%8A%80%E5%B7%A7%EF%BC%88%E4%B8%80%EF%BC%89/" >vue开发技巧（一）</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">07/20</span><a class="archive-post-title" href= "/2020/07/20/vue%E5%85%84%E5%BC%9F%E7%BB%84%E4%BB%B6%E9%97%B4%E4%BC%A0%E6%95%B0%E6%8D%AE%E7%9A%84%E6%96%B9%E6%B3%95-%E4%BA%8B%E4%BB%B6/" >vue兄弟组件间传数据的方法-事件</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">07/12</span><a class="archive-post-title" href= "/2020/07/12/Vue%E7%9A%84Render%E5%87%BD%E6%95%B0/" >Vue的Render函数</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">07/01</span><a class="archive-post-title" href= "/2020/07/01/element%E6%BA%90%E7%A0%81%E8%A7%A3%E6%9E%90%E4%B9%8Bcheckbox/" >element源码解析之checkbox</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">06/29</span><a class="archive-post-title" href= "/2020/06/29/element%E6%BA%90%E7%A0%81%E8%A7%A3%E6%9E%90%E4%B9%8Bemitter-js/" >element源码解析之emitter.js</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">06/15</span><a class="archive-post-title" href= "/2020/06/15/for%E5%BE%AA%E7%8E%AF%E5%85%A8%E5%AE%B6%E6%A1%B6/" >for循环全家桶</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">06/10</span><a class="archive-post-title" href= "/2020/06/10/%E6%97%B6%E9%97%B4%E5%A4%8D%E6%9D%82%E5%BA%A6/" >时间复杂度</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">05/30</span><a class="archive-post-title" href= "/2020/05/30/%E6%89%8B%E6%92%95%E4%BB%A3%E7%A0%81/" >手撕代码</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">05/21</span><a class="archive-post-title" href= "/2020/05/21/%E5%AE%9E%E7%8E%B0call/" >实现call</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">05/20</span><a class="archive-post-title" href= "/2020/05/20/call%E3%80%81apply%E3%80%81bind/" >call、apply、bind</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">05/14</span><a class="archive-post-title" href= "/2020/05/14/%E5%A6%82%E4%BD%95%E5%AE%9E%E7%8E%B0%E4%B8%80%E4%B8%AA%E6%B7%B1%E6%8B%B7%E8%B4%9D/" >如何实现一个深拷贝</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">05/11</span><a class="archive-post-title" href= "/2020/05/11/AMD%E3%80%81CMD%E3%80%81CommonJS%E3%80%81ES6Module%E7%9A%84%E5%8C%BA%E5%88%AB/" >AMD、CMD、CommonJS、ES6Module的区别</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">05/07</span><a class="archive-post-title" href= "/2020/05/07/%E7%AE%97%E6%B3%95%E9%AB%98%E9%A2%91%E9%97%AE%E9%A2%98/" >算法高频问题</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">05/03</span><a class="archive-post-title" href= "/2020/05/03/tree-shaking/" >tree-shaking</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">05/01</span><a class="archive-post-title" href= "/2020/05/01/js%E6%9F%AF%E9%87%8C%E5%8C%96/" >js柯里化</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">04/30</span><a class="archive-post-title" href= "/2020/04/30/webpack%E4%B8%ADmodule-chunk%E5%92%8Cbundle%E7%9A%84%E5%8C%BA%E5%88%AB%E6%98%AF%E4%BB%80%E4%B9%88/" >webpack中module,chunk和bundle的区别是什么</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">04/24</span><a class="archive-post-title" href= "/2020/04/24/webpack%E5%8A%A8%E6%80%81%E6%87%92%E5%8A%A0%E8%BD%BD/" >webpack动态懒加载</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">04/17</span><a class="archive-post-title" href= "/2020/04/17/webpack%E9%85%8D%E7%BD%AE/" >webpack配置</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">04/11</span><a class="archive-post-title" href= "/2020/04/11/webpack%E7%9B%B8%E5%85%B3%E9%97%AE%E9%A2%98/" >webpack相关问题</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">04/02</span><a class="archive-post-title" href= "/2020/04/02/ES6%E4%B8%AD%E7%9A%84Proxy%E3%80%81Reflect%E4%BB%A5%E5%8F%8AVue3-0%E4%B8%AD%E7%9A%84%E5%BA%94%E7%94%A8%E5%8E%9F%E7%90%86/" >ES6中的Proxy、Reflect以及Vue3.0中的应用原理</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">03/22</span><a class="archive-post-title" href= "/2020/03/22/%E8%B7%AF%E7%94%B1%E5%8E%9F%E7%90%86/" >路由原理</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">03/11</span><a class="archive-post-title" href= "/2020/03/11/Vue%E7%BB%84%E4%BB%B6%E6%B8%B2%E6%9F%93%E8%BF%87%E7%A8%8B/" >Vue组件渲染过程</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">02/28</span><a class="archive-post-title" href= "/2020/02/28/Vue%E6%A8%A1%E6%9D%BF%E7%BC%96%E8%AF%91/" >Vue模板编译</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">02/12</span><a class="archive-post-title" href= "/2020/02/12/Vue%E8%99%9A%E6%8B%9FDOM/" >Vue虚拟DOM</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">01/23</span><a class="archive-post-title" href= "/2020/01/23/Vue%E7%9A%84%E5%93%8D%E5%BA%94%E5%BC%8F/" >Vue的响应式</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">01/12</span><a class="archive-post-title" href= "/2020/01/12/Vue%E5%92%8CMVVM/" >Vue和MVVM</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">01/01</span><a class="archive-post-title" href= "/2020/01/01/VueRouter/" >VueRouter</a>
+        </li>
+    
+    
+    
+    
+    
+        </ul>
+    
+    <div class="archive-year"> 2019 </div>
+    <ul class="year-list">
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">12/06</span><a class="archive-post-title" href= "/2019/12/06/Vuex/" >Vuex</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">11/21</span><a class="archive-post-title" href= "/2019/11/21/Vue%E7%BB%84%E4%BB%B6%E7%9A%84%E9%AB%98%E7%BA%A7%E7%89%B9%E6%80%A7/" >Vue组件的高级特性</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">11/11</span><a class="archive-post-title" href= "/2019/11/11/Vue%E7%BB%84%E4%BB%B6%E9%80%9A%E8%AE%AF/" >Vue组件通讯</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">11/01</span><a class="archive-post-title" href= "/2019/11/01/Vue%E5%9F%BA%E7%A1%80%E4%BA%8C/" >Vue基础二</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">10/21</span><a class="archive-post-title" href= "/2019/10/21/%E5%89%8D%E7%AB%AF%E9%94%99%E8%AF%AF%E7%9B%91%E6%8E%A7/" >前端错误监控</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">10/20</span><a class="archive-post-title" href= "/2019/10/20/Vue%E5%9F%BA%E7%A1%80%E4%B8%80/" >Vue基础一</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">10/11</span><a class="archive-post-title" href= "/2019/10/11/%E9%A1%B5%E9%9D%A2%E6%80%A7%E8%83%BD%E4%BC%98%E5%8C%96/" >页面性能优化</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">10/07</span><a class="archive-post-title" href= "/2019/10/07/%E4%BA%8B%E4%BB%B6%E5%BE%AA%E7%8E%AFEventLoop/" >事件循环EventLoop</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">09/27</span><a class="archive-post-title" href= "/2019/09/27/%E6%B5%8F%E8%A7%88%E5%99%A8%E6%B8%B2%E6%9F%93%E5%8E%9F%E7%90%86%E4%B8%8E%E8%BF%87%E7%A8%8B/" >浏览器渲染原理与过程</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">09/03</span><a class="archive-post-title" href= "/2019/09/03/CSRF%E5%92%8CXSS/" >CSRF和XSS</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">08/22</span><a class="archive-post-title" href= "/2019/08/22/%E9%80%9A%E4%BF%A1%E7%9B%B8%E5%85%B3%E9%97%AE%E9%A2%98/" >通信相关问题</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">08/19</span><a class="archive-post-title" href= "/2019/08/19/js%E6%A0%88/" >js栈</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">07/25</span><a class="archive-post-title" href= "/2019/07/25/js%E7%9A%84%E9%9D%A2%E5%90%91%E5%AF%B9%E8%B1%A1/" >js的面向对象</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">07/24</span><a class="archive-post-title" href= "/2019/07/24/%E5%8E%9F%E5%9E%8B%E9%93%BE/" >原型链</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">07/02</span><a class="archive-post-title" href= "/2019/07/02/HTTP%E5%8D%8F%E8%AE%AE/" >HTTP协议</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">06/25</span><a class="archive-post-title" href= "/2019/06/25/Event%E4%BA%8B%E4%BB%B6%E5%B8%B8%E8%A7%81%E5%BA%94%E7%94%A8/" >Event事件常见应用</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">06/11</span><a class="archive-post-title" href= "/2019/06/11/DOM%E4%BA%8B%E4%BB%B6%E6%B5%81/" >DOM事件流</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">06/01</span><a class="archive-post-title" href= "/2019/06/01/DOM%E7%BA%A7%E5%88%AB%E4%B8%8EDOM%E4%BA%8B%E4%BB%B6/" >DOM级别与DOM事件</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">05/03</span><a class="archive-post-title" href= "/2019/05/03/css%E4%B9%8BBFC/" >css之BFC</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">05/01</span><a class="archive-post-title" href= "/2019/05/01/css%E7%9B%92%E5%AD%90%E6%A8%A1%E5%9E%8B/" >css盒子模型</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">04/19</span><a class="archive-post-title" href= "/2019/04/19/%E9%A1%B5%E9%9D%A2%E5%B8%83%E5%B1%80/" >页面布局</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">04/07</span><a class="archive-post-title" href= "/2019/04/07/%E5%87%BD%E6%95%B0%E7%9A%84%E9%98%B2%E6%8A%96%E5%92%8C%E8%8A%82%E6%B5%81/" >函数的防抖和节流</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">04/01</span><a class="archive-post-title" href= "/2019/04/01/vue%E7%94%9F%E5%91%BD%E5%91%A8%E6%9C%9F%E4%BB%A5%E5%8F%8AnextTick%E5%BA%94%E7%94%A8/" >vue生命周期以及nextTick应用</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">03/22</span><a class="archive-post-title" href= "/2019/03/22/webp%E5%9C%A8%E9%A1%B9%E7%9B%AE%E4%B8%AD%E7%9A%84%E5%BA%94%E7%94%A8/" >webp在项目中的应用</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">03/02</span><a class="archive-post-title" href= "/2019/03/02/meta%E6%A0%87%E7%AD%BE%E4%BD%BF%E7%94%A8%E6%80%BB%E7%BB%93/" >meta标签使用总结</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">02/21</span><a class="archive-post-title" href= "/2019/02/21/%E5%89%8D%E7%AB%AF%E6%80%A7%E8%83%BD%E4%BC%98%E5%8C%96%E2%80%94%E2%80%94DNS%E9%A2%84%E8%A7%A3%E6%9E%90/" >前端性能优化——DNS预解析</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">02/17</span><a class="archive-post-title" href= "/2019/02/17/promose-all%E5%92%8Cpromise-race/" >promise.all和promise.race</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">02/05</span><a class="archive-post-title" href= "/2019/02/05/promise%E5%8E%9F%E7%90%86%E5%92%8C%E5%AE%9E%E7%8E%B0/" >Promise原理和实现</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">01/14</span><a class="archive-post-title" href= "/2019/01/14/%E5%88%9D%E5%B0%9Dhexo/" >初次使用hexo</a>
+        </li>
+    
+    </div>
+  </div>
+        <div class="sidebar-panel-tags">
+    <div class="sidebar-tags-name">
+    
+        <span class="sidebar-tag-name" data-tags="html"><span class="iconfont-archer">&#xe606;</span>html</span>
+    
+        <span class="sidebar-tag-name" data-tags="网络安全"><span class="iconfont-archer">&#xe606;</span>网络安全</span>
+    
+        <span class="sidebar-tag-name" data-tags="javascript"><span class="iconfont-archer">&#xe606;</span>javascript</span>
+    
+        <span class="sidebar-tag-name" data-tags="Vue"><span class="iconfont-archer">&#xe606;</span>Vue</span>
+    
+        <span class="sidebar-tag-name" data-tags="http"><span class="iconfont-archer">&#xe606;</span>http</span>
+    
+        <span class="sidebar-tag-name" data-tags="css"><span class="iconfont-archer">&#xe606;</span>css</span>
+    
+        <span class="sidebar-tag-name" data-tags="element"><span class="iconfont-archer">&#xe606;</span>element</span>
+    
+        <span class="sidebar-tag-name" data-tags="Promise"><span class="iconfont-archer">&#xe606;</span>Promise</span>
+    
+        <span class="sidebar-tag-name" data-tags="webpack"><span class="iconfont-archer">&#xe606;</span>webpack</span>
+    
+        <span class="sidebar-tag-name" data-tags="hexo"><span class="iconfont-archer">&#xe606;</span>hexo</span>
+    
+        <span class="sidebar-tag-name" data-tags="前端性能优化"><span class="iconfont-archer">&#xe606;</span>前端性能优化</span>
+    
+        <span class="sidebar-tag-name" data-tags="面试"><span class="iconfont-archer">&#xe606;</span>面试</span>
+    
+        <span class="sidebar-tag-name" data-tags="算法"><span class="iconfont-archer">&#xe606;</span>算法</span>
+    
+        <span class="sidebar-tag-name" data-tags="浏览器"><span class="iconfont-archer">&#xe606;</span>浏览器</span>
+    
+        <span class="sidebar-tag-name" data-tags="通信"><span class="iconfont-archer">&#xe606;</span>通信</span>
+    
+    </div>
+    <div class="iconfont-archer sidebar-tags-empty">&#xe678;</div>
+    <div class="tag-load-fail" style="display: none; color: #ccc; font-size: 0.6rem;">
+    缺失模块。<br/>
+    1、请确保node版本大于6.2<br/>
+    2、在博客根目录（注意不是archer根目录）执行以下命令：<br/>
+    <span style="color: #f75357; font-size: 1rem; line-height: 2rem;">npm i hexo-generator-json-content --save</span><br/>
+    3、在根目录_config.yml里添加配置：
+    <pre style="color: #787878; font-size: 0.6rem;">
+jsonContent:
+  meta: false
+  pages: false
+  posts:
+    title: true
+    date: true
+    path: true
+    text: false
+    raw: false
+    content: false
+    slug: false
+    updated: false
+    comments: false
+    link: false
+    permalink: false
+    excerpt: false
+    categories: true
+    tags: true</pre>
+    </div> 
+    <div class="sidebar-tags-list"></div>
+</div>
+        <div class="sidebar-panel-categories">
+    <div class="sidebar-categories-name">
+    
+    </div>
+    <div class="iconfont-archer sidebar-categories-empty">&#xe678;</div>
+    <div class="sidebar-categories-list"></div>
+</div>
+    </div>
+</div> 
+    <script>
+    var siteMeta = {
+        root: "/",
+        author: "文宇函"
+    }
+</script>
+    <!-- CDN failover -->
+    <script src="https://cdn.jsdelivr.net/npm/jquery@3.3.1/dist/jquery.min.js"></script>
+    <script type="text/javascript">
+        if (typeof window.$ === 'undefined')
+        {
+            console.warn('jquery load from jsdelivr failed, will load local script')
+            document.write('<script src="/lib/jquery.min.js">\x3C/script>')
+        }
+    </script>
+    <script src="/scripts/main.js"></script>
+    <!-- algolia -->
+    
+    <!-- busuanzi  -->
+    
+    <script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+    
+    <!-- CNZZ  -->
+    
+    </div>
+    <!-- async load share.js -->
+    
+        <script src="/scripts/share.js" async></script>    
+     
+    </body>
+</html>
+
+

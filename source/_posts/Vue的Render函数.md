@@ -2,7 +2,7 @@
 layout: '[post]'
 title: Vue的Render函数
 date: 2020-07-12 20:48:42
-tags: vue
+tags: Vue
 ---
 前几天想学学 Vue 中怎么编写可复用的组件，提到要对 Vue 的`render`函数有所了解。可仔细一想，对于 Vue 的`render`函数自己只是看了官方的一些介绍，并未深入一点去了解这方面的知识。为了更好的学习后续的知识，又折回来了解 Vue 中的`render`函数，这一切主要都是为了后续能更好的学习 Vue 的知识。
 <!-- more -->

@@ -2,13 +2,13 @@
 layout: '[post]'
 title: vue兄弟组件间传数据的方法-事件
 date: 2020-07-20 19:45:53
-tags: vue
+tags: Vue
 ---
 
-<!-- more -->
+
 vm.$on(event, callback)[vue API](https://cn.vuejs.org/v2/api/#vm-on)
 --------------------------------------------------------------------
-
+<!-- more -->
 **用法：** 监听当前实例上的自定义事件。事件可以由 `vm.$emit` 触发。回调函数会接收所有传入事件触发函数的额外参数。
 
 ```js
