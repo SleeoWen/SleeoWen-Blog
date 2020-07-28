@@ -119,3 +119,9 @@ jsonContent:
     excerpt: false
     categories: true
     tags: true
+
+algolia:
+  applicationID: I13XJTU307
+  apiKey: 007fca0a37d231933acdc35a65f4d61c
+  indexName: SleeoWen-Blog
+  chunkSize: 5000
