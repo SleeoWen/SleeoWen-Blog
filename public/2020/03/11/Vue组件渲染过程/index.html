@@ -20,8 +20,24 @@
     <meta name="keywords" content="hexo,前端,js,vue,web">
     
     <meta name="description" content="个人的学习经历">
+    <meta name="description" content="初次渲染过程 解析模版为render函数（编译打包时已经完成，开发环境下完成）（vue-loader） 触发响应式，监听data属性，getter setter 执行render函数，生成vnode，patch（elem,vnode）">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Vue组件渲染过程">
+<meta property="og:url" content="https://sleeowen.github.io/2020/03/11/Vue%E7%BB%84%E4%BB%B6%E6%B8%B2%E6%9F%93%E8%BF%87%E7%A8%8B/index.html">
+<meta property="og:site_name" content="SleeoWen-Blog">
+<meta property="og:description" content="初次渲染过程 解析模版为render函数（编译打包时已经完成，开发环境下完成）（vue-loader） 触发响应式，监听data属性，getter setter 执行render函数，生成vnode，patch（elem,vnode）">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2020-03-11T05:58:06.000Z">
+<meta property="article:modified_time" content="2020-05-13T06:05:27.000Z">
+<meta property="article:author" content="文宇函">
+<meta property="article:tag" content="js">
+<meta property="article:tag" content="ts">
+<meta property="article:tag" content="web">
+<meta property="article:tag" content="h5">
+<meta name="twitter:card" content="summary">
     <meta http-equiv="Cache-control" content="no-cache">
     <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1"/>
+    
     <title>Vue组件渲染过程 · SleeoWen-Blog</title>
     <style type="text/css">
     @font-face {
@@ -440,6 +456,10 @@ height:50vh;
 <!-- City版安装代码已完成 -->
     
     
+    <!-- gitalk评论 -->
+
+    <!-- utteranc评论 -->
+
     <!-- partial('_partial/comment/changyan') -->
     <!--PC版-->
 
@@ -511,17 +531,18 @@ height:50vh;
     
     <!-- powered by Hexo  -->
     <div class="copyright">
-        <span id="hexo-power">Powered by <a href="https://hexo.io/" target="_blank">Hexo</a></span>
+        <span id="hexo-power">Powered by <a href="https://hexo.io/" target="_blank">Hexo</a></span><span class="iconfont-archer power">&#xe635;</span><span id="theme-info">theme <a href="https://github.com/fi3ework/hexo-theme-archer" target="_blank">Archer</a></span>
     </div>
     <!-- 不蒜子  -->
     
     <div class="busuanzi-container">
     
-
+     
+    <span id="busuanzi_container_site_pv">PV: <span id="busuanzi_value_site_pv"></span> :)</span>
+    
     </div>
     
 </footer>
-
     </div>
     <!-- toc -->
     

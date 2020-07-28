@@ -20,8 +20,38 @@
     <meta name="keywords" content="hexo,前端,js,vue,web">
     
     <meta name="description" content="个人的学习经历">
+    <meta name="description" content="前几天想学学 Vue 中怎么编写可复用的组件，提到要对 Vue 的render函数有所了解。可仔细一想，对于 Vue 的render函数自己只是看了官方的一些介绍，并未深入一点去了解这方面的知识。为了更好的学习后续的知识，又折回来了解 Vue 中的render函数，这一切主要都是为了后续能更好的学习 Vue 的知识。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Vue的Render函数">
+<meta property="og:url" content="https://sleeowen.github.io/2020/07/12/Vue%E7%9A%84Render%E5%87%BD%E6%95%B0/index.html">
+<meta property="og:site_name" content="SleeoWen-Blog">
+<meta property="og:description" content="前几天想学学 Vue 中怎么编写可复用的组件，提到要对 Vue 的render函数有所了解。可仔细一想，对于 Vue 的render函数自己只是看了官方的一些介绍，并未深入一点去了解这方面的知识。为了更好的学习后续的知识，又折回来了解 Vue 中的render函数，这一切主要都是为了后续能更好的学习 Vue 的知识。">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="http://upload-images.jianshu.io/upload_images/13429147-32832d6b08b108c4.jpg">
+<meta property="og:image" content="http://upload-images.jianshu.io/upload_images/13429147-53f54999b1bc18e9.png">
+<meta property="og:image" content="http://upload-images.jianshu.io/upload_images/13429147-4eb2a73597a2a9aa.png">
+<meta property="og:image" content="http://upload-images.jianshu.io/upload_images/13429147-4c7f8bdf4b804bd9.png">
+<meta property="og:image" content="http://upload-images.jianshu.io/upload_images/13429147-e5ab233db6c73c31.png">
+<meta property="og:image" content="http://upload-images.jianshu.io/upload_images/13429147-54ee24bdb630fb55.png">
+<meta property="og:image" content="http://upload-images.jianshu.io/upload_images/13429147-b34d3ed28b6eccb6.png">
+<meta property="og:image" content="http://upload-images.jianshu.io/upload_images/13429147-3466e87621454e79.png">
+<meta property="og:image" content="http://upload-images.jianshu.io/upload_images/13429147-7f193c6cb2e36da0.png">
+<meta property="og:image" content="http://upload-images.jianshu.io/upload_images/13429147-eb35f142664bda0c.png">
+<meta property="og:image" content="http://upload-images.jianshu.io/upload_images/13429147-cafcbeeddcfda7e4.png">
+<meta property="og:image" content="http://upload-images.jianshu.io/upload_images/13429147-bef18523b2d62e16.png">
+<meta property="og:image" content="http://upload-images.jianshu.io/upload_images/13429147-1c69ce736a29a3c1.png">
+<meta property="og:image" content="http://upload-images.jianshu.io/upload_images/13429147-e0558045f83150dd.png">
+<meta property="og:image" content="http://upload-images.jianshu.io/upload_images/13429147-b4d9489c6fd49ab6.gif">
+<meta property="og:image" content="http://upload-images.jianshu.io/upload_images/13429147-a59263e3580b34ee.png">
+<meta property="article:published_time" content="2020-07-12T12:48:42.000Z">
+<meta property="article:modified_time" content="2020-07-22T07:32:28.000Z">
+<meta property="article:author" content="文宇函">
+<meta property="article:tag" content="Vue">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://upload-images.jianshu.io/upload_images/13429147-32832d6b08b108c4.jpg">
     <meta http-equiv="Cache-control" content="no-cache">
     <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1"/>
+    
     <title>Vue的Render函数 · SleeoWen-Blog</title>
     <style type="text/css">
     @font-face {
@@ -624,6 +654,10 @@ height:50vh;
 <!-- City版安装代码已完成 -->
     
     
+    <!-- gitalk评论 -->
+
+    <!-- utteranc评论 -->
+
     <!-- partial('_partial/comment/changyan') -->
     <!--PC版-->
 
@@ -695,17 +729,18 @@ height:50vh;
     
     <!-- powered by Hexo  -->
     <div class="copyright">
-        <span id="hexo-power">Powered by <a href="https://hexo.io/" target="_blank">Hexo</a></span>
+        <span id="hexo-power">Powered by <a href="https://hexo.io/" target="_blank">Hexo</a></span><span class="iconfont-archer power">&#xe635;</span><span id="theme-info">theme <a href="https://github.com/fi3ework/hexo-theme-archer" target="_blank">Archer</a></span>
     </div>
     <!-- 不蒜子  -->
     
     <div class="busuanzi-container">
     
-
+     
+    <span id="busuanzi_container_site_pv">PV: <span id="busuanzi_value_site_pv"></span> :)</span>
+    
     </div>
     
 </footer>
-
     </div>
     <!-- toc -->
     
