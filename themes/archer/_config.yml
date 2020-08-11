@@ -72,8 +72,8 @@ algolia_search:
 # Fill in the field to enable the corresponding comment plugin
 # If you want to add other comment plugin, edit in "custom.ejs"
 comment:
-  # Livere  site: https://livere.com/
-  livere_uid: MTAyMC81MTE2NC8yNzY0NQ==
+  # Livere  site: https://livere.com/     MTAyMC81MTE2NC8yNzY0NQ==
+  livere_uid: 
   # Disqus  site: https://disqus.com/
   disqus_shortname:
   # Gitment  site: https://github.com/imsun/gitment
