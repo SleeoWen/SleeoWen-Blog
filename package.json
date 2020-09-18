@@ -7,7 +7,7 @@
     "clean": "hexo clean",
     "deploy": "hexo deploy",
     "server": "hexo server",
-    "newPage": "hexo new [post] node框架简单对比",
+    "newPage": "hexo new [post] flex布局",
     "update": "hexo deploy"
   },
   "hexo": {
