@@ -7,7 +7,7 @@
     "clean": "hexo clean",
     "deploy": "hexo deploy",
     "server": "hexo server",
-    "newPage": "hexo new [post] flex布局",
+    "newPage": "hexo new [post] 前端状态管理",
     "update": "hexo deploy"
   },
   "hexo": {
