@@ -1,0 +1,2049 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+    <!-- title -->
+
+
+
+
+<!-- keywords -->
+
+
+
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no" >
+    <meta name="author" content="文宇函">
+    <meta name="renderer" content="webkit">
+    <meta name="copyright" content="文宇函">
+    
+    <meta name="keywords" content="hexo,前端,js,vue,web">
+    
+    <meta name="description" content="个人的学习经历">
+    <meta name="description" content="引言在 web 应用中，前端同学在实现动画效果时往往常用的几种方案：  css3 transition &#x2F; animation - 实现过渡动画 setInterval &#x2F; setTimeout - 通过设置一个间隔时间来不断的改变图像的位置 requestAnimationFrame - 通过一个回调函数来改变图像位置，由系统来决定这个回调函数的执行时机，比定时修改的性能更好，不存在失帧现象">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Animation">
+<meta property="og:url" content="https://sleeowen.github.io/2020/10/30/Animation/index.html">
+<meta property="og:site_name" content="SleeoWen-Blog">
+<meta property="og:description" content="引言在 web 应用中，前端同学在实现动画效果时往往常用的几种方案：  css3 transition &#x2F; animation - 实现过渡动画 setInterval &#x2F; setTimeout - 通过设置一个间隔时间来不断的改变图像的位置 requestAnimationFrame - 通过一个回调函数来改变图像位置，由系统来决定这个回调函数的执行时机，比定时修改的性能更好，不存在失帧现象">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="http://p3-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/c8b7d4949a6f4359b1ca1e4c41ffde52~tplv-k3u1fbpfcp-zoom-1.image">
+<meta property="og:image" content="http://p3-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/7a7915f454904b8288715829d6fa74d8~tplv-k3u1fbpfcp-zoom-1.image">
+<meta property="og:image" content="http://p3-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/0fdd4e788d28429f88e821c6849bc849~tplv-k3u1fbpfcp-zoom-1.image">
+<meta property="og:image" content="http://p3-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/b17be14f86344551890ac906d003e79d~tplv-k3u1fbpfcp-zoom-1.image">
+<meta property="og:image" content="http://p3-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/35c45e9a2298476e8e771e658f9cc049~tplv-k3u1fbpfcp-zoom-1.image">
+<meta property="og:image" content="http://p3-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/9a4b87811a4649778ffb037251966c72~tplv-k3u1fbpfcp-zoom-1.image">
+<meta property="og:image" content="http://p3-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/85a594bc93884e59a3bf1d353fd888f9~tplv-k3u1fbpfcp-zoom-1.image">
+<meta property="og:image" content="http://p3-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/cd7c32a33d3744fbb91f6802724a2c7e~tplv-k3u1fbpfcp-zoom-1.image">
+<meta property="og:image" content="http://p3-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/70c134b9e11a4dbaa79fd98caa61ccfd~tplv-k3u1fbpfcp-zoom-1.image">
+<meta property="og:image" content="http://p3-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/4ae38ac1efb24dfabaf0e22bc11b2c7d~tplv-k3u1fbpfcp-zoom-1.image">
+<meta property="og:image" content="http://p3-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/1018ce312fff4eaca9978a7f10f6e9ae~tplv-k3u1fbpfcp-zoom-1.image">
+<meta property="og:image" content="http://p3-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/247010637ea5447e90f4cd5fe340c442~tplv-k3u1fbpfcp-zoom-1.image">
+<meta property="og:image" content="http://p3-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/3d1da5d73e624a0cbbc84b04e661cc93~tplv-k3u1fbpfcp-zoom-1.image">
+<meta property="article:published_time" content="2020-10-30T11:26:31.000Z">
+<meta property="article:modified_time" content="2020-10-30T11:32:57.553Z">
+<meta property="article:author" content="文宇函">
+<meta property="article:tag" content="css">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://p3-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/c8b7d4949a6f4359b1ca1e4c41ffde52~tplv-k3u1fbpfcp-zoom-1.image">
+    <meta http-equiv="Cache-control" content="no-cache">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1"/>
+    
+    <title>Animation · SleeoWen-Blog</title>
+    <style type="text/css">
+    @font-face {
+        font-family: 'Oswald-Regular';
+        src: url("/font/Oswald-Regular.ttf");
+    }
+
+    body {
+        margin: 0;
+    }
+
+    header,
+    footer,
+    .back-top,
+    .sidebar,
+    .container,
+    .site-intro-meta,
+    .toc-wrapper {
+        display: none;
+    }
+
+    .site-intro {
+        position: relative;
+        z-index: 3;
+        width: 100%;
+        /* height: 50vh; */
+        overflow: hidden;
+    }
+
+    .site-intro-placeholder {
+        position: absolute;
+        z-index: -2;
+        top: 0;
+        left: 0;
+        width: calc(100% + 300px);
+        height: 100%;
+        background: repeating-linear-gradient(-45deg, #444 0, #444 80px, #333 80px, #333 160px);
+        background-position: center center;
+        transform: translate3d(-226px, 0, 0);
+        animation: gradient-move 2.5s ease-out 0s infinite;
+    }
+
+    @keyframes gradient-move {
+        0% {
+            transform: translate3d(-226px, 0, 0);
+        }
+        100% {
+            transform: translate3d(0, 0, 0);
+        }
+    }
+
+</style>
+
+    <link rel="preload" href= "/css/style.css?v=20180824" as="style" onload="this.onload=null;this.rel='stylesheet'" />
+    <link rel="stylesheet" href= "/css/mobile.css?v=20180824" media="(max-width: 980px)">
+    
+    <link rel="preload" href="https://cdnjs.cloudflare.com/ajax/libs/fancybox/3.2.5/jquery.fancybox.min.css" as="style" onload="this.onload=null;this.rel='stylesheet'" />
+    
+    <!-- /*! loadCSS. [c]2017 Filament Group, Inc. MIT License */
+/* This file is meant as a standalone workflow for
+- testing support for link[rel=preload]
+- enabling async CSS loading in browsers that do not support rel=preload
+- applying rel preload css once loaded, whether supported or not.
+*/ -->
+<script>
+(function( w ){
+	"use strict";
+	// rel=preload support test
+	if( !w.loadCSS ){
+		w.loadCSS = function(){};
+	}
+	// define on the loadCSS obj
+	var rp = loadCSS.relpreload = {};
+	// rel=preload feature support test
+	// runs once and returns a function for compat purposes
+	rp.support = (function(){
+		var ret;
+		try {
+			ret = w.document.createElement( "link" ).relList.supports( "preload" );
+		} catch (e) {
+			ret = false;
+		}
+		return function(){
+			return ret;
+		};
+	})();
+
+	// if preload isn't supported, get an asynchronous load by using a non-matching media attribute
+	// then change that media back to its intended value on load
+	rp.bindMediaToggle = function( link ){
+		// remember existing media attr for ultimate state, or default to 'all'
+		var finalMedia = link.media || "all";
+
+		function enableStylesheet(){
+			link.media = finalMedia;
+		}
+
+		// bind load handlers to enable media
+		if( link.addEventListener ){
+			link.addEventListener( "load", enableStylesheet );
+		} else if( link.attachEvent ){
+			link.attachEvent( "onload", enableStylesheet );
+		}
+
+		// Set rel and non-applicable media type to start an async request
+		// note: timeout allows this to happen async to let rendering continue in IE
+		setTimeout(function(){
+			link.rel = "stylesheet";
+			link.media = "only x";
+		});
+		// also enable media after 3 seconds,
+		// which will catch very old browsers (android 2.x, old firefox) that don't support onload on link
+		setTimeout( enableStylesheet, 3000 );
+	};
+
+	// loop through link elements in DOM
+	rp.poly = function(){
+		// double check this to prevent external calls from running
+		if( rp.support() ){
+			return;
+		}
+		var links = w.document.getElementsByTagName( "link" );
+		for( var i = 0; i < links.length; i++ ){
+			var link = links[ i ];
+			// qualify links to those with rel=preload and as=style attrs
+			if( link.rel === "preload" && link.getAttribute( "as" ) === "style" && !link.getAttribute( "data-loadcss" ) ){
+				// prevent rerunning on link
+				link.setAttribute( "data-loadcss", true );
+				// bind listeners to toggle media back
+				rp.bindMediaToggle( link );
+			}
+		}
+	};
+
+	// if unsupported, run the polyfill
+	if( !rp.support() ){
+		// run once at least
+		rp.poly();
+
+		// rerun poly on an interval until onload
+		var run = w.setInterval( rp.poly, 500 );
+		if( w.addEventListener ){
+			w.addEventListener( "load", function(){
+				rp.poly();
+				w.clearInterval( run );
+			} );
+		} else if( w.attachEvent ){
+			w.attachEvent( "onload", function(){
+				rp.poly();
+				w.clearInterval( run );
+			} );
+		}
+	}
+
+
+	// commonjs
+	if( typeof exports !== "undefined" ){
+		exports.loadCSS = loadCSS;
+	}
+	else {
+		w.loadCSS = loadCSS;
+	}
+}( typeof global !== "undefined" ? global : this ) );
+</script>
+
+    <link rel="icon" href= "/assets/favicon.ico" />
+    <link rel="preload" href="https://cdn.jsdelivr.net/npm/webfontloader@1.6.28/webfontloader.min.js" as="script" />
+    <link rel="preload" href="https://cdn.jsdelivr.net/npm/jquery@3.3.1/dist/jquery.min.js" as="script" />
+    <link rel="preload" href="/scripts/main.js" as="script" />
+    <link rel="preload" as="font" href="/font/Oswald-Regular.ttf" crossorigin>
+    <link rel="preload" as="font" href="https://at.alicdn.com/t/font_327081_1dta1rlogw17zaor.woff" crossorigin>
+    
+    <!-- fancybox -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/fancybox/3.2.5/jquery.fancybox.min.js" defer></script>
+    <!-- 百度统计  -->
+    
+    <!-- 谷歌统计  -->
+    
+<meta name="generator" content="Hexo 4.2.0"></head>
+
+    
+        <body class="post-body">
+    
+    
+<header class="header">
+
+    <div class="read-progress"></div>
+    <div class="header-sidebar-menu">&#xe775;</div>
+    <!-- post页的toggle banner  -->
+    
+    <div class="banner">
+            <div class="blog-title">
+                <a href="/" >Sleeo&#39;s Blog.</a>
+            </div>
+            <div class="post-title">
+                <a href="#" class="post-name">Animation</a>
+            </div>
+    </div>
+    
+    <a class="home-link" href=/>Sleeo's Blog.</a>
+</header>
+    <div class="wrapper">
+        <div class="site-intro" style="
+
+
+
+
+
+
+
+height:50vh;
+">
+    
+    <!-- 主页  -->
+    
+    
+    <!-- 404页  -->
+            
+    <div class="site-intro-placeholder"></div>
+    <div class="site-intro-img" style="background-image: url(/intro/post-bg.jpg)"></div>
+    <div class="site-intro-meta">
+        <!-- 标题  -->
+        <h1 class="intro-title">
+            <!-- 主页  -->
+            
+            Animation
+            <!-- 404 -->
+            
+        </h1>
+        <!-- 副标题 -->
+        <p class="intro-subtitle">
+            <!-- 主页副标题  -->
+            
+            
+            <!-- 404 -->
+            
+        </p>
+        <!-- 文章页meta -->
+        
+            <div class="post-intros">
+                <!-- 文章页标签  -->
+                
+                    <div class= post-intro-tags >
+    
+        <a class="post-tag" href="javascript:void(0);" data-tags = "css">css</a>
+    
+</div>
+                
+                
+                    <div class="post-intro-read">
+                        <span>字数统计: <span class="post-count word-count">2.7k</span>阅读时长: <span class="post-count reading-time">11 min</span></span>
+                    </div>
+                
+                <div class="post-intro-meta">
+                    <span class="post-intro-calander iconfont-archer">&#xe676;</span>
+                    <span class="post-intro-time">2020/10/30</span>
+                    
+                    <span id="busuanzi_container_page_pv" class="busuanzi-pv">
+                        <span class="iconfont-archer">&#xe602;</span>
+                        <span id="busuanzi_value_page_pv"></span>
+                    </span>
+                    
+                    <span class="shareWrapper">
+                        <span class="iconfont-archer shareIcon">&#xe71d;</span>
+                        <span class="shareText">Share</span>
+                        <ul class="shareList">
+                            <li class="iconfont-archer share-qr" data-type="qr">&#xe75b;
+                                <div class="share-qrcode"></div>
+                            </li>
+                            <li class="iconfont-archer" data-type="weibo">&#xe619;</li>
+                            <li class="iconfont-archer" data-type="qzone">&#xe62e;</li>
+                            <li class="iconfont-archer" data-type="twitter">&#xe634;</li>
+                            <li class="iconfont-archer" data-type="facebook">&#xe67a;</li>
+                        </ul>
+                    </span>
+                </div>
+            </div>
+        
+    </div>
+</div>
+        <script>
+ 
+  // get user agent
+  var browser = {
+    versions: function () {
+      var u = window.navigator.userAgent;
+      return {
+        userAgent: u,
+        trident: u.indexOf('Trident') > -1, //IE内核
+        presto: u.indexOf('Presto') > -1, //opera内核
+        webKit: u.indexOf('AppleWebKit') > -1, //苹果、谷歌内核
+        gecko: u.indexOf('Gecko') > -1 && u.indexOf('KHTML') == -1, //火狐内核
+        mobile: !!u.match(/AppleWebKit.*Mobile.*/), //是否为移动终端
+        ios: !!u.match(/\(i[^;]+;( U;)? CPU.+Mac OS X/), //ios终端
+        android: u.indexOf('Android') > -1 || u.indexOf('Linux') > -1, //android终端或者uc浏览器
+        iPhone: u.indexOf('iPhone') > -1 || u.indexOf('Mac') > -1, //是否为iPhone或者安卓QQ浏览器
+        iPad: u.indexOf('iPad') > -1, //是否为iPad
+        webApp: u.indexOf('Safari') == -1, //是否为web应用程序，没有头部与底部
+        weixin: u.indexOf('MicroMessenger') == -1, //是否为微信浏览器
+        uc: u.indexOf('UCBrowser') > -1 //是否为android下的UC浏览器
+      };
+    }()
+  }
+  console.log("userAgent:" + browser.versions.userAgent);
+
+  // callback
+  function fontLoaded() {
+    console.log('font loaded');
+    if (document.getElementsByClassName('site-intro-meta')) {
+      document.getElementsByClassName('intro-title')[0].classList.add('intro-fade-in');
+      document.getElementsByClassName('intro-subtitle')[0].classList.add('intro-fade-in');
+      var postIntros = document.getElementsByClassName('post-intros')[0]
+      if (postIntros) {
+        postIntros.classList.add('post-fade-in');
+      }
+    }
+  }
+
+  // UC不支持跨域，所以直接显示
+  function asyncCb(){
+    if (browser.versions.uc) {
+      console.log("UCBrowser");
+      fontLoaded();
+    } else {
+      WebFont.load({
+        custom: {
+          families: ['Oswald-Regular']
+        },
+        loading: function () {  //所有字体开始加载
+          // console.log('loading');
+        },
+        active: function () {  //所有字体已渲染
+          fontLoaded();
+        },
+        inactive: function () { //字体预加载失败，无效字体或浏览器不支持加载
+          console.log('inactive: timeout');
+          fontLoaded();
+        },
+        timeout: 5000 // Set the timeout to two seconds
+      });
+    }
+  }
+
+  function asyncErr(){
+    console.warn('script load from CDN failed, will load local script')
+  }
+
+  // load webfont-loader async, and add callback function
+  function async(u, cb, err) {
+    var d = document, t = 'script',
+      o = d.createElement(t),
+      s = d.getElementsByTagName(t)[0];
+    o.src = u;
+    if (cb) { o.addEventListener('load', function (e) { cb(null, e); }, false); }
+    if (err) { o.addEventListener('error', function (e) { err(null, e); }, false); }
+    s.parentNode.insertBefore(o, s);
+  }
+
+  var asyncLoadWithFallBack = function(arr, success, reject) {
+      var currReject = function(){
+        reject()
+        arr.shift()
+        if(arr.length)
+          async(arr[0], success, currReject)
+        }
+
+      async(arr[0], success, currReject)
+  }
+
+  asyncLoadWithFallBack([
+    "https://cdn.jsdelivr.net/npm/webfontloader@1.6.28/webfontloader.min.js", 
+    "https://cdn.bootcss.com/webfont/1.6.28/webfontloader.js",
+    "/lib/webfontloader.min.js"
+  ], asyncCb, asyncErr)
+</script>        
+        <img class="loading" src="/assets/loading.svg" style="display: block; margin: 6rem auto 0 auto; width: 6rem; height: 6rem;" />
+        <div class="container container-unloaded">
+            <main class="main post-page">
+    <article class="article-entry">
+        <h2 id="引言"><a href="#引言" class="headerlink" title="引言"></a>引言</h2><p>在 web 应用中，前端同学在实现动画效果时往往常用的几种方案：</p>
+<ol>
+<li>css3 transition / animation - 实现过渡动画</li>
+<li>setInterval / setTimeout - 通过设置一个间隔时间来不断的改变图像的位置</li>
+<li>requestAnimationFrame - 通过一个回调函数来改变图像位置，由系统来决定这个回调函数的执行时机，比定时修改的性能更好，不存在失帧现象<a id="more"></a>
+在大多数需求中，css3 的 <code>transition / animation</code> 都能满足我们的需求，并且相对于 js 实现，可以大大提升我们的开发效率，降低开发成本。</li>
+</ol>
+<p>本篇文章将着重对 <code>animation</code> 的使用做个总结，如果你的工作中动画需求较多，相信本篇文章能够让你有所收获：</p>
+<ul>
+<li>Animation 常用动画属性</li>
+<li>Animation 实现不间断播报</li>
+<li>Animation 实现回弹效果</li>
+<li>Animation 实现直播点赞效果 ❤️</li>
+<li>Animation 与 Svg 又会擦出怎样的火花呢？🔥<ol>
+<li>Loading 组件</li>
+<li>进度条组件</li>
+</ol>
+</li>
+<li>Animation steps() 运用 ⏰<ol>
+<li>实现打字效果</li>
+<li>绘制帧动画</li>
+</ol>
+</li>
+</ul>
+<h2 id="Animation-常用动画属性"><a href="#Animation-常用动画属性" class="headerlink" title="Animation 常用动画属性"></a>Animation 常用动画属性</h2><p><img src="http://p3-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/c8b7d4949a6f4359b1ca1e4c41ffde52~tplv-k3u1fbpfcp-zoom-1.image" alt></p>
+<p>介绍完 animation 常用属性，为了将这些属性更好地理解与运用，下面将手把手实现一些 DEMO 具体讲述</p>
+<h2 id="Animation-实现不间断播报"><a href="#Animation-实现不间断播报" class="headerlink" title="Animation 实现不间断播报"></a>Animation 实现不间断播报</h2><p><img src="http://p3-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/7a7915f454904b8288715829d6fa74d8~tplv-k3u1fbpfcp-zoom-1.image" alt></p>
+<p><a href="https://codepen.io/awesomedevin/pen/wvMGEaY" target="_blank" rel="noopener">实现不间断播报 DEMO</a></p>
+<p>通过修改内容在父元素中的 y 轴的位置来实现广播效果</p>
+<figure class="highlight css"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">@keyframes</span> scroll &#123;</span><br><span class="line">  0%&#123;</span><br><span class="line">    <span class="attribute">transform</span>: <span class="built_in">translate</span>(<span class="number">0</span>, <span class="number">0</span>);</span><br><span class="line">  &#125;</span><br><span class="line">  100%&#123;</span><br><span class="line">    <span class="attribute">transform</span>: <span class="built_in">translate</span>(<span class="number">0</span>, -$height);</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="selector-class">.ul</span> &#123;</span><br><span class="line">  <span class="attribute">animation-name</span>: scroll;</span><br><span class="line">  <span class="attribute">animation-duration</span>: <span class="number">5s</span>;</span><br><span class="line">  <span class="attribute">animation-timing-function</span>: linear;</span><br><span class="line">  <span class="attribute">animation-iteration-count</span>: infinite;</span><br><span class="line">  <span class="comment">/* animation: scroll 5s linear infinite; 动画属性简写 */</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>此处为了保存广播滚动效果的连贯性，防止滚动到最后一帧时没有内容，<strong>需要多添加一条重复数据进行填充</strong></p>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">div</span> <span class="attr">class</span>=<span class="string">"ul"</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">div</span> <span class="attr">class</span>=<span class="string">"li"</span>&gt;</span>小刘同学加入了凹凸实验室<span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">div</span> <span class="attr">class</span>=<span class="string">"li"</span>&gt;</span>小邓同学加入了凹凸实验室<span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">div</span> <span class="attr">class</span>=<span class="string">"li"</span>&gt;</span>小李同学加入了凹凸实验室<span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">div</span> <span class="attr">class</span>=<span class="string">"li"</span>&gt;</span>小王同学加入了凹凸实验室<span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br><span class="line">	<span class="comment">&lt;!--   插入用于填充的数据数据 --&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">div</span> <span class="attr">class</span>=<span class="string">"li"</span>&gt;</span>小刘同学加入了凹凸实验室<span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+<h2 id="Animation-实现回弹效果"><a href="#Animation-实现回弹效果" class="headerlink" title="Animation 实现回弹效果"></a>Animation 实现回弹效果</h2><p>通过将过渡动画拆分为多个阶段，每个阶段的 top 属性停留在不同的位置来实现</p>
+<p><img src="http://p3-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/0fdd4e788d28429f88e821c6849bc849~tplv-k3u1fbpfcp-zoom-1.image" alt></p>
+<p><a href="https://codepen.io/awesomedevin/pen/NWxNMpm" target="_blank" rel="noopener">实现回弹效果 DEMO</a></p>
+<figure class="highlight css"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/* 规定动画，改变top,opacity */</span></span><br><span class="line"><span class="keyword">@keyframes</span> animate &#123;</span><br><span class="line">  0% &#123;</span><br><span class="line">    <span class="attribute">top</span>: -<span class="number">100%</span>;</span><br><span class="line">    <span class="attribute">opacity</span>: <span class="number">0</span>;</span><br><span class="line">  &#125;</span><br><span class="line">  25% &#123;</span><br><span class="line">    <span class="attribute">top</span>: <span class="number">60</span>;</span><br><span class="line">    <span class="attribute">opacity</span>: <span class="number">1</span>;</span><br><span class="line">  &#125;</span><br><span class="line">  50% &#123;</span><br><span class="line">    <span class="attribute">top</span>: <span class="number">48%</span>;</span><br><span class="line">    <span class="attribute">opacity</span>: <span class="number">1</span>;</span><br><span class="line">  &#125;</span><br><span class="line">  75% &#123;</span><br><span class="line">    <span class="attribute">top</span>: <span class="number">52%</span>;</span><br><span class="line">    <span class="attribute">opacity</span>: <span class="number">1</span>;</span><br><span class="line">  &#125;</span><br><span class="line">  100%&#123;</span><br><span class="line">    <span class="attribute">top</span>: <span class="number">50%</span>;</span><br><span class="line">    <span class="attribute">opacity</span>: <span class="number">1</span>;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>为了让过渡效果更自然，这里通过 <code>cubic-bezier()</code> 函数定义一个贝塞尔曲线来控制动画播放速度</p>
+<p>过渡动画执行完后，为了将让元素应用动画最后一帧的属性值，我们需要使用 <code>animation-fill-mode: forwards</code></p>
+<figure class="highlight css"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="selector-class">.popup</span> &#123;</span><br><span class="line">  <span class="attribute">animation-name</span>: animate;</span><br><span class="line">  <span class="attribute">animation-duration</span>: <span class="number">0.5s</span>;</span><br><span class="line">  <span class="attribute">animation-timing-function</span>: <span class="built_in">cubic-bezier</span>(<span class="number">0.21</span>, <span class="number">0.85</span>, <span class="number">1</span>, <span class="number">1</span>);</span><br><span class="line">  <span class="attribute">animation-iteration-count</span>: <span class="number">1</span>;</span><br><span class="line">  <span class="attribute">animation-fill-mode</span>: forwards;</span><br><span class="line">  <span class="comment">/* animation: animate 0.5s cubic-bezier(0.21, 0.85, 1, 1) 1 forwards; 动画属性简写 */</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h2 id="Animation-实现点赞效果-Online-Code"><a href="#Animation-实现点赞效果-Online-Code" class="headerlink" title="Animation 实现点赞效果 Online Code"></a>Animation 实现点赞效果 <a href="https://codepen.io/awesomedevin/pen/dyGXEar" target="_blank" rel="noopener">Online Code</a></h2><p><img src="http://p3-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/b17be14f86344551890ac906d003e79d~tplv-k3u1fbpfcp-zoom-1.image" alt></p>
+<p><a href="https://codepen.io/awesomedevin/pen/dyGXEar" target="_blank" rel="noopener">实现点赞效果 DEMO</a></p>
+<p>相信大多数同学都知道点赞效果，本文章会实现一个简易版的点赞效果，主要讲述一下实现思路：</p>
+<ol>
+<li>为了让气泡可以向上偏移，我们需要先实现一个 y 轴方向上移动的 @keyframes 动画</li>
+</ol>
+<figure class="highlight css"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/* 规定动画，改变y轴偏移距离*/</span></span><br><span class="line"><span class="keyword">@keyframes</span> animation-y &#123;</span><br><span class="line">  0%&#123;</span><br><span class="line">   <span class="attribute">transform</span>:  <span class="built_in">translate</span>(-<span class="number">50%</span>, <span class="number">100px</span>) <span class="built_in">scale</span>(<span class="number">0</span>);</span><br><span class="line">  &#125;</span><br><span class="line">  50%&#123;</span><br><span class="line">   <span class="attribute">transform</span>:  <span class="built_in">translate</span>(-<span class="number">50%</span>, -<span class="number">100px</span>) <span class="built_in">scale</span>(<span class="number">1.5</span>);</span><br><span class="line">  &#125;</span><br><span class="line">  100%&#123;</span><br><span class="line">    <span class="attribute">transform</span>:  <span class="built_in">translate</span>(-<span class="number">50%</span>, -<span class="number">300px</span>) <span class="built_in">scale</span>(<span class="number">1.5</span>);</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<ol start="2">
+<li>为了让气泡向上偏移时显得不太单调，我们可以再实现一个 x 轴方向上移动的 @keyframes 动画</li>
+</ol>
+<figure class="highlight css"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/* 规定动画，改变x轴偏移距离 */</span></span><br><span class="line"><span class="keyword">@keyframes</span> animation-x &#123;</span><br><span class="line">  0%&#123;</span><br><span class="line">    <span class="attribute">margin-left</span>: <span class="number">0px</span>;</span><br><span class="line">  &#125;</span><br><span class="line">  25%&#123;</span><br><span class="line">    <span class="attribute">margin-left</span>: <span class="number">25px</span>;</span><br><span class="line">  &#125;</span><br><span class="line">  75%&#123;</span><br><span class="line">    <span class="attribute">margin-left</span>: -<span class="number">25px</span>;</span><br><span class="line">  &#125;</span><br><span class="line">  100%&#123;</span><br><span class="line">    <span class="attribute">margin-left</span>: <span class="number">0px</span>;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>这里我理解：</p>
+<ul>
+<li>虽然是<code>修改 margin</code> 来改变 x 轴偏移距离，但实际上与<code>修改 transform</code>没有太大的性能差异</li>
+<li>因为通过 <code>@keyframes animation-y</code> 中的 <code>transform</code> 已经新建了一个<code>渲染层 ( PaintLayers )</code></li>
+<li><code>animation</code> 属性 可以让该渲染层提升至 <code>合成层(Compositing Layers)</code> 拥有单独的<code>图形层 ( GraphicsLayer )</code>，即开启了硬件加速 ，不会影响其他渲染层的 <code>paint、layout</code></li>
+<li>对于<code>合成层(Compositing Layers)</code>相关知识不是很了解的同学，可以阅读一下这篇文章<a href="/notes/2020/10/13/css3-optimization/">从浏览器渲染层面解析 css3 动效优化原理</a></li>
+<li>如下图所示：</li>
+</ul>
+<p><img src="http://p3-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/35c45e9a2298476e8e771e658f9cc049~tplv-k3u1fbpfcp-zoom-1.image" alt></p>
+<p>如笔者这里理解有误，还请读者大佬指出，感激不尽~</p>
+<ol start="3">
+<li>给气泡应用上我们所实现的两个 @keyframes 动画</li>
+</ol>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">.bubble &#123;</span><br><span class="line">  animation: animation-x 3s -2s linear infinite,animation-y 4s 0s linear 1;</span><br><span class="line">&#x2F;*  给 bubble 开启了硬件加速 *&#x2F;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<ol start="4">
+<li>在点赞事件中，通过 js 操作动态添加 / 移除气泡元素</li>
+</ol>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">like</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">  <span class="keyword">const</span> likeDom = <span class="built_in">document</span>.createElement(<span class="string">'div'</span>);</span><br><span class="line">  likeDom.className = <span class="string">'bubble'</span>; <span class="comment">// 添加样式</span></span><br><span class="line">  <span class="built_in">document</span>.body.appendChild(likeDom);  <span class="comment">// 添加元素</span></span><br><span class="line">  setTimeout( <span class="function"><span class="params">()</span> =&gt;</span> &#123;</span><br><span class="line">    <span class="built_in">document</span>.body.removeChild(likeDom);  <span class="comment">// 移除元素</span></span><br><span class="line">  &#125;, <span class="number">4000</span>)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h2 id="Animation-与-Svg-绘制-loading-进度条-组件-🔥-Online-Code"><a href="#Animation-与-Svg-绘制-loading-进度条-组件-🔥-Online-Code" class="headerlink" title="Animation 与 Svg 绘制 loading / 进度条 组件 🔥 Online Code"></a>Animation 与 Svg 绘制 loading / 进度条 组件 🔥 <a href="https://codepen.io/awesomedevin/pen/zYromBB" target="_blank" rel="noopener">Online Code</a></h2><p><img src="http://p3-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/9a4b87811a4649778ffb037251966c72~tplv-k3u1fbpfcp-zoom-1.image" alt></p>
+<p><a href="https://codepen.io/awesomedevin/pen/zYromBB" target="_blank" rel="noopener">Animation 与 Svg 绘制 loading / 进度条 组件 🔥 DEMO</a></p>
+<ol>
+<li>首先，我们使用 svg 绘制一个圆周长为<code>2 * 25 * PI = 157</code> 的圆</li>
+</ol>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">svg</span> <span class="attr">with</span>=<span class="string">'200'</span> <span class="attr">height</span>=<span class="string">'200'</span> <span class="attr">viewBox</span>=<span class="string">"0 0 100 100"</span>  &gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">circle</span> <span class="attr">cx</span>=<span class="string">"50"</span> <span class="attr">cy</span>=<span class="string">"50"</span> <span class="attr">r</span>=<span class="string">"25"</span>  <span class="attr">fill</span>=<span class="string">"transparent"</span> <span class="attr">stroke-width</span>=<span class="string">"4"</span> <span class="attr">stroke</span>=<span class="string">"#0079f5"</span> &gt;</span><span class="tag">&lt;/<span class="name">circie</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">svg</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+<p><img src="http://p3-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/85a594bc93884e59a3bf1d353fd888f9~tplv-k3u1fbpfcp-zoom-1.image" alt></p>
+<ol start="2">
+<li>将实线圆绘制成虚线圆，这里需要用 <code>stoke-dasharray:50, 50 (可简写为50)</code> 属性来绘制虚线, <a href="https://www.cnblogs.com/daisygogogo/p/11044353.html" target="_blank" rel="noopener">stoke-dasharray 参考资料</a></li>
+</ol>
+<ul>
+<li>它的值是一个数列，数与数之间用逗号或者空白隔开，指定<code>短划线(50px)</code>和<code>缺口(50px)</code>的长度。</li>
+<li>由于<code>50(短划线) + 50(缺口) + 50(段划线) = 150, 150 &lt; 157</code>，无法绘制出完整的圆，所以会导致右边存在<code>缺口(7px)</code></li>
+</ul>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">svg</span> <span class="attr">with</span>=<span class="string">'200'</span> <span class="attr">height</span>=<span class="string">'200'</span> <span class="attr">viewBox</span>=<span class="string">"0 0 100 100"</span>  &gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">circle</span> <span class="attr">cx</span>=<span class="string">"50"</span> <span class="attr">cy</span>=<span class="string">"50"</span> <span class="attr">r</span>=<span class="string">"25"</span>  <span class="attr">fill</span>=<span class="string">"transparent"</span> <span class="attr">stroke-width</span>=<span class="string">"4"</span> <span class="attr">stroke-dasharray</span>=<span class="string">"50"</span> <span class="attr">stroke</span>=<span class="string">"#0079f5"</span> &gt;</span><span class="tag">&lt;/<span class="name">circie</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">svg</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+<p><img src="http://p3-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/cd7c32a33d3744fbb91f6802724a2c7e~tplv-k3u1fbpfcp-zoom-1.image" alt></p>
+<ol start="3">
+<li><code>stroke-dashoffset</code> 属性可以使圆的短划线和缺口产生偏移，添加 @keyframes 动画后能够实现从无到有的效果，<a href="https://www.cnblogs.com/daisygogogo/p/11044353.html" target="_blank" rel="noopener">stoke-dashoffset 参考资料</a></li>
+</ol>
+<ul>
+<li>设置 <code>stroke-dasharray=&quot;157 157</code>“, 指定 <code>短划线(157px)</code> 和 <code>缺口(157px)</code> 的长度。</li>
+<li>添加 @keyframes 动画 <code>修改stroke-dashoffset值</code>, 值为<code>正数</code>时<code>逆时针偏移</code>🔄,， 值为<code>负数</code>时，<code>顺时针偏移</code>🔃</li>
+</ul>
+<figure class="highlight css"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">@keyframes</span> loading &#123;</span><br><span class="line">  0%&#123;</span><br><span class="line">    <span class="attribute">stroke-dashoffset</span>: <span class="number">0</span>;</span><br><span class="line">  &#125;</span><br><span class="line">  100%&#123;</span><br><span class="line">    <span class="attribute">stroke-dashoffset</span>: -<span class="number">157</span>; <span class="comment">/* 线条顺时针偏移 */</span></span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line"><span class="selector-tag">circle</span>&#123;</span><br><span class="line">    <span class="attribute">animation</span>: loading <span class="number">1s</span> <span class="number">0s</span> ease-out infinite;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p><img src="http://p3-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/70c134b9e11a4dbaa79fd98caa61ccfd~tplv-k3u1fbpfcp-zoom-1.image" alt></p>
+<ol start="4">
+<li>修改短划线和缺口值</li>
+</ol>
+<ul>
+<li>为了让 loading 组件线条可见，我们需要一个<code>50px</code>的短划线, 设置 <code>stroke-dasharray=&quot;50&quot;</code></li>
+<li>为了让短划线发生偏移后可以完全消失，<code>缺口需要大于或等于圆周长157</code>，设置 <code>stroke-dasharray=&quot;50 157&quot;</code></li>
+<li>添加 @keyframes 动画, 为了让<code>动画结束时仍处理动画开始位置</code>，需要<code>修改 stroke-dashoffset:-207(短划线+缺口长度)</code></li>
+<li>进度条也是类似原理，帮助理解 <code>stroke-dashoffset</code> 属性，具体实现请查看<a href="https://codepen.io/awesomedevin/pen/zYromBB" target="_blank" rel="noopener">示例</a></li>
+</ul>
+<figure class="highlight css"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">@keyframes</span> loading &#123;</span><br><span class="line">  0%&#123;</span><br><span class="line">    <span class="attribute">stroke-dashoffset</span>: <span class="number">0</span>;</span><br><span class="line">  &#125;</span><br><span class="line">  100%&#123;</span><br><span class="line">    <span class="attribute">stroke-dashoffset</span>: -<span class="number">207</span>; <span class="comment">/* 保证动画结束时仍处理动画开始位置 */</span></span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line"><span class="selector-tag">circle</span>&#123;</span><br><span class="line">    <span class="attribute">animation</span>: loading <span class="number">1s</span> <span class="number">0s</span> ease-out infinite;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h2 id="Animation-steps-运用"><a href="#Animation-steps-运用" class="headerlink" title="Animation steps() 运用"></a>Animation steps() 运用</h2><p><code>steps()</code> 是 <code>animation-timing-function</code> 的属性值</p>
+<figure class="highlight css"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="selector-tag">animation-timing-function</span> : <span class="selector-tag">steps</span>(<span class="selector-tag">number</span><span class="selector-attr">[, end | start]</span>)</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>steps 函数指定了一个阶跃函数，它接受<code>两个参数</code></li>
+<li><code>第一个参数接受一个整数值</code>，表示两个关键帧之间分几步完成</li>
+<li><code>第二个参数有两个值 start or end</code>。默认值为 end</li>
+<li>step-start 等同于 step(1, start)。step-end 等同于 step(1, end)</li>
+</ul>
+<p>steps 适用于关键帧动画，第一个参数将<code>两个关键帧</code>细分为<code>N帧</code>，第二个参数决定从一帧到另一帧的中间间隔是用<code>开始帧</code>还是<code>结束帧</code>来进行填充。</p>
+<p>看下图可以发现:</p>
+<ul>
+<li><code>steps(N, start)</code>将动画分为<code>N段</code>，动画在每一段的<code>起点</code>发生阶跃 (即图中的空心圆 → 实心圆), 动画结束时停留在了第 N 帧</li>
+<li><code>steps(N, end)</code>将动画分为<code>N段</code>，动画在每一段的<code>终点</code>发生阶跃 (即图中的空心圆 → 实心圆), 动画结束时第 N 帧已经被跳过 (即图中的空心圆 → 实心圆)，停留在了 N+1 帧。</li>
+</ul>
+<p><img src="http://p3-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/4ae38ac1efb24dfabaf0e22bc11b2c7d~tplv-k3u1fbpfcp-zoom-1.image" alt></p>
+<h2 id="实践出真知！"><a href="#实践出真知！" class="headerlink" title="实践出真知！"></a>实践出真知！</h2><h3 id="Animation-实现打字效果"><a href="#Animation-实现打字效果" class="headerlink" title="Animation 实现打字效果"></a>Animation 实现打字效果</h3><p><img src="http://p3-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/1018ce312fff4eaca9978a7f10f6e9ae~tplv-k3u1fbpfcp-zoom-1.image" alt></p>
+<p><a href="https://codepen.io/awesomedevin/pen/xxZEjjO" target="_blank" rel="noopener">Animation 实现打字效果 DEMO</a></p>
+<ul>
+<li>此处用英文字母 (I’m an O2man.) 举例，一共有<code>13</code>个字符。[经测试，多数中文字体每个字符宽高都相等]</li>
+<li><code>steps(13)</code>可以将 @keyframes 动画分为<code>13阶段</code>运行, 且<code>每一阶段运行距离相等</code>。</li>
+</ul>
+<p>效果如下：</p>
+<p><img src="http://p3-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/247010637ea5447e90f4cd5fe340c442~tplv-k3u1fbpfcp-zoom-1.image" alt></p>
+<figure class="highlight css"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/* 改变容器宽度 */</span></span><br><span class="line"><span class="keyword">@keyframes</span> animate-x &#123;</span><br><span class="line">  0%&#123;</span><br><span class="line">    <span class="attribute">width</span>: <span class="number">0</span>;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="selector-tag">p</span> &#123;</span><br><span class="line">    <span class="attribute">width</span>: <span class="number">125px</span>;</span><br><span class="line">    <span class="attribute">overflow</span>: hidden;</span><br><span class="line">    <span class="attribute">border-right</span>: <span class="number">1px</span> solid transparent;</span><br><span class="line">    <span class="attribute">animation</span>: animate-x <span class="number">3s</span> <span class="number">0s</span> <span class="built_in">steps</span>(<span class="number">13</span>) <span class="number">1</span> forwards;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>可以发现仅仅这样还不够，动画运行过程中出现了字符被截断的情况, 为了保证每个阶段运行后能准确无误地显示当前所处阶段的字符，我们还需要保证<code>每个字符的width与动画每一阶段运行的距离相等</code></li>
+<li>设置<code>Monaco</code>字体属性，用以保证<code>每个字符的 width 相同</code>，具体像素受<code>fontSize</code>属性影响，示例中的字体宽度约为 9.6px，<code>9.6px * 13(段数) = 124.8px (125px)</code>，所以当我们设置容器宽度为 125px，即可的达成目的：<code>每个字符的 width 与动画每一阶段运行的距离相等(约为 9.6px )</code>。</li>
+</ul>
+<figure class="highlight css"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="selector-tag">p</span> &#123;</span><br><span class="line">    <span class="comment">/* 设置 Monaco 字体属性，字体大小为16px，用以保证每个字符的 width 相同，width 约为9.6p */</span></span><br><span class="line">    <span class="attribute">font-family</span>: Monaco;</span><br><span class="line">    <span class="comment">/* 9.6px * 13 = 124.8px (125px) */</span></span><br><span class="line">    <span class="attribute">width</span>: <span class="number">125px</span> ;</span><br><span class="line">    <span class="attribute">font-size</span>: <span class="number">16px</span>;</span><br><span class="line">    <span class="attribute">overflow</span>: hidden;</span><br><span class="line">    <span class="attribute">border-right</span>: <span class="number">1px</span> solid transparent;</span><br><span class="line">    <span class="comment">/* 同时应用动画 animate-x、cursor-x */</span></span><br><span class="line">    <span class="attribute">animation</span>: animate-x <span class="number">3s</span> <span class="number">0s</span> <span class="built_in">steps</span>(<span class="number">13</span>) <span class="number">1</span> forwards,cursor-x <span class="number">0.4s</span> <span class="number">0s</span> linear infinite;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="Animation-实现帧动画-⏰"><a href="#Animation-实现帧动画-⏰" class="headerlink" title="Animation 实现帧动画 ⏰"></a>Animation 实现帧动画 ⏰</h3><p><img src="http://p3-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/3d1da5d73e624a0cbbc84b04e661cc93~tplv-k3u1fbpfcp-zoom-1.image" alt></p>
+<p><a href="https://codepen.io/awesomedevin/pen/JjGRMgN" target="_blank" rel="noopener">Animation 实现帧动画 ⏰ DEMO</a></p>
+<ul>
+<li>这里我们拿到了一张<code>47帧</code>的<a href="https://img11.360buyimg.com/ling/jfs/t1/142743/11/2314/166268/5f046114Efb97efac/b327092864ed1f04.png" target="_blank" rel="noopener">雪碧图（css spirit）</a>, 设置背景图</li>
+</ul>
+<figure class="highlight css"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="selector-class">.main</span> &#123;</span><br><span class="line">  <span class="attribute">width</span>: <span class="number">260px</span>;</span><br><span class="line">  <span class="attribute">height</span>: <span class="number">200px</span>;</span><br><span class="line">  <span class="attribute">background</span>: <span class="built_in">url</span>(url) no-repeat;</span><br><span class="line">  <span class="attribute">background-size</span>: <span class="number">100%</span>;</span><br><span class="line">  <span class="attribute">background-position</span>: <span class="number">0</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>添加 @keyframes <code>修改 background-position</code>，让背景图移动</li>
+</ul>
+<figure class="highlight css"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">@keyframes</span> animate &#123;</span><br><span class="line">    0% &#123;</span><br><span class="line">        <span class="attribute">background-position</span>: <span class="number">0</span> <span class="number">0</span>;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    100% &#123;</span><br><span class="line">        <span class="attribute">background-position</span>: <span class="number">0</span> <span class="number">100%</span>;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"><span class="selector-class">.main</span>&#123;</span><br><span class="line">  <span class="attribute">width</span>: <span class="number">260px</span>;</span><br><span class="line">  <span class="attribute">height</span>: <span class="number">200px</span>;</span><br><span class="line">  <span class="attribute">background</span>: <span class="built_in">url</span>(url) no-repeat;</span><br><span class="line">  <span class="attribute">background-size</span>: <span class="number">100%</span>;</span><br><span class="line">  <span class="attribute">background-position</span>: <span class="number">0</span> <span class="number">0</span>;</span><br><span class="line">  <span class="attribute">animation</span>: animate <span class="number">2s</span> <span class="number">1s</span> <span class="built_in">steps</span>(<span class="number">47</span>) infinite alternate;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>同时, css 还提供了<code>animation-play-state</code>用于控制动画是否暂停</li>
+</ul>
+<figure class="highlight css"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="selector-tag">input</span><span class="selector-pseudo">:checked+.main</span>&#123;</span><br><span class="line">    <span class="attribute">animation-play-state</span>: paused;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>文章篇幅较长，感谢大家的阅读，希望各位看客能够有所收获~ ~ ~</p>
+<hr>
+<h3 id="参考资料"><a href="#参考资料" class="headerlink" title="参考资料"></a>参考资料</h3><p><a href="https://www.w3school.com.cn/cssref/index.asp" target="_blank" rel="noopener">Animation 常用动画属性</a> <a href="https://www.w3school.com.cn/cssref/index.asp" target="_blank" rel="noopener">CSS 参考手册</a> <a href="https://segmentfault.com/a/1190000007042048" target="_blank" rel="noopener">steps() 参考资料</a> <a href="https://www.cnblogs.com/daisygogogo/p/11044353.html" target="_blank" rel="noopener">SVG 学习之 stroke-dasharray 和 stroke-dashoffset 详解</a><br><a href="https://laixiazheteng.com/article/page/id/0gU2Wefas7hn" target="_blank" rel="noopener">理解 CSS3 Animation 中的 steps()</a><br><a href="https://segmentfault.com/a/1190000007042048" target="_blank" rel="noopener">【译】css 动画里的 steps() 用法详解</a><br><a href="https://developer.mozilla.org/zh-CN/docs/Web/CSS/will-change" target="_blank" rel="noopener">CSS Will Change</a><br>原文地址 <a href="https://juejin.im/post/6889226357851553805?utm_source=gold_browser_extension" target="_blank" rel="noopener">juejin.im</a></p>
+
+    </article>
+    <!-- license  -->
+    
+    <!-- paginator  -->
+    <ul class="post-paginator">
+        <li class="next">
+            
+        </li>
+        <li class="previous">
+            
+                <div class="prevSlogan">Previous Post</div>
+                <a href= "/2020/10/27/%E6%B7%B1%E5%85%A5%E7%90%86%E8%A7%A3%E6%B4%8B%E8%91%B1%E6%A8%A1%E5%9E%8B%E4%B8%AD%E9%97%B4%E4%BB%B6%E6%9C%BA%E5%88%B6/" title= "深入理解洋葱模型中间件机制">
+                    <div class="prevTitle">深入理解洋葱模型中间件机制</div>
+                </a>
+            
+        </li>
+    </ul>
+    <!-- 评论插件 -->
+    <!-- 来必力City版安装代码 -->
+
+<!-- City版安装代码已完成 -->
+    
+    
+    <!-- gitalk评论 -->
+
+    <!-- utteranc评论 -->
+
+    <!-- partial('_partial/comment/changyan') -->
+    <!--PC版-->
+
+
+    
+    
+
+    <!-- 评论 -->
+</main>
+            <!-- profile -->
+            
+        </div>
+        <footer class="footer footer-unloaded">
+    <!-- social  -->
+    
+    <div class="social">
+        
+    
+        
+            
+                <a href="mailto:wenyuhan2770@foxmail.com" class="iconfont-archer email" title=email ></a>
+            
+        
+    
+        
+            
+                <a href="//github.com/SleeoWen/SleeoWen-Blog" class="iconfont-archer github" target="_blank" title=github></a>
+            
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+
+    </div>
+    
+    <!-- powered by Hexo  -->
+    <div class="copyright">
+        <span id="hexo-power">Powered by <a href="https://hexo.io/" target="_blank">Hexo</a></span><span class="iconfont-archer power">&#xe635;</span><span id="theme-info">theme <a href="https://github.com/fi3ework/hexo-theme-archer" target="_blank">Archer</a></span>
+    </div>
+    <!-- 不蒜子  -->
+    
+    <div class="busuanzi-container">
+    
+     
+    <span id="busuanzi_container_site_pv">PV: <span id="busuanzi_value_site_pv"></span> :)</span>
+    
+    </div>
+    
+</footer>
+    </div>
+    <!-- toc -->
+    
+    <div class="toc-wrapper" style=
+    
+
+
+
+
+
+
+
+top:50vh;
+
+    >
+        <div class="toc-catalog">
+            <span class="iconfont-archer catalog-icon">&#xe613;</span><span>CATALOG</span>
+        </div>
+        <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#引言"><span class="toc-number">1.</span> <span class="toc-text">引言</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Animation-常用动画属性"><span class="toc-number">2.</span> <span class="toc-text">Animation 常用动画属性</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Animation-实现不间断播报"><span class="toc-number">3.</span> <span class="toc-text">Animation 实现不间断播报</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Animation-实现回弹效果"><span class="toc-number">4.</span> <span class="toc-text">Animation 实现回弹效果</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Animation-实现点赞效果-Online-Code"><span class="toc-number">5.</span> <span class="toc-text">Animation 实现点赞效果 Online Code</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Animation-与-Svg-绘制-loading-进度条-组件-🔥-Online-Code"><span class="toc-number">6.</span> <span class="toc-text">Animation 与 Svg 绘制 loading &#x2F; 进度条 组件 🔥 Online Code</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Animation-steps-运用"><span class="toc-number">7.</span> <span class="toc-text">Animation steps() 运用</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#实践出真知！"><span class="toc-number">8.</span> <span class="toc-text">实践出真知！</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#Animation-实现打字效果"><span class="toc-number">8.1.</span> <span class="toc-text">Animation 实现打字效果</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Animation-实现帧动画-⏰"><span class="toc-number">8.2.</span> <span class="toc-text">Animation 实现帧动画 ⏰</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#参考资料"><span class="toc-number">8.3.</span> <span class="toc-text">参考资料</span></a></li></ol></li></ol>
+    </div>
+    
+    <div class="back-top iconfont-archer">&#xe639;</div>
+    <div class="sidebar sidebar-hide">
+    <ul class="sidebar-tabs sidebar-tabs-active-0">
+        <li class="sidebar-tab-archives"><span class="iconfont-archer">&#xe67d;</span><span class="tab-name">Archive</span></li>
+        <li class="sidebar-tab-tags"><span class="iconfont-archer">&#xe61b;</span><span class="tab-name">Tag</span></li>
+        <li class="sidebar-tab-categories"><span class="iconfont-archer">&#xe666;</span><span class="tab-name">Cate</span></li>
+    </ul>
+    <div class="sidebar-content sidebar-content-show-archive">
+          <div class="sidebar-panel-archives">
+    <!-- 在ejs中将archive按照时间排序 -->
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    <div class="total-and-search">
+        <div class="total-archive">
+        Total : 61
+        </div>
+        <!-- search  -->
+        
+    </div>
+    
+    <div class="post-archive">
+    
+    
+    
+    
+    <div class="archive-year"> 2020 </div>
+    <ul class="year-list">
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">10/30</span><a class="archive-post-title" href= "/2020/10/30/Animation/" >Animation</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">10/27</span><a class="archive-post-title" href= "/2020/10/27/%E6%B7%B1%E5%85%A5%E7%90%86%E8%A7%A3%E6%B4%8B%E8%91%B1%E6%A8%A1%E5%9E%8B%E4%B8%AD%E9%97%B4%E4%BB%B6%E6%9C%BA%E5%88%B6/" >深入理解洋葱模型中间件机制</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">10/26</span><a class="archive-post-title" href= "/2020/10/26/%E5%89%8D%E7%AB%AF%E7%8A%B6%E6%80%81%E7%AE%A1%E7%90%86/" >前端状态管理</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">09/18</span><a class="archive-post-title" href= "/2020/09/18/flex%E5%B8%83%E5%B1%80/" >flex布局</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">08/10</span><a class="archive-post-title" href= "/2020/08/10/node%E6%A1%86%E6%9E%B6%E7%AE%80%E5%8D%95%E5%AF%B9%E6%AF%94/" >node框架简单对比</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">07/22</span><a class="archive-post-title" href= "/2020/07/22/vue%E5%BC%80%E5%8F%91%E6%8A%80%E5%B7%A7%EF%BC%88%E4%B8%80%EF%BC%89/" >vue开发技巧（一）</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">07/20</span><a class="archive-post-title" href= "/2020/07/20/vue%E5%85%84%E5%BC%9F%E7%BB%84%E4%BB%B6%E9%97%B4%E4%BC%A0%E6%95%B0%E6%8D%AE%E7%9A%84%E6%96%B9%E6%B3%95-%E4%BA%8B%E4%BB%B6/" >vue兄弟组件间传数据的方法-事件</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">07/12</span><a class="archive-post-title" href= "/2020/07/12/Vue%E7%9A%84Render%E5%87%BD%E6%95%B0/" >Vue的Render函数</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">07/01</span><a class="archive-post-title" href= "/2020/07/01/element%E6%BA%90%E7%A0%81%E8%A7%A3%E6%9E%90%E4%B9%8Bcheckbox/" >element源码解析之checkbox</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">06/29</span><a class="archive-post-title" href= "/2020/06/29/element%E6%BA%90%E7%A0%81%E8%A7%A3%E6%9E%90%E4%B9%8Bemitter-js/" >element源码解析之emitter.js</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">06/15</span><a class="archive-post-title" href= "/2020/06/15/for%E5%BE%AA%E7%8E%AF%E5%85%A8%E5%AE%B6%E6%A1%B6/" >for循环全家桶</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">06/10</span><a class="archive-post-title" href= "/2020/06/10/%E6%97%B6%E9%97%B4%E5%A4%8D%E6%9D%82%E5%BA%A6/" >时间复杂度</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">05/30</span><a class="archive-post-title" href= "/2020/05/30/%E6%89%8B%E6%92%95%E4%BB%A3%E7%A0%81/" >手撕代码</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">05/21</span><a class="archive-post-title" href= "/2020/05/21/%E5%AE%9E%E7%8E%B0call/" >实现call</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">05/20</span><a class="archive-post-title" href= "/2020/05/20/call%E3%80%81apply%E3%80%81bind/" >call、apply、bind</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">05/14</span><a class="archive-post-title" href= "/2020/05/14/%E5%A6%82%E4%BD%95%E5%AE%9E%E7%8E%B0%E4%B8%80%E4%B8%AA%E6%B7%B1%E6%8B%B7%E8%B4%9D/" >如何实现一个深拷贝</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">05/11</span><a class="archive-post-title" href= "/2020/05/11/AMD%E3%80%81CMD%E3%80%81CommonJS%E3%80%81ES6Module%E7%9A%84%E5%8C%BA%E5%88%AB/" >AMD、CMD、CommonJS、ES6Module的区别</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">05/07</span><a class="archive-post-title" href= "/2020/05/07/%E7%AE%97%E6%B3%95%E9%AB%98%E9%A2%91%E9%97%AE%E9%A2%98/" >算法高频问题</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">05/03</span><a class="archive-post-title" href= "/2020/05/03/tree-shaking/" >tree-shaking</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">05/01</span><a class="archive-post-title" href= "/2020/05/01/js%E6%9F%AF%E9%87%8C%E5%8C%96/" >js柯里化</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">04/30</span><a class="archive-post-title" href= "/2020/04/30/webpack%E4%B8%ADmodule-chunk%E5%92%8Cbundle%E7%9A%84%E5%8C%BA%E5%88%AB%E6%98%AF%E4%BB%80%E4%B9%88/" >webpack中module,chunk和bundle的区别是什么</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">04/24</span><a class="archive-post-title" href= "/2020/04/24/webpack%E5%8A%A8%E6%80%81%E6%87%92%E5%8A%A0%E8%BD%BD/" >webpack动态懒加载</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">04/17</span><a class="archive-post-title" href= "/2020/04/17/webpack%E9%85%8D%E7%BD%AE/" >webpack配置</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">04/11</span><a class="archive-post-title" href= "/2020/04/11/webpack%E7%9B%B8%E5%85%B3%E9%97%AE%E9%A2%98/" >webpack相关问题</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">04/02</span><a class="archive-post-title" href= "/2020/04/02/ES6%E4%B8%AD%E7%9A%84Proxy%E3%80%81Reflect%E4%BB%A5%E5%8F%8AVue3-0%E4%B8%AD%E7%9A%84%E5%BA%94%E7%94%A8%E5%8E%9F%E7%90%86/" >ES6中的Proxy、Reflect以及Vue3.0中的应用原理</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">03/22</span><a class="archive-post-title" href= "/2020/03/22/%E8%B7%AF%E7%94%B1%E5%8E%9F%E7%90%86/" >路由原理</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">03/11</span><a class="archive-post-title" href= "/2020/03/11/Vue%E7%BB%84%E4%BB%B6%E6%B8%B2%E6%9F%93%E8%BF%87%E7%A8%8B/" >Vue组件渲染过程</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">02/28</span><a class="archive-post-title" href= "/2020/02/28/Vue%E6%A8%A1%E6%9D%BF%E7%BC%96%E8%AF%91/" >Vue模板编译</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">02/12</span><a class="archive-post-title" href= "/2020/02/12/Vue%E8%99%9A%E6%8B%9FDOM/" >Vue虚拟DOM</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">01/23</span><a class="archive-post-title" href= "/2020/01/23/Vue%E7%9A%84%E5%93%8D%E5%BA%94%E5%BC%8F/" >Vue的响应式</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">01/12</span><a class="archive-post-title" href= "/2020/01/12/Vue%E5%92%8CMVVM/" >Vue和MVVM</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">01/01</span><a class="archive-post-title" href= "/2020/01/01/VueRouter/" >VueRouter</a>
+        </li>
+    
+    
+    
+    
+    
+        </ul>
+    
+    <div class="archive-year"> 2019 </div>
+    <ul class="year-list">
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">12/06</span><a class="archive-post-title" href= "/2019/12/06/Vuex/" >Vuex</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">11/21</span><a class="archive-post-title" href= "/2019/11/21/Vue%E7%BB%84%E4%BB%B6%E7%9A%84%E9%AB%98%E7%BA%A7%E7%89%B9%E6%80%A7/" >Vue组件的高级特性</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">11/11</span><a class="archive-post-title" href= "/2019/11/11/Vue%E7%BB%84%E4%BB%B6%E9%80%9A%E8%AE%AF/" >Vue组件通讯</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">11/01</span><a class="archive-post-title" href= "/2019/11/01/Vue%E5%9F%BA%E7%A1%80%E4%BA%8C/" >Vue基础二</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">10/21</span><a class="archive-post-title" href= "/2019/10/21/%E5%89%8D%E7%AB%AF%E9%94%99%E8%AF%AF%E7%9B%91%E6%8E%A7/" >前端错误监控</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">10/20</span><a class="archive-post-title" href= "/2019/10/20/Vue%E5%9F%BA%E7%A1%80%E4%B8%80/" >Vue基础一</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">10/11</span><a class="archive-post-title" href= "/2019/10/11/%E9%A1%B5%E9%9D%A2%E6%80%A7%E8%83%BD%E4%BC%98%E5%8C%96/" >页面性能优化</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">10/07</span><a class="archive-post-title" href= "/2019/10/07/%E4%BA%8B%E4%BB%B6%E5%BE%AA%E7%8E%AFEventLoop/" >事件循环EventLoop</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">09/27</span><a class="archive-post-title" href= "/2019/09/27/%E6%B5%8F%E8%A7%88%E5%99%A8%E6%B8%B2%E6%9F%93%E5%8E%9F%E7%90%86%E4%B8%8E%E8%BF%87%E7%A8%8B/" >浏览器渲染原理与过程</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">09/03</span><a class="archive-post-title" href= "/2019/09/03/CSRF%E5%92%8CXSS/" >CSRF和XSS</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">08/22</span><a class="archive-post-title" href= "/2019/08/22/%E9%80%9A%E4%BF%A1%E7%9B%B8%E5%85%B3%E9%97%AE%E9%A2%98/" >通信相关问题</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">08/19</span><a class="archive-post-title" href= "/2019/08/19/js%E6%A0%88/" >js栈</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">07/25</span><a class="archive-post-title" href= "/2019/07/25/js%E7%9A%84%E9%9D%A2%E5%90%91%E5%AF%B9%E8%B1%A1/" >js的面向对象</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">07/24</span><a class="archive-post-title" href= "/2019/07/24/%E5%8E%9F%E5%9E%8B%E9%93%BE/" >原型链</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">07/02</span><a class="archive-post-title" href= "/2019/07/02/HTTP%E5%8D%8F%E8%AE%AE/" >HTTP协议</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">06/25</span><a class="archive-post-title" href= "/2019/06/25/Event%E4%BA%8B%E4%BB%B6%E5%B8%B8%E8%A7%81%E5%BA%94%E7%94%A8/" >Event事件常见应用</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">06/11</span><a class="archive-post-title" href= "/2019/06/11/DOM%E4%BA%8B%E4%BB%B6%E6%B5%81/" >DOM事件流</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">06/01</span><a class="archive-post-title" href= "/2019/06/01/DOM%E7%BA%A7%E5%88%AB%E4%B8%8EDOM%E4%BA%8B%E4%BB%B6/" >DOM级别与DOM事件</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">05/03</span><a class="archive-post-title" href= "/2019/05/03/css%E4%B9%8BBFC/" >css之BFC</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">05/01</span><a class="archive-post-title" href= "/2019/05/01/css%E7%9B%92%E5%AD%90%E6%A8%A1%E5%9E%8B/" >css盒子模型</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">04/19</span><a class="archive-post-title" href= "/2019/04/19/%E9%A1%B5%E9%9D%A2%E5%B8%83%E5%B1%80/" >页面布局</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">04/07</span><a class="archive-post-title" href= "/2019/04/07/%E5%87%BD%E6%95%B0%E7%9A%84%E9%98%B2%E6%8A%96%E5%92%8C%E8%8A%82%E6%B5%81/" >函数的防抖和节流</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">04/01</span><a class="archive-post-title" href= "/2019/04/01/vue%E7%94%9F%E5%91%BD%E5%91%A8%E6%9C%9F%E4%BB%A5%E5%8F%8AnextTick%E5%BA%94%E7%94%A8/" >vue生命周期以及nextTick应用</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">03/22</span><a class="archive-post-title" href= "/2019/03/22/webp%E5%9C%A8%E9%A1%B9%E7%9B%AE%E4%B8%AD%E7%9A%84%E5%BA%94%E7%94%A8/" >webp在项目中的应用</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">03/02</span><a class="archive-post-title" href= "/2019/03/02/meta%E6%A0%87%E7%AD%BE%E4%BD%BF%E7%94%A8%E6%80%BB%E7%BB%93/" >meta标签使用总结</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">02/21</span><a class="archive-post-title" href= "/2019/02/21/%E5%89%8D%E7%AB%AF%E6%80%A7%E8%83%BD%E4%BC%98%E5%8C%96%E2%80%94%E2%80%94DNS%E9%A2%84%E8%A7%A3%E6%9E%90/" >前端性能优化——DNS预解析</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">02/17</span><a class="archive-post-title" href= "/2019/02/17/promose-all%E5%92%8Cpromise-race/" >promise.all和promise.race</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">02/05</span><a class="archive-post-title" href= "/2019/02/05/promise%E5%8E%9F%E7%90%86%E5%92%8C%E5%AE%9E%E7%8E%B0/" >Promise原理和实现</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">01/14</span><a class="archive-post-title" href= "/2019/01/14/%E5%88%9D%E5%B0%9Dhexo/" >初次使用hexo</a>
+        </li>
+    
+    </div>
+  </div>
+        <div class="sidebar-panel-tags">
+    <div class="sidebar-tags-name">
+    
+        <span class="sidebar-tag-name" data-tags="javascript"><span class="iconfont-archer">&#xe606;</span>javascript</span>
+    
+        <span class="sidebar-tag-name" data-tags="网络安全"><span class="iconfont-archer">&#xe606;</span>网络安全</span>
+    
+        <span class="sidebar-tag-name" data-tags="html"><span class="iconfont-archer">&#xe606;</span>html</span>
+    
+        <span class="sidebar-tag-name" data-tags="Vue"><span class="iconfont-archer">&#xe606;</span>Vue</span>
+    
+        <span class="sidebar-tag-name" data-tags="http"><span class="iconfont-archer">&#xe606;</span>http</span>
+    
+        <span class="sidebar-tag-name" data-tags="css"><span class="iconfont-archer">&#xe606;</span>css</span>
+    
+        <span class="sidebar-tag-name" data-tags="element"><span class="iconfont-archer">&#xe606;</span>element</span>
+    
+        <span class="sidebar-tag-name" data-tags="webpack"><span class="iconfont-archer">&#xe606;</span>webpack</span>
+    
+        <span class="sidebar-tag-name" data-tags="node"><span class="iconfont-archer">&#xe606;</span>node</span>
+    
+        <span class="sidebar-tag-name" data-tags="Promise"><span class="iconfont-archer">&#xe606;</span>Promise</span>
+    
+        <span class="sidebar-tag-name" data-tags="hexo"><span class="iconfont-archer">&#xe606;</span>hexo</span>
+    
+        <span class="sidebar-tag-name" data-tags="前端性能优化"><span class="iconfont-archer">&#xe606;</span>前端性能优化</span>
+    
+        <span class="sidebar-tag-name" data-tags="面试"><span class="iconfont-archer">&#xe606;</span>面试</span>
+    
+        <span class="sidebar-tag-name" data-tags="算法"><span class="iconfont-archer">&#xe606;</span>算法</span>
+    
+        <span class="sidebar-tag-name" data-tags="浏览器"><span class="iconfont-archer">&#xe606;</span>浏览器</span>
+    
+        <span class="sidebar-tag-name" data-tags="通信"><span class="iconfont-archer">&#xe606;</span>通信</span>
+    
+    </div>
+    <div class="iconfont-archer sidebar-tags-empty">&#xe678;</div>
+    <div class="tag-load-fail" style="display: none; color: #ccc; font-size: 0.6rem;">
+    缺失模块。<br/>
+    1、请确保node版本大于6.2<br/>
+    2、在博客根目录（注意不是archer根目录）执行以下命令：<br/>
+    <span style="color: #f75357; font-size: 1rem; line-height: 2rem;">npm i hexo-generator-json-content --save</span><br/>
+    3、在根目录_config.yml里添加配置：
+    <pre style="color: #787878; font-size: 0.6rem;">
+jsonContent:
+  meta: false
+  pages: false
+  posts:
+    title: true
+    date: true
+    path: true
+    text: false
+    raw: false
+    content: false
+    slug: false
+    updated: false
+    comments: false
+    link: false
+    permalink: false
+    excerpt: false
+    categories: true
+    tags: true</pre>
+    </div> 
+    <div class="sidebar-tags-list"></div>
+</div>
+        <div class="sidebar-panel-categories">
+    <div class="sidebar-categories-name">
+    
+    </div>
+    <div class="iconfont-archer sidebar-categories-empty">&#xe678;</div>
+    <div class="sidebar-categories-list"></div>
+</div>
+    </div>
+</div> 
+    <script>
+    var siteMeta = {
+        root: "/",
+        author: "文宇函"
+    }
+</script>
+    <!-- CDN failover -->
+    <script src="https://cdn.jsdelivr.net/npm/jquery@3.3.1/dist/jquery.min.js"></script>
+    <script type="text/javascript">
+        if (typeof window.$ === 'undefined')
+        {
+            console.warn('jquery load from jsdelivr failed, will load local script')
+            document.write('<script src="/lib/jquery.min.js">\x3C/script>')
+        }
+    </script>
+    <script src="/scripts/main.js"></script>
+    <!-- algolia -->
+    
+    <!-- busuanzi  -->
+    
+    <script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+    
+    <!-- CNZZ  -->
+    
+    </div>
+    <!-- async load share.js -->
+    
+        <script src="/scripts/share.js" async></script>    
+     
+    </body>
+</html>
+
+
