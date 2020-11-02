@@ -7,7 +7,7 @@
     "clean": "hexo clean",
     "deploy": "hexo deploy",
     "server": "hexo server",
-    "newPage": "hexo new [post] Animation",
+    "newPage": "hexo new [post] 前端优化详解以及需要关注的几个问题",
     "update": "hexo deploy"
   },
   "hexo": {
