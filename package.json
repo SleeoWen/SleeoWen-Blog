@@ -7,7 +7,7 @@
     "clean": "hexo clean",
     "deploy": "hexo deploy",
     "server": "hexo server",
-    "newPage": "hexo new [post] 前端优化详解以及需要关注的几个问题",
+    "newPage": "hexo new [post] 从一道让我失眠的Promise面试题开始，深入分析Promise实现细节",
     "update": "hexo deploy"
   },
   "hexo": {
