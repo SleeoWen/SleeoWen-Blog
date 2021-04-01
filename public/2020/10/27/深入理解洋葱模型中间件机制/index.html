@@ -221,7 +221,7 @@
     
     <!-- 谷歌统计  -->
     
-<meta name="generator" content="Hexo 4.2.0"></head>
+<meta name="generator" content="Hexo 5.4.0"></head>
 
     
         <body class="post-body">
@@ -422,48 +422,48 @@ height:50vh;
         <div class="container container-unloaded">
             <main class="main post-page">
     <article class="article-entry">
-        <p>本文来由，希望可以剖析中间件的组合原理，从而帮助大家更加理解洋葱模型。<br> <a id="more"></a></p>
+        <p>本文来由，希望可以剖析中间件的组合原理，从而帮助大家更加理解洋葱模型。<br> <span id="more"></span></p>
 <p><img src="/2020/10/27/%E6%B7%B1%E5%85%A5%E7%90%86%E8%A7%A3%E6%B4%8B%E8%91%B1%E6%A8%A1%E5%9E%8B%E4%B8%AD%E9%97%B4%E4%BB%B6%E6%9C%BA%E5%88%B6/1.jpeg" alt="image"></p>
 <p>话不多说，正文如下。</p>
 <p>这一段代码来源于 redux 里导出的 compose 函数。我做了一些修改。主要是给匿名函数添加了名称，比如 reducer 和 nextWrapper，主要原因是匿名函数（anonymous）不便于调试。所以 《You-Dont-Know-JS》 的作者 Kyle Simpson 大叔就对箭头函数持保留意见，认为不该乱用，不过跑题了，扯回。</p>
 <p>先贴代码如下。</p>
-<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">compose</span>(<span class="params">...funcs</span>) </span>&#123;</span><br><span class="line">  <span class="keyword">if</span> (funcs.length === <span class="number">0</span>) &#123;</span><br><span class="line">    <span class="keyword">return</span> <span class="function"><span class="params">arg</span> =&gt;</span> arg;</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  <span class="keyword">if</span> (funcs.length === <span class="number">1</span>) &#123;</span><br><span class="line">    <span class="keyword">return</span> funcs[<span class="number">0</span>];</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  <span class="keyword">return</span> funcs.reduce(<span class="function"><span class="keyword">function</span> <span class="title">reducer</span>(<span class="params">a, b</span>) </span>&#123;</span><br><span class="line">    <span class="keyword">return</span> <span class="function"><span class="keyword">function</span> <span class="title">nextWrapper</span>(<span class="params">...args</span>) </span>&#123;</span><br><span class="line">      <span class="keyword">return</span> a(b(...args));</span><br><span class="line">    &#125;;</span><br><span class="line">  &#125;);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">compose</span>(<span class="params">...funcs</span>) </span>&#123;</span><br><span class="line">  <span class="keyword">if</span> (funcs.length === <span class="number">0</span>) &#123;</span><br><span class="line">    <span class="keyword">return</span> <span class="function"><span class="params">arg</span> =&gt;</span> arg;</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  <span class="keyword">if</span> (funcs.length === <span class="number">1</span>) &#123;</span><br><span class="line">    <span class="keyword">return</span> funcs[<span class="number">0</span>];</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  <span class="keyword">return</span> funcs.reduce(<span class="function"><span class="keyword">function</span> <span class="title">reducer</span>(<span class="params">a, b</span>) </span>&#123;</span><br><span class="line">    <span class="keyword">return</span> <span class="function"><span class="keyword">function</span> <span class="title">nextWrapper</span>(<span class="params">...args</span>) </span>&#123;</span><br><span class="line">      <span class="keyword">return</span> a(b(...args));</span><br><span class="line">    &#125;;</span><br><span class="line">  &#125;);</span><br><span class="line">&#125;</span><br><span class="line"> </span><br></pre></td></tr></table></figure>
 
 <p>接下来全文将基于此函数剖析。</p>
 <p>接下来将提供几个简单 redux 中间件，同样，我避免了箭头函数的使用，理由同上。代码如下：</p>
-<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">next</span>(<span class="params">action</span>) </span>&#123;</span><br><span class="line">  <span class="built_in">console</span>.log(<span class="string">"[next]"</span>, action);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">fooMiddleware</span>(<span class="params">next</span>) </span>&#123;</span><br><span class="line">  <span class="built_in">console</span>.log(<span class="string">"[fooMiddleware] trigger"</span>);</span><br><span class="line">  <span class="keyword">return</span> <span class="function"><span class="keyword">function</span> <span class="title">next_from_foo</span>(<span class="params">action</span>) </span>&#123;</span><br><span class="line">    <span class="built_in">console</span>.log(<span class="string">"[fooMiddleware] before next"</span>);</span><br><span class="line">    next(action);</span><br><span class="line">    <span class="built_in">console</span>.log(<span class="string">"[fooMiddleware] after next"</span>);</span><br><span class="line">  &#125;;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">barMiddleware</span>(<span class="params">next</span>) </span>&#123;</span><br><span class="line">  <span class="built_in">console</span>.log(<span class="string">"[barMiddleware] trigger"</span>);</span><br><span class="line">  <span class="keyword">return</span> <span class="function"><span class="keyword">function</span> <span class="title">next_from_bar</span>(<span class="params">action</span>) </span>&#123;</span><br><span class="line">    <span class="built_in">console</span>.log(<span class="string">"[barMiddleware] before next"</span>);</span><br><span class="line">    next(action);</span><br><span class="line">    <span class="built_in">console</span>.log(<span class="string">"[barMiddleware] after next"</span>);</span><br><span class="line">  &#125;;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">bazMiddleware</span>(<span class="params">next</span>) </span>&#123;</span><br><span class="line">  <span class="built_in">console</span>.log(<span class="string">"[bazMiddleware] trigger"</span>);</span><br><span class="line">  <span class="keyword">return</span> <span class="function"><span class="keyword">function</span> <span class="title">next_from_baz</span>(<span class="params">action</span>) </span>&#123;</span><br><span class="line">    <span class="built_in">console</span>.log(<span class="string">"[bazMiddleware] before next"</span>);</span><br><span class="line">    next(action);</span><br><span class="line">    <span class="built_in">console</span>.log(<span class="string">"[bazMiddleware] after next"</span>);</span><br><span class="line">  &#125;;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">next</span>(<span class="params">action</span>) </span>&#123;</span><br><span class="line">  <span class="built_in">console</span>.log(<span class="string">&quot;[next]&quot;</span>, action);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">fooMiddleware</span>(<span class="params">next</span>) </span>&#123;</span><br><span class="line">  <span class="built_in">console</span>.log(<span class="string">&quot;[fooMiddleware] trigger&quot;</span>);</span><br><span class="line">  <span class="keyword">return</span> <span class="function"><span class="keyword">function</span> <span class="title">next_from_foo</span>(<span class="params">action</span>) </span>&#123;</span><br><span class="line">    <span class="built_in">console</span>.log(<span class="string">&quot;[fooMiddleware] before next&quot;</span>);</span><br><span class="line">    next(action);</span><br><span class="line">    <span class="built_in">console</span>.log(<span class="string">&quot;[fooMiddleware] after next&quot;</span>);</span><br><span class="line">  &#125;;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">barMiddleware</span>(<span class="params">next</span>) </span>&#123;</span><br><span class="line">  <span class="built_in">console</span>.log(<span class="string">&quot;[barMiddleware] trigger&quot;</span>);</span><br><span class="line">  <span class="keyword">return</span> <span class="function"><span class="keyword">function</span> <span class="title">next_from_bar</span>(<span class="params">action</span>) </span>&#123;</span><br><span class="line">    <span class="built_in">console</span>.log(<span class="string">&quot;[barMiddleware] before next&quot;</span>);</span><br><span class="line">    next(action);</span><br><span class="line">    <span class="built_in">console</span>.log(<span class="string">&quot;[barMiddleware] after next&quot;</span>);</span><br><span class="line">  &#125;;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">bazMiddleware</span>(<span class="params">next</span>) </span>&#123;</span><br><span class="line">  <span class="built_in">console</span>.log(<span class="string">&quot;[bazMiddleware] trigger&quot;</span>);</span><br><span class="line">  <span class="keyword">return</span> <span class="function"><span class="keyword">function</span> <span class="title">next_from_baz</span>(<span class="params">action</span>) </span>&#123;</span><br><span class="line">    <span class="built_in">console</span>.log(<span class="string">&quot;[bazMiddleware] before next&quot;</span>);</span><br><span class="line">    next(action);</span><br><span class="line">    <span class="built_in">console</span>.log(<span class="string">&quot;[bazMiddleware] after next&quot;</span>);</span><br><span class="line">  &#125;;</span><br><span class="line">&#125;</span><br><span class="line"> </span><br></pre></td></tr></table></figure>
 
 <p>此时如果将以上 foo bar baz 三个中间件组合运行如下：</p>
-<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> chain = compose(fooMiddleware, barMiddleware, bazMiddleware);</span><br><span class="line"><span class="keyword">const</span> nextChain = chain(next);</span><br><span class="line">nextChain(<span class="string">"&#123;data&#125;"</span>);</span><br></pre></td></tr></table></figure>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> chain = compose(fooMiddleware, barMiddleware, bazMiddleware);</span><br><span class="line"><span class="keyword">const</span> nextChain = chain(next);</span><br><span class="line">nextChain(<span class="string">&quot;&#123;data&#125;&quot;</span>);</span><br><span class="line"> </span><br></pre></td></tr></table></figure>
 
 <p>以上将会在控制台输出什么？</p>
 <p>大家可以思考一下。</p>
 <p>…</p>
 <p>熟悉中间件运行顺序的同学可能很快得出答案：</p>
-<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">[bazMiddleware] trigger</span><br><span class="line">[barMiddleware] trigger</span><br><span class="line">[fooMiddleware] trigger</span><br><span class="line">[fooMiddleware] before next</span><br><span class="line">[barMiddleware] before next</span><br><span class="line">[bazMiddleware] before next</span><br><span class="line">[next] &#123;data&#125;</span><br><span class="line">[bazMiddleware] after next</span><br><span class="line">[barMiddleware] after next</span><br><span class="line">[fooMiddleware] after next</span><br></pre></td></tr></table></figure>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">[bazMiddleware] trigger</span><br><span class="line">[barMiddleware] trigger</span><br><span class="line">[fooMiddleware] trigger</span><br><span class="line">[fooMiddleware] before next</span><br><span class="line">[barMiddleware] before next</span><br><span class="line">[bazMiddleware] before next</span><br><span class="line">[next] &#123;data&#125;</span><br><span class="line">[bazMiddleware] after next</span><br><span class="line">[barMiddleware] after next</span><br><span class="line">[fooMiddleware] after next</span><br><span class="line"> </span><br></pre></td></tr></table></figure>
 
 <p>写不出正确答案的同学也无须灰心。这篇文章的目的，正是帮助大家更好理解这一套机制原理。</p>
 <p>这种洋葱模型，也即是中间件的能力之强大众所周知，现在在 Web 社区发挥极大作用的 Redux、Express、Koa，开发者利用其中的洋葱模型，构建无数强大又有趣的 Web 应用和 Node 应用。更不用提基于这三个衍生出来的 Dva、Egg 等。 所以其实需要理解的是这套实现机制原理，如果光是记住中间件执行顺序，未免太过无趣了，现在让我们逐层逐层解构以上代码来探索洋葱模型吧。</p>
 <p>到这里，正文正式开始！</p>
-<p>以上代码的灵魂之处在于 Array.prototype.reduce()，不了解此函数的同学强烈建议去 MDN 遛跶一圈 <a href="https://developer.mozilla.org/zh-CN/docs/Web/JavaScript/Reference/Global_Objects/Array/Reduce" target="_blank" rel="noopener">MDN | Array.prototype.reduce()</a>。</p>
+<p>以上代码的灵魂之处在于 Array.prototype.reduce()，不了解此函数的同学强烈建议去 MDN 遛跶一圈 <a target="_blank" rel="noopener" href="https://developer.mozilla.org/zh-CN/docs/Web/JavaScript/Reference/Global_Objects/Array/Reduce">MDN | Array.prototype.reduce()</a>。</p>
 <p>reduce 函数是函数式编程的一个重要概念，可用于实现函数组合（compose）</p>
-<h2 id="组合中间件机制"><a href="#组合中间件机制" class="headerlink" title="组合中间件机制"></a>组合中间件机制</h2><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> chain = compose(fooMiddleware, barMiddleware, bazMiddleware);</span><br></pre></td></tr></table></figure>
+<h2 id="组合中间件机制"><a href="#组合中间件机制" class="headerlink" title="组合中间件机制"></a>组合中间件机制</h2><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> chain = compose(fooMiddleware, barMiddleware, bazMiddleware);</span><br><span class="line"> </span><br></pre></td></tr></table></figure>
 
 <p>以上 compose 传入了 fooMiddleware、barMiddleware、bazMiddleware 三个中间件进行组合，内部执行步骤可以分解为以下两步。</p>
 <ol>
 <li>第一步输入参数：a -&gt; fooMiddleware，b -&gt; barMiddleware</li>
 </ol>
-<p>执行 reduce 第一次组合，得到返回输出：<code>function nextWrapper#1(...args) { return fooMiddleware(barMiddleware(...args)) }</code></p>
+<p>执行 reduce 第一次组合，得到返回输出：<code>function nextWrapper#1(...args) &#123; return fooMiddleware(barMiddleware(...args)) &#125;</code></p>
 <ol start="2">
 <li>第二步输入参数：a -&gt; function nextWrapper#1(…args) { return fooMiddleware(barMiddleware(…args)) }，b -&gt; bazMiddleware</li>
 </ol>
-<p>执行 reduce 第二次组合，得到返回输出：<code>function nextWrapper#2(...args) { return nextWrapper#1(bazMiddleware(...args)) }</code>。</p>
+<p>执行 reduce 第二次组合，得到返回输出：<code>function nextWrapper#2(...args) &#123; return nextWrapper#1(bazMiddleware(...args)) &#125;</code>。</p>
 <p>所以 chain 就等于最终返回出来的 nextWrapper。</p>
 <p>（这里用了 #1，#2 用来指代不同组合的 nextWrapper，实际上并没有这样的语法，须知）</p>
 <p><img src="/2020/10/27/%E6%B7%B1%E5%85%A5%E7%90%86%E8%A7%A3%E6%B4%8B%E8%91%B1%E6%A8%A1%E5%9E%8B%E4%B8%AD%E9%97%B4%E4%BB%B6%E6%9C%BA%E5%88%B6/2.jpeg" alt="image"></p>
 <h2 id="应用中间件机制"><a href="#应用中间件机制" class="headerlink" title="应用中间件机制"></a>应用中间件机制</h2><p>然而此时请留意，所有中间件并没有执行，到目前为止最终通过高阶函数 nextWrapper 返回了出来而已。</p>
 <p>因为直到以下这一句，传入 next 函数作为参数，才开始真正的触发了 nextWrapper，开始迭代执行所有组合过的中间件。</p>
-<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> nextChain = chain(next);</span><br></pre></td></tr></table></figure>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> nextChain = chain(next);</span><br><span class="line"> </span><br></pre></td></tr></table></figure>
 
 <p>我们在上面得知了 chain 最终是形如 (…args) =&gt; fooMiddleware(barMiddleware(bazMiddleware(…args))) 的函数。因此当传入 next 函数时，内部执行步骤可以分为下述几步：</p>
 <ol>
@@ -478,33 +478,33 @@ height:50vh;
 <p>再用示意图详细描述即为：</p>
 <p><img src="/2020/10/27/%E6%B7%B1%E5%85%A5%E7%90%86%E8%A7%A3%E6%B4%8B%E8%91%B1%E6%A8%A1%E5%9E%8B%E4%B8%AD%E9%97%B4%E4%BB%B6%E6%9C%BA%E5%88%B6/3.jpg" alt="image"></p>
 <p>此时经过以上步骤，控制台输出了下述日志：</p>
-<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">[bazMiddleware] trigger</span><br><span class="line">[barMiddleware] trigger</span><br><span class="line">[fooMiddleware] trigger</span><br></pre></td></tr></table></figure>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">[bazMiddleware] trigger</span><br><span class="line">[barMiddleware] trigger</span><br><span class="line">[fooMiddleware] trigger</span><br><span class="line"> </span><br></pre></td></tr></table></figure>
 
 <p>这里的 next_from_baz，next_from_bar，next_from_foo 其实就是一层层的对传入的参数函数 next 包裹。官方说法称之为 Monkeypatching。</p>
 <p>我们很清晰的知道，next_from_foo 包裹了 next_from_bar，next_from_bar 又包裹了 next_from_baz，next_from_baz 则包裹了 next。</p>
 <p>如果直接写 Monkeypatching 如下</p>
-<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> prevNext = next;</span><br><span class="line">next = <span class="function">(<span class="params">...args</span>) =&gt;</span> &#123;</span><br><span class="line">  <span class="comment">// @todo</span></span><br><span class="line">  prevNext(...args);</span><br><span class="line">  <span class="comment">// @todo</span></span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> prevNext = next;</span><br><span class="line">next = <span class="function">(<span class="params">...args</span>) =&gt;</span> &#123;</span><br><span class="line">  <span class="comment">// @todo</span></span><br><span class="line">  prevNext(...args);</span><br><span class="line">  <span class="comment">// @todo</span></span><br><span class="line">&#125;;</span><br><span class="line"> </span><br></pre></td></tr></table></figure>
 
 <p>但这样如果需要 patch 很多功能，我们需要将上述代码重复许多遍。的确不是很 DRY。</p>
 <blockquote>
 <p>Monkeypatching 本质上是一种 hack。“将任意的方法替换成你想要的”。</p>
 </blockquote>
-<p>关于 Monkeypatching 和 redux 中间件的介绍，十分推荐阅读官网文档 <a href="https://www.redux.org.cn/docs/advanced/Middleware.html" target="_blank" rel="noopener">Redux Docs | Middleware</a>。</p>
+<p>关于 Monkeypatching 和 redux 中间件的介绍，十分推荐阅读官网文档 <a target="_blank" rel="noopener" href="https://www.redux.org.cn/docs/advanced/Middleware.html">Redux Docs | Middleware</a>。</p>
 <p>到这里我想出个考题，如下：</p>
-<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">add5</span>(<span class="params">x</span>) </span>&#123;</span><br><span class="line">  <span class="keyword">return</span> x + <span class="number">5</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">div2</span>(<span class="params">x</span>) </span>&#123;</span><br><span class="line">  <span class="keyword">return</span> x / <span class="number">2</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">sub3</span>(<span class="params">x</span>) </span>&#123;</span><br><span class="line">  <span class="keyword">return</span> x - <span class="number">3</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">const</span> chain = [add5, div2, sub3].reduce(<span class="function">(<span class="params">a, b</span>) =&gt;</span> <span class="function">(<span class="params">...args</span>) =&gt;</span> a(b(...args)));</span><br></pre></td></tr></table></figure>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">add5</span>(<span class="params">x</span>) </span>&#123;</span><br><span class="line">  <span class="keyword">return</span> x + <span class="number">5</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">div2</span>(<span class="params">x</span>) </span>&#123;</span><br><span class="line">  <span class="keyword">return</span> x / <span class="number">2</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">sub3</span>(<span class="params">x</span>) </span>&#123;</span><br><span class="line">  <span class="keyword">return</span> x - <span class="number">3</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">const</span> chain = [add5, div2, sub3].reduce(<span class="function">(<span class="params">a, b</span>) =&gt;</span> <span class="function">(<span class="params">...args</span>) =&gt;</span> a(b(...args)));</span><br><span class="line"> </span><br></pre></td></tr></table></figure>
 
 <p>请问，chain(1) 输出值？</p>
 <p>执行顺序为 sub3 -&gt; div2 -&gt; add5。 (1 - 3) / 2 + 5 = 4。答案是 4。</p>
 <p>那么再问：</p>
-<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> chain = [add5, div2, sub3].reduceRight(<span class="function">(<span class="params">a, b</span>) =&gt;</span> <span class="function">(<span class="params">...args</span>) =&gt;</span> b(a(...args)));</span><br></pre></td></tr></table></figure>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> chain = [add5, div2, sub3].reduceRight(<span class="function">(<span class="params">a, b</span>) =&gt;</span> <span class="function">(<span class="params">...args</span>) =&gt;</span> b(a(...args)));</span><br><span class="line"> </span><br></pre></td></tr></table></figure>
 
 <p>此时 chain(1) 输出值？还是 4。</p>
 <p>再看如下代码：</p>
-<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> chain = [add5, div2, sub3].reverse().reduce(<span class="function">(<span class="params">a, b</span>) =&gt;</span> <span class="function">(<span class="params">...args</span>) =&gt;</span> b(a(...args)));</span><br></pre></td></tr></table></figure>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> chain = [add5, div2, sub3].reverse().reduce(<span class="function">(<span class="params">a, b</span>) =&gt;</span> <span class="function">(<span class="params">...args</span>) =&gt;</span> b(a(...args)));</span><br><span class="line"> </span><br></pre></td></tr></table></figure>
 
 <p>此时 chain(1) 输出值？仍然是 4。</p>
 <p>如果你对上述示例都能很清晰的运算出答案，那么你应该对上文中 chain(next) 的理解 ok，那么请继续往下看。</p>
-<h2 id="洋葱模型机制"><a href="#洋葱模型机制" class="headerlink" title="洋葱模型机制"></a>洋葱模型机制</h2><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">nextChain(<span class="string">"&#123;data&#125;"</span>);</span><br></pre></td></tr></table></figure>
+<h2 id="洋葱模型机制"><a href="#洋葱模型机制" class="headerlink" title="洋葱模型机制"></a>洋葱模型机制</h2><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">nextChain(<span class="string">&quot;&#123;data&#125;&quot;</span>);</span><br><span class="line"> </span><br></pre></td></tr></table></figure>
 
 <p>终于重头戏来了，nextChain 函数来之不易，但毫无疑问，它的能力是十分强大的。（你看，其实在 redux 中，这个 nextChain 函数其实就是 redux 中的 dispatch 函数。）</p>
 <p>文章截止目前为止，我们得知了 nextChain 函数即为 next_from_foo 函数。</p>
@@ -512,13 +512,13 @@ height:50vh;
 <p><img src="/2020/10/27/%E6%B7%B1%E5%85%A5%E7%90%86%E8%A7%A3%E6%B4%8B%E8%91%B1%E6%A8%A1%E5%9E%8B%E4%B8%AD%E9%97%B4%E4%BB%B6%E6%9C%BA%E5%88%B6/4.jpg" alt="image"></p>
 <p>依次执行，每当执行到 next 函数时，新的 next 函数入栈，循环往复，直到 next_from_baz 为止。函数入栈的过程，就相当于进行完了洋葱模型从外到里的进入过程。</p>
 <p>控制台输出日志：</p>
-<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">[fooMiddleware] before next</span><br><span class="line">[barMiddleware] before next</span><br><span class="line">[bazMiddleware] before next</span><br></pre></td></tr></table></figure>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">[fooMiddleware] before next</span><br><span class="line">[barMiddleware] before next</span><br><span class="line">[bazMiddleware] before next</span><br><span class="line"> </span><br></pre></td></tr></table></figure>
 
 <p>函数入栈直到最终的 next 函数，我们知道，next 函数并没有任何函数了，也就是说到达了终点。</p>
 <p>接下来就是逐层出栈。示意图如下</p>
 <p><img src="/2020/10/27/%E6%B7%B1%E5%85%A5%E7%90%86%E8%A7%A3%E6%B4%8B%E8%91%B1%E6%A8%A1%E5%9E%8B%E4%B8%AD%E9%97%B4%E4%BB%B6%E6%9C%BA%E5%88%B6/5.jpg" alt="image"></p>
 <p>控制台输出日志：</p>
-<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">[next] &#123;data&#125;</span><br><span class="line">[bazMiddleware] after next</span><br><span class="line">[barMiddleware] after next</span><br><span class="line">[fooMiddleware] after next</span><br></pre></td></tr></table></figure>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">[next] &#123;data&#125;</span><br><span class="line">[bazMiddleware] after next</span><br><span class="line">[barMiddleware] after next</span><br><span class="line">[fooMiddleware] after next</span><br><span class="line"> </span><br></pre></td></tr></table></figure>
 
 <p>函数出栈的过程，就相当于洋葱模型从里到外的出去过程。</p>
 <p>上述是函数堆栈的执行顺序。而下述示意图是我整理后帮助大家理解的线性执行顺序。每当执行到 next(action) 的时候函数入栈，原 next 函数暂时停止执行，执行新的 next 函数，正如下图弯曲箭头所指。</p>
@@ -527,14 +527,14 @@ height:50vh;
 <p>我们修改一开始的洋葱模型，示例如下：</p>
 <p><img src="/2020/10/27/%E6%B7%B1%E5%85%A5%E7%90%86%E8%A7%A3%E6%B4%8B%E8%91%B1%E6%A8%A1%E5%9E%8B%E4%B8%AD%E9%97%B4%E4%BB%B6%E6%9C%BA%E5%88%B6/7.jpg" alt="image"></p>
 <h2 id="小结"><a href="#小结" class="headerlink" title="小结"></a>小结</h2><p>redux 的中间件也就是比上述示例的中间件多了一层高阶函数用以获取框架内部的 store。</p>
-<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> reduxMiddleware = <span class="function"><span class="params">store</span> =&gt;</span> <span class="function"><span class="params">next</span> =&gt;</span> <span class="function"><span class="params">action</span> =&gt;</span> &#123;</span><br><span class="line">  <span class="comment">// ...</span></span><br><span class="line">  next(action);</span><br><span class="line">  <span class="comment">// ...</span></span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> reduxMiddleware = <span class="function"><span class="params">store</span> =&gt;</span> <span class="function"><span class="params">next</span> =&gt;</span> <span class="function"><span class="params">action</span> =&gt;</span> &#123;</span><br><span class="line">  <span class="comment">// ...</span></span><br><span class="line">  next(action);</span><br><span class="line">  <span class="comment">// ...</span></span><br><span class="line">&#125;;</span><br><span class="line"> </span><br></pre></td></tr></table></figure>
 
 <p>而 koa 的中间件多了 ctx 上下文参数，和支持异步。</p>
-<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">app.use(<span class="keyword">async</span> (ctx, next) =&gt; &#123;</span><br><span class="line">  <span class="comment">// ...</span></span><br><span class="line">  <span class="keyword">await</span> next();</span><br><span class="line">  <span class="comment">// ...</span></span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">app.use(<span class="keyword">async</span> (ctx, next) =&gt; &#123;</span><br><span class="line">  <span class="comment">// ...</span></span><br><span class="line">  <span class="keyword">await</span> next();</span><br><span class="line">  <span class="comment">// ...</span></span><br><span class="line">&#125;);</span><br><span class="line"> </span><br></pre></td></tr></table></figure>
 
 <p>你能想到大致如何实现了么？是不是有点拨开云雾见太阳的感觉了？</p>
 <p>如果有，本文发挥了它的作用和价值，笔者将会不甚荣幸。如果没有，那笔者的表达能力还是有待加强。</p>
-<p>原文地址 <a href="https://juejin.im/post/6844904025767280648" target="_blank" rel="noopener">juejin.im</a></p>
+<p>原文地址 <a target="_blank" rel="noopener" href="https://juejin.im/post/6844904025767280648">juejin.im</a></p>
 
     </article>
     <!-- license  -->
@@ -669,7 +669,7 @@ top:50vh;
         <div class="toc-catalog">
             <span class="iconfont-archer catalog-icon">&#xe613;</span><span>CATALOG</span>
         </div>
-        <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#组合中间件机制"><span class="toc-number">1.</span> <span class="toc-text">组合中间件机制</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#应用中间件机制"><span class="toc-number">2.</span> <span class="toc-text">应用中间件机制</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#洋葱模型机制"><span class="toc-number">3.</span> <span class="toc-text">洋葱模型机制</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#小结"><span class="toc-number">4.</span> <span class="toc-text">小结</span></a></li></ol>
+        <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%BB%84%E5%90%88%E4%B8%AD%E9%97%B4%E4%BB%B6%E6%9C%BA%E5%88%B6"><span class="toc-number">1.</span> <span class="toc-text">组合中间件机制</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%BA%94%E7%94%A8%E4%B8%AD%E9%97%B4%E4%BB%B6%E6%9C%BA%E5%88%B6"><span class="toc-number">2.</span> <span class="toc-text">应用中间件机制</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%B4%8B%E8%91%B1%E6%A8%A1%E5%9E%8B%E6%9C%BA%E5%88%B6"><span class="toc-number">3.</span> <span class="toc-text">洋葱模型机制</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%B0%8F%E7%BB%93"><span class="toc-number">4.</span> <span class="toc-text">小结</span></a></li></ol>
     </div>
     
     <div class="back-top iconfont-archer">&#xe639;</div>
@@ -1574,9 +1574,47 @@ top:50vh;
     
     
     
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
     <div class="total-and-search">
         <div class="total-archive">
-        Total : 62
+        Total : 64
         </div>
         <!-- search  -->
         
@@ -1586,6 +1624,25 @@ top:50vh;
     
     
     
+    
+    <div class="archive-year"> 2021 </div>
+    <ul class="year-list">
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">03/31</span><a class="archive-post-title" href= "/2021/03/31/%E4%BB%8E%E4%B8%80%E9%81%93%E8%AE%A9%E6%88%91%E5%A4%B1%E7%9C%A0%E7%9A%84Promise%E9%9D%A2%E8%AF%95%E9%A2%98%E5%BC%80%E5%A7%8B%EF%BC%8C%E6%B7%B1%E5%85%A5%E5%88%86%E6%9E%90Promise%E5%AE%9E%E7%8E%B0%E7%BB%86%E8%8A%82/" >从一道让我失眠的Promise面试题开始，深入分析Promise实现细节</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">02/12</span><a class="archive-post-title" href= "/2021/02/12/%E5%9C%A8%E5%A4%A7%E5%8E%82%E6%98%AF%E5%A6%82%E4%BD%95%E9%AB%98%E6%95%88%E7%BB%84%E7%BB%87npmscript%E7%9A%84/" >在大厂是如何高效组织npmscript的</a>
+        </li>
+    
+    
+    
+    
+    
+        </ul>
     
     <div class="archive-year"> 2020 </div>
     <ul class="year-list">
@@ -1918,9 +1975,9 @@ top:50vh;
     
         <span class="sidebar-tag-name" data-tags="css"><span class="iconfont-archer">&#xe606;</span>css</span>
     
-        <span class="sidebar-tag-name" data-tags="html"><span class="iconfont-archer">&#xe606;</span>html</span>
-    
         <span class="sidebar-tag-name" data-tags="网络安全"><span class="iconfont-archer">&#xe606;</span>网络安全</span>
+    
+        <span class="sidebar-tag-name" data-tags="html"><span class="iconfont-archer">&#xe606;</span>html</span>
     
         <span class="sidebar-tag-name" data-tags="Vue"><span class="iconfont-archer">&#xe606;</span>Vue</span>
     

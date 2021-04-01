@@ -213,7 +213,7 @@
     
     <!-- 谷歌统计  -->
     
-<meta name="generator" content="Hexo 4.2.0"></head>
+<meta name="generator" content="Hexo 5.4.0"></head>
 
     
         <body class="post-body">
@@ -415,12 +415,12 @@ height:50vh;
             <main class="main post-page">
     <article class="article-entry">
         <h3 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h3><p>我们在各种算法题以及技术文档中经常会看到柯里化这个词，那么，柯里化到底是什么？它在 js 中如何运用？对我们的编程有什么作用？都 9102 年了，如果你还不知道这些，那么你在面试过程中很可能会被面试官 diss🙄</p>
-<a id="more"></a>
+<span id="more"></span>
 <hr>
-<h3 id="什么是柯里化（Currying）"><a href="#什么是柯里化（Currying）" class="headerlink" title="什么是柯里化（Currying）"></a>什么是柯里化（Currying）</h3><p><em>维基百科</em>的<a href="https://links.jianshu.com/go?to=https%3A%2F%2Fzh.wikipedia.org%2Fwiki%2F%25E6%259F%25AF%25E9%2587%258C%25E5%258C%2596" target="_blank" rel="noopener">解释</a>是：把接收多个参数的函数变换成接收一个单一参数（最初函数的第一个参数）的函数，并返回接受剩余的参数而且返回结果的新函数的技术。其由数学家 Haskell Brooks Curry 提出，并以 curry 命名。</p>
+<h3 id="什么是柯里化（Currying）"><a href="#什么是柯里化（Currying）" class="headerlink" title="什么是柯里化（Currying）"></a>什么是柯里化（Currying）</h3><p><em>维基百科</em>的<a target="_blank" rel="noopener" href="https://links.jianshu.com/go?to=https%3A%2F%2Fzh.wikipedia.org%2Fwiki%2F%25E6%259F%25AF%25E9%2587%258C%25E5%258C%2596">解释</a>是：把接收多个参数的函数变换成接收一个单一参数（最初函数的第一个参数）的函数，并返回接受剩余的参数而且返回结果的新函数的技术。其由数学家 Haskell Brooks Curry 提出，并以 curry 命名。</p>
 <p>简单的说，柯里化函数持续地返回一个新函数直到所有的参数用尽为止。这些参数全部保持 “活着” 的状态（通过闭包），然后当柯里化链中的最后一个函数被返回和执行时会全部被用来执行。</p>
-<p>这和<a href="https://links.jianshu.com/go?to=https%3A%2F%2Freact.docschina.org%2Fdocs%2Fhigher-order-components.html" target="_blank" rel="noopener">高阶组件</a>（Higher-order functions）如出一辙。前者返回一个新函数，后者返回一个新组件。</p>
-<h3 id="举个简单的栗子"><a href="#举个简单的栗子" class="headerlink" title="举个简单的栗子"></a>举个简单的栗子</h3><p>本例使用到的部分 ES6 知识：<a href="https://links.jianshu.com/go?to=http%3A%2F%2Fes6.ruanyifeng.com%2F%23docs%2Flet" target="_blank" rel="noopener">const</a>，<a href="https://links.jianshu.com/go?to=http%3A%2F%2Fes6.ruanyifeng.com%2F%23docs%2Ffunction" target="_blank" rel="noopener">arrow function</a>。不了解的同学可先行查看。<br>写一个计算三个参数相乘的函数：</p>
+<p>这和<a target="_blank" rel="noopener" href="https://links.jianshu.com/go?to=https%3A%2F%2Freact.docschina.org%2Fdocs%2Fhigher-order-components.html">高阶组件</a>（Higher-order functions）如出一辙。前者返回一个新函数，后者返回一个新组件。</p>
+<h3 id="举个简单的栗子"><a href="#举个简单的栗子" class="headerlink" title="举个简单的栗子"></a>举个简单的栗子</h3><p>本例使用到的部分 ES6 知识：<a target="_blank" rel="noopener" href="https://links.jianshu.com/go?to=http%3A%2F%2Fes6.ruanyifeng.com%2F%23docs%2Flet">const</a>，<a target="_blank" rel="noopener" href="https://links.jianshu.com/go?to=http%3A%2F%2Fes6.ruanyifeng.com%2F%23docs%2Ffunction">arrow function</a>。不了解的同学可先行查看。<br>写一个计算三个参数相乘的函数：</p>
 <figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">multiply</span> (<span class="params">a, b, c</span>) </span>&#123;</span><br><span class="line">  <span class="keyword">return</span> a * b * c</span><br><span class="line">&#125;</span><br><span class="line">multiply(<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>)</span><br></pre></td></tr></table></figure>
 
 <p>这是我们第一反应写出来的 demo，也是看起来最简单的实现方法。再来创建一个柯里化版本的函数：</p>
@@ -431,7 +431,7 @@ height:50vh;
 <figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> mul1 = multiply(<span class="number">1</span>)</span><br><span class="line"><span class="keyword">const</span> mul2 = mul1(<span class="number">2</span>)</span><br><span class="line"><span class="keyword">const</span> result = mul2(<span class="number">3</span>)</span><br><span class="line"><span class="built_in">console</span>.log(result)</span><br></pre></td></tr></table></figure>
 
 <p>当 mul2 使用 3 作为参数调用时，它一起使用了之前已拿到的参数 a=1 和 b=2 进行运算并返回结果 6。</p>
-<p>作为一个嵌套函数，mul2 能够访问到外部的两个函数 multiply 和 mul1 的作用域。这就是为什么 mul2 能利用定义在已经‘离场’的函数中的参数来进行乘法操作的原因。即使这些函数早已返回并且从内存中垃圾回收了，但其变量仍然保持‘活着’(<a href="https://links.jianshu.com/go?to=https%3A%2F%2Fwww.liaoxuefeng.com%2Fwiki%2F001434446689867b27157e896e74d51a89c25cc8b43bdb3000%2F00143449934543461c9d5dfeeb848f5b72bd012e1113d15000" target="_blank" rel="noopener">闭包</a>)。你可以看到 3 个数字每次只有 1 个提供给函数，并且同一时间里一个新函数会被返回，直到所有的数字用尽为止。</p>
+<p>作为一个嵌套函数，mul2 能够访问到外部的两个函数 multiply 和 mul1 的作用域。这就是为什么 mul2 能利用定义在已经‘离场’的函数中的参数来进行乘法操作的原因。即使这些函数早已返回并且从内存中垃圾回收了，但其变量仍然保持‘活着’(<a target="_blank" rel="noopener" href="https://links.jianshu.com/go?to=https%3A%2F%2Fwww.liaoxuefeng.com%2Fwiki%2F001434446689867b27157e896e74d51a89c25cc8b43bdb3000%2F00143449934543461c9d5dfeeb848f5b72bd012e1113d15000">闭包</a>)。你可以看到 3 个数字每次只有 1 个提供给函数，并且同一时间里一个新函数会被返回，直到所有的数字用尽为止。</p>
 <p><strong>柯里化背后的逻辑就是获取一个函数并派生出一个返回特殊函数的函数</strong>，它实际上是一种思想，或者说是一种程序设计模式。</p>
 <h3 id="柯里化的应用"><a href="#柯里化的应用" class="headerlink" title="柯里化的应用"></a>柯里化的应用</h3><h4 id="1-编写可以轻松复用和配置的小代码块，就像我们使用-npm-一样："><a href="#1-编写可以轻松复用和配置的小代码块，就像我们使用-npm-一样：" class="headerlink" title="1. 编写可以轻松复用和配置的小代码块，就像我们使用 npm 一样："></a>1. 编写可以轻松复用和配置的小代码块，就像我们使用 npm 一样：</h4><p>举个例子，你有一家商店，然后你想给你的优惠顾客 10% 的折扣：</p>
 <figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">discount</span> (<span class="params">price, discount</span>) </span>&#123;</span><br><span class="line">  <span class="keyword">return</span> price * discount</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">const</span> price = discount(<span class="number">500</span>, <span class="number">0.1</span>) </span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="keyword">const</span> price = discount(<span class="number">1500</span>, <span class="number">0.1</span>) </span><br><span class="line"><span class="keyword">const</span> price = discount(<span class="number">2000</span>, <span class="number">0.1</span>) </span><br><span class="line"><span class="keyword">const</span> price = discount(<span class="number">50</span>, <span class="number">0.1</span>) </span><br><span class="line"><span class="keyword">const</span> price = discount(<span class="number">300</span>, <span class="number">0.1</span>) </span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">discount</span> (<span class="params">discount</span>) </span>&#123;</span><br><span class="line">  <span class="keyword">return</span> <span class="function">(<span class="params">price</span>) =&gt;</span> &#123;</span><br><span class="line">    <span class="keyword">return</span> price * discount</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">const</span> tenPercentDiscount = discount(<span class="number">0.1</span>)</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">tenPercentDiscount(<span class="number">500</span>) </span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="keyword">const</span> twentyPercentDiscount = discount(<span class="number">0.2</span>)</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">twentyPercentDiscount(<span class="number">500</span>) </span><br><span class="line">twentyPercentDiscount(<span class="number">3000</span>) </span><br><span class="line">twentyPercentDiscount(<span class="number">80000</span>)</span><br></pre></td></tr></table></figure>
@@ -453,7 +453,7 @@ height:50vh;
 
 <p>该方法几乎为最简洁、代码行数最少的实现方法了。<br>首先我们能确定，实现柯里化的核心就是要确定传入参数的个数，并通通取到。<br>其次，我们得知道，<code>fn.length</code>为 fn 函数接受的参数个数，那么该实现方法就能解读为：<br><strong>不断递归获取传入参数，直到取到的参数个数等于 fn 的参数个数为止，最终将获取到的所有参数传给 fn 并返回执行结果</strong>。</p>
 <h3 id="结语"><a href="#结语" class="headerlink" title="结语"></a>结语</h3><p>柯里化作为一种重要的程序思想，已经广为应用，它使我们应对复杂问题时能提升效率，增强可读性。希望读者都能体会这种思想并运用于实践，相信在提升技术的路上能越走越远，成为一名优秀的工程师！</p>
-<p><a href="https://www.jianshu.com/p/7fa99a4bee8b" target="_blank" rel="noopener">原文地址</a></p>
+<p><a target="_blank" rel="noopener" href="https://www.jianshu.com/p/7fa99a4bee8b">原文地址</a></p>
 
     </article>
     <!-- license  -->
@@ -588,7 +588,7 @@ top:50vh;
         <div class="toc-catalog">
             <span class="iconfont-archer catalog-icon">&#xe613;</span><span>CATALOG</span>
         </div>
-        <ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#前言"><span class="toc-number">1.</span> <span class="toc-text">前言</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#什么是柯里化（Currying）"><span class="toc-number">2.</span> <span class="toc-text">什么是柯里化（Currying）</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#举个简单的栗子"><span class="toc-number">3.</span> <span class="toc-text">举个简单的栗子</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#柯里化的应用"><span class="toc-number">4.</span> <span class="toc-text">柯里化的应用</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#1-编写可以轻松复用和配置的小代码块，就像我们使用-npm-一样："><span class="toc-number">4.1.</span> <span class="toc-text">1. 编写可以轻松复用和配置的小代码块，就像我们使用 npm 一样：</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#2-避免频繁调用具有相同参数的函数："><span class="toc-number">4.2.</span> <span class="toc-text">2. 避免频繁调用具有相同参数的函数：</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#通用的柯里函数"><span class="toc-number">5.</span> <span class="toc-text">通用的柯里函数</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#使用递归实现-curry-函数"><span class="toc-number">6.</span> <span class="toc-text">使用递归实现 curry 函数</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#结语"><span class="toc-number">7.</span> <span class="toc-text">结语</span></a></li></ol>
+        <ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%89%8D%E8%A8%80"><span class="toc-number">1.</span> <span class="toc-text">前言</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%BB%80%E4%B9%88%E6%98%AF%E6%9F%AF%E9%87%8C%E5%8C%96%EF%BC%88Currying%EF%BC%89"><span class="toc-number">2.</span> <span class="toc-text">什么是柯里化（Currying）</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%B8%BE%E4%B8%AA%E7%AE%80%E5%8D%95%E7%9A%84%E6%A0%97%E5%AD%90"><span class="toc-number">3.</span> <span class="toc-text">举个简单的栗子</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%9F%AF%E9%87%8C%E5%8C%96%E7%9A%84%E5%BA%94%E7%94%A8"><span class="toc-number">4.</span> <span class="toc-text">柯里化的应用</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#1-%E7%BC%96%E5%86%99%E5%8F%AF%E4%BB%A5%E8%BD%BB%E6%9D%BE%E5%A4%8D%E7%94%A8%E5%92%8C%E9%85%8D%E7%BD%AE%E7%9A%84%E5%B0%8F%E4%BB%A3%E7%A0%81%E5%9D%97%EF%BC%8C%E5%B0%B1%E5%83%8F%E6%88%91%E4%BB%AC%E4%BD%BF%E7%94%A8-npm-%E4%B8%80%E6%A0%B7%EF%BC%9A"><span class="toc-number">4.1.</span> <span class="toc-text">1. 编写可以轻松复用和配置的小代码块，就像我们使用 npm 一样：</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#2-%E9%81%BF%E5%85%8D%E9%A2%91%E7%B9%81%E8%B0%83%E7%94%A8%E5%85%B7%E6%9C%89%E7%9B%B8%E5%90%8C%E5%8F%82%E6%95%B0%E7%9A%84%E5%87%BD%E6%95%B0%EF%BC%9A"><span class="toc-number">4.2.</span> <span class="toc-text">2. 避免频繁调用具有相同参数的函数：</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E9%80%9A%E7%94%A8%E7%9A%84%E6%9F%AF%E9%87%8C%E5%87%BD%E6%95%B0"><span class="toc-number">5.</span> <span class="toc-text">通用的柯里函数</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%BD%BF%E7%94%A8%E9%80%92%E5%BD%92%E5%AE%9E%E7%8E%B0-curry-%E5%87%BD%E6%95%B0"><span class="toc-number">6.</span> <span class="toc-text">使用递归实现 curry 函数</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%BB%93%E8%AF%AD"><span class="toc-number">7.</span> <span class="toc-text">结语</span></a></li></ol>
     </div>
     
     <div class="back-top iconfont-archer">&#xe639;</div>
@@ -1493,9 +1493,47 @@ top:50vh;
     
     
     
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
     <div class="total-and-search">
         <div class="total-archive">
-        Total : 62
+        Total : 64
         </div>
         <!-- search  -->
         
@@ -1505,6 +1543,25 @@ top:50vh;
     
     
     
+    
+    <div class="archive-year"> 2021 </div>
+    <ul class="year-list">
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">03/31</span><a class="archive-post-title" href= "/2021/03/31/%E4%BB%8E%E4%B8%80%E9%81%93%E8%AE%A9%E6%88%91%E5%A4%B1%E7%9C%A0%E7%9A%84Promise%E9%9D%A2%E8%AF%95%E9%A2%98%E5%BC%80%E5%A7%8B%EF%BC%8C%E6%B7%B1%E5%85%A5%E5%88%86%E6%9E%90Promise%E5%AE%9E%E7%8E%B0%E7%BB%86%E8%8A%82/" >从一道让我失眠的Promise面试题开始，深入分析Promise实现细节</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">02/12</span><a class="archive-post-title" href= "/2021/02/12/%E5%9C%A8%E5%A4%A7%E5%8E%82%E6%98%AF%E5%A6%82%E4%BD%95%E9%AB%98%E6%95%88%E7%BB%84%E7%BB%87npmscript%E7%9A%84/" >在大厂是如何高效组织npmscript的</a>
+        </li>
+    
+    
+    
+    
+    
+        </ul>
     
     <div class="archive-year"> 2020 </div>
     <ul class="year-list">
@@ -1837,9 +1894,9 @@ top:50vh;
     
         <span class="sidebar-tag-name" data-tags="css"><span class="iconfont-archer">&#xe606;</span>css</span>
     
-        <span class="sidebar-tag-name" data-tags="html"><span class="iconfont-archer">&#xe606;</span>html</span>
-    
         <span class="sidebar-tag-name" data-tags="网络安全"><span class="iconfont-archer">&#xe606;</span>网络安全</span>
+    
+        <span class="sidebar-tag-name" data-tags="html"><span class="iconfont-archer">&#xe606;</span>html</span>
     
         <span class="sidebar-tag-name" data-tags="Vue"><span class="iconfont-archer">&#xe606;</span>Vue</span>
     
