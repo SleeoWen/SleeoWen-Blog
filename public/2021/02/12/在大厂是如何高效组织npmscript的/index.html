@@ -218,7 +218,7 @@
     
     <!-- 谷歌统计  -->
     
-<meta name="generator" content="Hexo 5.4.0"></head>
+<meta name="generator" content="Hexo 4.2.0"></head>
 
     
         <body class="post-body">
@@ -420,7 +420,7 @@ height:50vh;
             <main class="main post-page">
     <article class="article-entry">
         <blockquote>
-<p> 原文地址 <a target="_blank" rel="noopener" href="https://juejin.cn/post/6945236994247098381?utm_source=gold_browser_extension">juejin.cn</a></p>
+<p> 原文地址 <a href="https://juejin.cn/post/6945236994247098381?utm_source=gold_browser_extension" target="_blank" rel="noopener">juejin.cn</a></p>
 </blockquote>
 <p>众所周知，一个 Javasript 项目的脚本类工具，可以使用 package.json 中的 <code>scripts</code> 字段来组织，简单来说，这就是 <code>npm script</code>。</p>
 <p>最典型最常用约定俗成的一个是 <code>npm start</code>，用以启动项目：</p>
@@ -437,7 +437,7 @@ height:50vh;
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">$ npm run &lt;user defined&gt;</span><br><span class="line">$ npm run-script dev</span><br><span class="line"></span><br><span class="line"># 为了简单方便，等同于</span><br><span class="line">$ npm run dev</span><br><span class="line"></span><br><span class="line"># yarn </span><br><span class="line">$ yarn dev</span><br><span class="line">复制代码</span><br></pre></td></tr></table></figure>
 
 <p>以上是众所周知的，以下讲一讲有可能不是众所周知的</p>
-<h2 id="运行-npm-run-dev-与-npm-start-的区别"><a href="#运行-npm-run-dev-与-npm-start-的区别" class="headerlink" title="运行: npm run dev 与 npm start 的区别"></a>运行: npm run dev 与 npm start 的区别</h2><p>对于一个<strong>纯生成静态页面打包</strong>的前端项目而言，它们是没有多少区别的：生产环境的部署只依赖于构建生成的资源，更不依赖 npm scripts。可见 <a target="_blank" rel="noopener" href="https://shanyue.tech/frontend-engineering/docker.html">如何部署前端项目</a>。</p>
+<h2 id="运行-npm-run-dev-与-npm-start-的区别"><a href="#运行-npm-run-dev-与-npm-start-的区别" class="headerlink" title="运行: npm run dev 与 npm start 的区别"></a>运行: npm run dev 与 npm start 的区别</h2><p>对于一个<strong>纯生成静态页面打包</strong>的前端项目而言，它们是没有多少区别的：生产环境的部署只依赖于构建生成的资源，更不依赖 npm scripts。可见 <a href="https://shanyue.tech/frontend-engineering/docker.html" target="_blank" rel="noopener">如何部署前端项目</a>。</p>
 <p>使用 <code>create-react-app</code> 生成的项目，它的 npm script 中只有 <code>npm start</code></p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">&#123;</span><br><span class="line">  &quot;start&quot;: &quot;react-scripts start&quot;,</span><br><span class="line">  &quot;build&quot;: &quot;react-scripts build&quot;,</span><br><span class="line">  &quot;test&quot;: &quot;react-scripts test&quot;,</span><br><span class="line">  &quot;eject&quot;: &quot;react-scripts eject&quot;</span><br><span class="line">&#125;</span><br><span class="line">复制代码</span><br></pre></td></tr></table></figure>
 
@@ -488,9 +488,9 @@ height:50vh;
 
 <h2 id="测试-Script-后缀"><a href="#测试-Script-后缀" class="headerlink" title="测试: Script 后缀"></a>测试: Script 后缀</h2><p>对于完成一件极为复杂的事情，可以使用前缀进行分组组织 npm script，比如测试。</p>
 <ul>
-<li><code>npm run test</code>: 使用 <a target="_blank" rel="noopener" href="https://npm.devtool.tech/mocha">mocha</a> 进行单元测试</li>
-<li><code>npm run test:coverage</code>: 使用 <a target="_blank" rel="noopener" href="https://npm.devtool.tech/nyc">nyc</a> 查看单元测试覆盖率</li>
-<li><code>npm run test:e2e</code>: 使用 <a target="_blank" rel="noopener" href="https://npm.devtool.tech/cypress">cypress</a> 进行 UI 自动化测试</li>
+<li><code>npm run test</code>: 使用 <a href="https://npm.devtool.tech/mocha" target="_blank" rel="noopener">mocha</a> 进行单元测试</li>
+<li><code>npm run test:coverage</code>: 使用 <a href="https://npm.devtool.tech/nyc" target="_blank" rel="noopener">nyc</a> 查看单元测试覆盖率</li>
+<li><code>npm run test:e2e</code>: 使用 <a href="https://npm.devtool.tech/cypress" target="_blank" rel="noopener">cypress</a> 进行 UI 自动化测试</li>
 </ul>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">&#123;</span><br><span class="line">  &quot;test&quot;: &quot;mocha&quot;,</span><br><span class="line">  &quot;test:coverage&quot;: &quot;nyc npm test&quot;,</span><br><span class="line">  &quot;test:e2e&quot;: &quot;npm run cy:run --&quot;,</span><br><span class="line">  &quot;cy:run&quot;: &quot;cypress run --config-file cypress&#x2F;config.json&quot;,</span><br><span class="line">  &quot;cy:open&quot;: &quot;cypress open --config-file cypress&#x2F;config.json&quot;</span><br><span class="line">&#125;</span><br><span class="line">复制代码</span><br></pre></td></tr></table></figure>
 
@@ -498,33 +498,33 @@ height:50vh;
 <p>对于前端 e2e 测试而言，<code>cypress</code> 与 <code>puppeteer</code> 无疑是最流行的框架。</p>
 <p><img src="https://p3-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/48fc28f255b24dc397fd986328ecf644~tplv-k3u1fbpfcp-zoom-1.image" alt></p>
 <p>那如何对 Vue/React 组件进行更好地测试及文档呢？</p>
-<h2 id="组件测试"><a href="#组件测试" class="headerlink" title="组件测试:"></a>组件测试:</h2><p><a target="_blank" rel="noopener" href="https://storybook.js.org/">storybook</a> 可以更好地对 React/Vue 组件进行调试、测试并形成帮助文档。开发基础组件库时，可以配置 <code>npm run storybook</code> 进行更好的测试</p>
+<h2 id="组件测试"><a href="#组件测试" class="headerlink" title="组件测试:"></a>组件测试:</h2><p><a href="https://storybook.js.org/" target="_blank" rel="noopener">storybook</a> 可以更好地对 React/Vue 组件进行调试、测试并形成帮助文档。开发基础组件库时，可以配置 <code>npm run storybook</code> 进行更好的测试</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">$ npm run storybook</span><br><span class="line">复制代码</span><br></pre></td></tr></table></figure>
 
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">&#123;</span><br><span class="line">  &quot;scripts&quot;: &#123;</span><br><span class="line">    &quot;storybook&quot;: &quot;start-storybook -p 9001 -c .storybook&quot;,</span><br><span class="line">    &quot;storybook:build&quot;: &quot;build-storybook -c .storybook -o .out&quot;,</span><br><span class="line">    &quot;prepublishOnly&quot;: &quot;npm run build&quot;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line">复制代码</span><br></pre></td></tr></table></figure>
 
 <p><img src="https://p3-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/68555f54b5734ebf8a30820f6c7909ef~tplv-k3u1fbpfcp-zoom-1.image" alt></p>
-<h2 id="格式化-Prettier"><a href="#格式化-Prettier" class="headerlink" title="格式化: Prettier"></a>格式化: Prettier</h2><p><a target="_blank" rel="noopener" href="https://npm.devtool.tech/prettier">Prettier</a> 是一款支持多种编程语言，如 html、css、js、graphql、markdown 等并且可与编辑器 (vscode) 深度集成的代码格式化工具。</p>
+<h2 id="格式化-Prettier"><a href="#格式化-Prettier" class="headerlink" title="格式化: Prettier"></a>格式化: Prettier</h2><p><a href="https://npm.devtool.tech/prettier" target="_blank" rel="noopener">Prettier</a> 是一款支持多种编程语言，如 html、css、js、graphql、markdown 等并且可与编辑器 (vscode) 深度集成的代码格式化工具。</p>
 <p><img src="https://p3-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/5512ac6e65f444b1b26d97f937172741~tplv-k3u1fbpfcp-zoom-1.image" alt></p>
 <p>在 npm script 中配置代码格式化如下所示：对 <code>js</code>、<code>css</code>、<code>json</code>、<code>markdown</code> 进行格式化</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">&#123;</span><br><span class="line">  &quot;scripts&quot;: &#123;</span><br><span class="line">    &#x2F;&#x2F; 配置文件: .prettierrc</span><br><span class="line">    &#x2F;&#x2F; 格式化: --write</span><br><span class="line">    &#x2F;&#x2F; 文件: *.js</span><br><span class="line">    &quot;prettier&quot;: &quot;prettier --config .prettierrc --write &#123;.,components,lib,pages&#125;&#x2F;*.&#123;js,css,json,md&#125;&quot;,</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line">复制代码</span><br></pre></td></tr></table></figure>
 
-<p><code>.prettierrc</code> 是 <code>prettier</code> 的配置文件，一般是比较简单的配置，可供配置的 <a target="_blank" rel="noopener" href="https://prettier.io/docs/en/options.html#parser">Prettier Options</a> 也没有很多。</p>
+<p><code>.prettierrc</code> 是 <code>prettier</code> 的配置文件，一般是比较简单的配置，可供配置的 <a href="https://prettier.io/docs/en/options.html#parser" target="_blank" rel="noopener">Prettier Options</a> 也没有很多。</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">&#123;</span><br><span class="line">  &quot;singleQuote&quot;: true,</span><br><span class="line">  &quot;printWidth&quot;: 100,</span><br><span class="line">  &quot;semi&quot;: false,</span><br><span class="line">  &quot;arrowParens&quot;: &quot;avoid&quot;</span><br><span class="line">&#125;</span><br><span class="line">复制代码</span><br></pre></td></tr></table></figure>
 
 <h2 id="Lint-代码格式化及质量检查"><a href="#Lint-代码格式化及质量检查" class="headerlink" title="Lint: 代码格式化及质量检查"></a>Lint: 代码格式化及质量检查</h2><p>那 Prettier 与 ESLint/StyleLint/TSLint 有什么区别？</p>
 <p><code>Prettier</code> 仅仅作代码的格式化，如空格、是否添加分号之类。而 ESLint 之类对代码格式化外，还对代码进行<strong>质量检查</strong>，如 <code>no-unused-vars</code>, <code>no-implicit-globals</code> 等规则。</p>
-<p>JS 与 TS 的质量检查，还是要看 <a target="_blank" rel="noopener" href="https://npm.devtool.tech/eslint">eslint</a>。</p>
+<p>JS 与 TS 的质量检查，还是要看 <a href="https://npm.devtool.tech/eslint" target="_blank" rel="noopener">eslint</a>。</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">&#123;</span><br><span class="line">  &quot;scripts&quot;: &#123;</span><br><span class="line">    &quot;lint&quot;: &quot;eslint .&quot;,</span><br><span class="line">    &quot;lint:fix&quot;: &quot;eslint . --fix&quot;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line">复制代码</span><br></pre></td></tr></table></figure>
 
 <p>除了 eslint 之外，还可以对 markdown、gitcommit 进行格式化</p>
 <ul>
-<li><a target="_blank" rel="noopener" href="https://npm.devtool.tech/markdownlint">markdownlint</a></li>
-<li><a target="_blank" rel="noopener" href="https://www.npmjs.com/package/@commitlint/cli">commitlint</a></li>
+<li><a href="https://npm.devtool.tech/markdownlint" target="_blank" rel="noopener">markdownlint</a></li>
+<li><a href="https://www.npmjs.com/package/@commitlint/cli" target="_blank" rel="noopener">commitlint</a></li>
 </ul>
 <h2 id="Git-你好，代码不合格，这里禁止提交"><a href="#Git-你好，代码不合格，这里禁止提交" class="headerlink" title="Git: 你好，代码不合格，这里禁止提交"></a>Git: 你好，代码不合格，这里禁止提交</h2><p>你的代码不合格，为了避免你被他人吐槽，这里不允许提交。这时候 Git Hooks 就派上了用场。</p>
 <p>Git Hooks 中的 <code>precommit hook</code> 会在代码提交之前执行脚本，如果脚本不通过 (Exit Code 不是 0)，则禁止提交。</p>
-<p><a target="_blank" rel="noopener" href="https://npm.devtool.tech/husky">husky</a> 与 <a target="_blank" rel="noopener" href="https://github.com/okonet/lint-staged">lint-staged</a> 是 <code>Git Hooks</code> 的最佳搭配。</p>
+<p><a href="https://npm.devtool.tech/husky" target="_blank" rel="noopener">husky</a> 与 <a href="https://github.com/okonet/lint-staged" target="_blank" rel="noopener">lint-staged</a> 是 <code>Git Hooks</code> 的最佳搭配。</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line">&#123;</span><br><span class="line">  &quot;scripts&quot;: &#123;</span><br><span class="line">    &quot;lint&quot;: &quot;eslint .&quot;,</span><br><span class="line">    &quot;prettier&quot;: &quot;prettier --config .prettierrc --write &#123;.,components,lib,pages&#125;&#x2F;*.&#123;js,css,json,md&#125;&quot;,</span><br><span class="line">  &#125;,</span><br><span class="line">  &quot;husky&quot;: &#123;</span><br><span class="line">    &quot;hooks&quot;: &#123;</span><br><span class="line">      &quot;pre-commit&quot;: &quot;lint-staged&quot;</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;,</span><br><span class="line">  &quot;lint-staged&quot;: &#123;</span><br><span class="line">    &quot;*.js&quot;: [</span><br><span class="line">      &quot;npm run lint&quot;</span><br><span class="line">    ],</span><br><span class="line">    &quot;*.&#123;js,css,json,md&#125;&quot;: [</span><br><span class="line">      &quot;npm run prettier&quot;</span><br><span class="line">    ]</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line">复制代码</span><br></pre></td></tr></table></figure>
 
 <h2 id="Outdated-你的依赖已过期"><a href="#Outdated-你的依赖已过期" class="headerlink" title="Outdated: 你的依赖已过期"></a>Outdated: 你的依赖已过期</h2><p>当一个库过期了会怎么样？</p>
@@ -559,29 +559,29 @@ height:50vh;
 <p><code>snyk</code> 是一个检查包风险的一个服务，他提供了命令行工具检测风险，可以使用它代替 <code>npm audit</code>。他也有缺陷，依赖一个服务，可以根据容器自建或者使用 SASS。</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">&#123;</span><br><span class="line">  &quot;scripts&quot;: &#123;</span><br><span class="line">    &quot;audit&quot;: &quot;snyk test&quot;,</span><br><span class="line">    &quot;audit:fix&quot;: &quot;snyk protect&quot;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line">复制代码</span><br></pre></td></tr></table></figure>
 
-<h2 id="Size-控制你的-bundle-大小"><a href="#Size-控制你的-bundle-大小" class="headerlink" title="Size: 控制你的 bundle 大小"></a>Size: 控制你的 bundle 大小</h2><p><a target="_blank" rel="noopener" href="https://github.com/ai/size-limit/">size limit</a> 与 <a target="_blank" rel="noopener" href="https://github.com/siddharthkp/bundlesize">bundle size</a> 都是可以控制 bundle 体积的两个工具，不过 size-limit 对启动时间也有更强的支持。</p>
+<h2 id="Size-控制你的-bundle-大小"><a href="#Size-控制你的-bundle-大小" class="headerlink" title="Size: 控制你的 bundle 大小"></a>Size: 控制你的 bundle 大小</h2><p><a href="https://github.com/ai/size-limit/" target="_blank" rel="noopener">size limit</a> 与 <a href="https://github.com/siddharthkp/bundlesize" target="_blank" rel="noopener">bundle size</a> 都是可以控制 bundle 体积的两个工具，不过 size-limit 对启动时间也有更强的支持。</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line">&#123;</span><br><span class="line">  &quot;scripts&quot;: &#123;</span><br><span class="line">    &quot;size&quot;: &quot;size-limit&quot;,</span><br><span class="line">    &quot;analyze&quot;: &quot;size-limit --why&quot;</span><br><span class="line">  &#125;,</span><br><span class="line">  &quot;size-limit&quot;: [</span><br><span class="line">    &#123;</span><br><span class="line">      &quot;path&quot;: &quot;dist&#x2F;promise-utils.cjs.production.min.js&quot;,</span><br><span class="line">      &quot;limit&quot;: &quot;10 KB&quot;</span><br><span class="line">    &#125;,</span><br><span class="line">    &#123;</span><br><span class="line">      &quot;path&quot;: &quot;dist&#x2F;promise-utils.esm.js&quot;,</span><br><span class="line">      &quot;limit&quot;: &quot;10 KB&quot;</span><br><span class="line">    &#125;</span><br><span class="line">  ]</span><br><span class="line">&#125;</span><br><span class="line">复制代码</span><br></pre></td></tr></table></figure>
 
 <h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p>在工作中高效使用 npm script，可以极高效率与代码质量，本文中涉及到的 package 如下所示</p>
 <ul>
-<li><a target="_blank" rel="noopener" href="https://npm.devtool.tech/husky">husky</a></li>
-<li><a target="_blank" rel="noopener" href="https://npm.devtool.tech/mocha">mocha</a></li>
-<li><a target="_blank" rel="noopener" href="https://npm.devtool.tech/nyc">nyc</a></li>
-<li><a target="_blank" rel="noopener" href="https://npm.devtool.tech/cypress">cypress</a></li>
-<li><a target="_blank" rel="noopener" href="https://npm.devtool.tech/puppeteer">puppeteer</a></li>
-<li><a target="_blank" rel="noopener" href="https://npm.devtool.tech/storybook">storybook</a></li>
-<li><a target="_blank" rel="noopener" href="https://npm.devtool.tech/prettier">prettier</a></li>
-<li><a target="_blank" rel="noopener" href="https://npm.devtool.tech/eslint">eslint</a></li>
-<li><a target="_blank" rel="noopener" href="https://npm.devtool.tech/markdownlint">markdownlint</a></li>
-<li><a target="_blank" rel="noopener" href="https://npm.devtool.tech/@commitlint/cli">@commitlint/cli</a></li>
-<li><a target="_blank" rel="noopener" href="https://npm.devtool.tech/lint-staged">lint-staged</a></li>
-<li><a target="_blank" rel="noopener" href="https://npm.devtool.tech/husky">husky</a></li>
-<li><a target="_blank" rel="noopener" href="https://npm.devtool.tech/npm-check-updates">npm-check-updates</a></li>
-<li><a target="_blank" rel="noopener" href="https://npm.devtool.tech/lerna">lerna</a></li>
-<li><a target="_blank" rel="noopener" href="https://npm.devtool.tech/size-limit">size-limit</a></li>
-<li><a target="_blank" rel="noopener" href="https://npm.devtool.tech/bundle-size">bundle-size</a></li>
+<li><a href="https://npm.devtool.tech/husky" target="_blank" rel="noopener">husky</a></li>
+<li><a href="https://npm.devtool.tech/mocha" target="_blank" rel="noopener">mocha</a></li>
+<li><a href="https://npm.devtool.tech/nyc" target="_blank" rel="noopener">nyc</a></li>
+<li><a href="https://npm.devtool.tech/cypress" target="_blank" rel="noopener">cypress</a></li>
+<li><a href="https://npm.devtool.tech/puppeteer" target="_blank" rel="noopener">puppeteer</a></li>
+<li><a href="https://npm.devtool.tech/storybook" target="_blank" rel="noopener">storybook</a></li>
+<li><a href="https://npm.devtool.tech/prettier" target="_blank" rel="noopener">prettier</a></li>
+<li><a href="https://npm.devtool.tech/eslint" target="_blank" rel="noopener">eslint</a></li>
+<li><a href="https://npm.devtool.tech/markdownlint" target="_blank" rel="noopener">markdownlint</a></li>
+<li><a href="https://npm.devtool.tech/@commitlint/cli" target="_blank" rel="noopener">@commitlint/cli</a></li>
+<li><a href="https://npm.devtool.tech/lint-staged" target="_blank" rel="noopener">lint-staged</a></li>
+<li><a href="https://npm.devtool.tech/husky" target="_blank" rel="noopener">husky</a></li>
+<li><a href="https://npm.devtool.tech/npm-check-updates" target="_blank" rel="noopener">npm-check-updates</a></li>
+<li><a href="https://npm.devtool.tech/lerna" target="_blank" rel="noopener">lerna</a></li>
+<li><a href="https://npm.devtool.tech/size-limit" target="_blank" rel="noopener">size-limit</a></li>
+<li><a href="https://npm.devtool.tech/bundle-size" target="_blank" rel="noopener">bundle-size</a></li>
 </ul>
-<p>你可以在 <a target="_blank" rel="noopener" href="https://npm.devtool.tech/">npm devtool</a> 中找到更多有趣有用的库</p>
+<p>你可以在 <a href="https://npm.devtool.tech/" target="_blank" rel="noopener">npm devtool</a> 中找到更多有趣有用的库</p>
 
     </article>
     <!-- license  -->
@@ -716,7 +716,7 @@ top:50vh;
         <div class="toc-catalog">
             <span class="iconfont-archer catalog-icon">&#xe613;</span><span>CATALOG</span>
         </div>
-        <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E8%BF%90%E8%A1%8C-npm-run-dev-%E4%B8%8E-npm-start-%E7%9A%84%E5%8C%BA%E5%88%AB"><span class="toc-number">1.</span> <span class="toc-text">运行: npm run dev 与 npm start 的区别</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E8%BF%90%E8%A1%8C%EF%BC%9AScript-Hooks-gt-%E5%A6%82%E4%BD%95%E6%8A%8A%E6%96%B0%E9%A1%B9%E7%9B%AE%E5%BF%AB%E9%80%9F%E8%B7%91%E8%B5%B7%E6%9D%A5"><span class="toc-number">2.</span> <span class="toc-text">运行：Script Hooks -&gt; 如何把新项目快速跑起来</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Hooks"><span class="toc-number">3.</span> <span class="toc-text">Hooks</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%9E%84%E5%BB%BA"><span class="toc-number">4.</span> <span class="toc-text">构建</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%B5%8B%E8%AF%95-Script-%E5%90%8E%E7%BC%80"><span class="toc-number">5.</span> <span class="toc-text">测试: Script 后缀</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%BB%84%E4%BB%B6%E6%B5%8B%E8%AF%95"><span class="toc-number">6.</span> <span class="toc-text">组件测试:</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%A0%BC%E5%BC%8F%E5%8C%96-Prettier"><span class="toc-number">7.</span> <span class="toc-text">格式化: Prettier</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Lint-%E4%BB%A3%E7%A0%81%E6%A0%BC%E5%BC%8F%E5%8C%96%E5%8F%8A%E8%B4%A8%E9%87%8F%E6%A3%80%E6%9F%A5"><span class="toc-number">8.</span> <span class="toc-text">Lint: 代码格式化及质量检查</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Git-%E4%BD%A0%E5%A5%BD%EF%BC%8C%E4%BB%A3%E7%A0%81%E4%B8%8D%E5%90%88%E6%A0%BC%EF%BC%8C%E8%BF%99%E9%87%8C%E7%A6%81%E6%AD%A2%E6%8F%90%E4%BA%A4"><span class="toc-number">9.</span> <span class="toc-text">Git: 你好，代码不合格，这里禁止提交</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Outdated-%E4%BD%A0%E7%9A%84%E4%BE%9D%E8%B5%96%E5%B7%B2%E8%BF%87%E6%9C%9F"><span class="toc-number">10.</span> <span class="toc-text">Outdated: 你的依赖已过期</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Audit-%E4%BD%A0%E7%9A%84%E4%BE%9D%E8%B5%96%E5%AD%98%E5%9C%A8%E5%AE%89%E5%85%A8%E9%A3%8E%E9%99%A9"><span class="toc-number">11.</span> <span class="toc-text">Audit: 你的依赖存在安全风险</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Size-%E6%8E%A7%E5%88%B6%E4%BD%A0%E7%9A%84-bundle-%E5%A4%A7%E5%B0%8F"><span class="toc-number">12.</span> <span class="toc-text">Size: 控制你的 bundle 大小</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%80%BB%E7%BB%93"><span class="toc-number">13.</span> <span class="toc-text">总结</span></a></li></ol>
+        <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#运行-npm-run-dev-与-npm-start-的区别"><span class="toc-number">1.</span> <span class="toc-text">运行: npm run dev 与 npm start 的区别</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#运行：Script-Hooks-gt-如何把新项目快速跑起来"><span class="toc-number">2.</span> <span class="toc-text">运行：Script Hooks -&gt; 如何把新项目快速跑起来</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Hooks"><span class="toc-number">3.</span> <span class="toc-text">Hooks</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#构建"><span class="toc-number">4.</span> <span class="toc-text">构建</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#测试-Script-后缀"><span class="toc-number">5.</span> <span class="toc-text">测试: Script 后缀</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#组件测试"><span class="toc-number">6.</span> <span class="toc-text">组件测试:</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#格式化-Prettier"><span class="toc-number">7.</span> <span class="toc-text">格式化: Prettier</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Lint-代码格式化及质量检查"><span class="toc-number">8.</span> <span class="toc-text">Lint: 代码格式化及质量检查</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Git-你好，代码不合格，这里禁止提交"><span class="toc-number">9.</span> <span class="toc-text">Git: 你好，代码不合格，这里禁止提交</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Outdated-你的依赖已过期"><span class="toc-number">10.</span> <span class="toc-text">Outdated: 你的依赖已过期</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Audit-你的依赖存在安全风险"><span class="toc-number">11.</span> <span class="toc-text">Audit: 你的依赖存在安全风险</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Size-控制你的-bundle-大小"><span class="toc-number">12.</span> <span class="toc-text">Size: 控制你的 bundle 大小</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#总结"><span class="toc-number">13.</span> <span class="toc-text">总结</span></a></li></ol>
     </div>
     
     <div class="back-top iconfont-archer">&#xe639;</div>
@@ -729,6 +729,12 @@ top:50vh;
     <div class="sidebar-content sidebar-content-show-archive">
           <div class="sidebar-panel-archives">
     <!-- 在ejs中将archive按照时间排序 -->
+    
+    
+    
+    
+    
+    
     
     
     
