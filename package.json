@@ -7,7 +7,7 @@
     "clean": "hexo clean",
     "deploy": "hexo deploy",
     "server": "hexo server",
-    "newPage": "hexo new [post] 使用css的GPU动画优化",
+    "newPage": "hexo new [post] 什么场景下使用Render函数，如何配置JSX",
     "update": "hexo deploy"
   },
   "hexo": {
