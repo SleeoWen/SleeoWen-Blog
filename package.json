@@ -7,7 +7,7 @@
     "clean": "hexo clean",
     "deploy": "hexo deploy",
     "server": "hexo server",
-    "newPage": "hexo new [post] 什么场景下使用Render函数，如何配置JSX",
+    "newPage": "hexo new [post] 如何让函数只被执行一次",
     "update": "hexo deploy"
   },
   "hexo": {
