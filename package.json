@@ -7,8 +7,10 @@
     "clean": "hexo clean",
     "deploy": "hexo deploy",
     "server": "hexo server",
-    "newPage": "hexo new [post] 性能优化总结",
-    "update": "hexo deploy"
+    "newPage": "hexo new [post] vue3学习",
+    "update": "hexo deploy",
+    "d": "hexo d",
+    "g": "hexo g"
   },
   "hexo": {
     "version": "4.2.0"

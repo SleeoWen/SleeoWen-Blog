@@ -28,7 +28,7 @@
 <meta property="og:description" content="事件是javascript和HTML交互基础, 任何文档或者浏览器窗口发生的交互, 都要通过绑定事件进行交互;比如鼠标点击事件、敲击键盘事件等。这样的事件行为都是前端DOM事件的组成部分，不同的DOM事件会有不同的触发条件和触发效果。">
 <meta property="og:locale" content="zh_CN">
 <meta property="article:published_time" content="2019-06-01T02:58:39.000Z">
-<meta property="article:modified_time" content="2020-03-05T03:23:00.000Z">
+<meta property="article:modified_time" content="2022-02-10T08:34:54.766Z">
 <meta property="article:author" content="文宇函">
 <meta property="article:tag" content="html">
 <meta name="twitter:card" content="summary">
@@ -419,14 +419,14 @@ height:50vh;
 <h2 id="DOM级别与DOM事件"><a href="#DOM级别与DOM事件" class="headerlink" title="DOM级别与DOM事件"></a>DOM级别与DOM事件</h2><p>DOM级别一共可以分为四个级别：DOM0级、DOM1级、DOM2级和DOM3级。而DOM事件分为3个级别：DOM0级事件处理，DOM2级事件处理和DOM3级事件处理。</p>
 <p>有人可能会疑惑，为什么没有DOM1级事件处理呢？因为1级DOM标准并没有定义事件相关的内容，所以没有所谓的1级DOM事件模型。</p>
 <h3 id="HTML的事件处理程序"><a href="#HTML的事件处理程序" class="headerlink" title="HTML的事件处理程序"></a>HTML的事件处理程序</h3><p>HTML事件处理程序，也是最早的一种事件处理方式。</p>
-<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">&lt;button type=<span class="string">"button"</span> onclick=<span class="string">"showFn()"</span>&gt;&lt;<span class="regexp">/button&gt;</span></span><br><span class="line"><span class="regexp"> function showFn() &#123;</span></span><br><span class="line"><span class="regexp">     alert('Hello World');</span></span><br><span class="line"><span class="regexp"> &#125;</span></span><br></pre></td></tr></table></figure>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">&lt;button type=<span class="string">"button"</span> onclick=<span class="string">"showFn()"</span>&gt;<span class="xml"><span class="tag">&lt;/<span class="name">button</span>&gt;</span></span></span><br><span class="line"> <span class="function"><span class="keyword">function</span> <span class="title">showFn</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">     alert(<span class="string">'Hello World'</span>);</span><br><span class="line"> &#125;</span><br></pre></td></tr></table></figure>
 <p>以上的代码，我们通过直接在HTML代码里面定义了一个 onclick属性触发showfu这样的事件处理程序最大的缺点就是HTML和JS耦合太强，我们如果需要修改函数名就必须修改两个地方，优点是不需要操作DOM来完成事件的绑定。</p>
 <h3 id="DOM0级事件"><a href="#DOM0级事件" class="headerlink" title="DOM0级事件"></a>DOM0级事件</h3><p>DOM0级处理事件就是将一个函数赋值给一个事件处理属性。</p>
-<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">&lt;button id=<span class="string">"btn"</span> type=<span class="string">"button"</span>&gt;&lt;<span class="regexp">/button&gt;</span></span><br><span class="line"><span class="regexp">   var btn = document.getElementById('btn');</span></span><br><span class="line"><span class="regexp">   btn.onclick = function() &#123;</span></span><br><span class="line"><span class="regexp">       console.log('Hello World');</span></span><br><span class="line"><span class="regexp">   &#125;</span></span><br></pre></td></tr></table></figure>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">&lt;button id=<span class="string">"btn"</span> type=<span class="string">"button"</span>&gt;<span class="xml"><span class="tag">&lt;/<span class="name">button</span>&gt;</span></span></span><br><span class="line">   <span class="keyword">var</span> btn = <span class="built_in">document</span>.getElementById(<span class="string">'btn'</span>);</span><br><span class="line">   btn.onclick = <span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">       <span class="built_in">console</span>.log(<span class="string">'Hello World'</span>);</span><br><span class="line">   &#125;</span><br></pre></td></tr></table></figure>
 <p>以上的代码我们给button定义了一个id 通过js原生的api获取按钮<br>将一个函数赋值给了一个事件处理属性onclick 这样的方法就是DOM0级<br>处理事件的体现。我们可以通过给事件处理属性赋值null来解绑事件。</p>
 <p><strong>DOM0级事件处理程序的缺点在于一个处理程序无法同时绑定多个处理函数，比如我还想再点击按钮事件上加上另外一个函数。</strong></p>
 <h3 id="DOM2级事件"><a href="#DOM2级事件" class="headerlink" title="DOM2级事件"></a>DOM2级事件</h3><p>DOM2级事件在DOM0级时间段额基础上弥补了一个处理处理程序<br>无法同时绑定多个处理函数的缺点。允许给一个程序添加多个处理函数。</p>
-<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">&lt;button id=<span class="string">"btn"</span> type=<span class="string">"button"</span>&gt;&lt;<span class="regexp">/button&gt;</span></span><br><span class="line"><span class="regexp">   var btn = document.getElementById('btn');    </span></span><br><span class="line"><span class="regexp">   function showFn() &#123;</span></span><br><span class="line"><span class="regexp">       alert('Hello World');</span></span><br><span class="line"><span class="regexp">   &#125;    </span></span><br><span class="line"><span class="regexp">   btn.addEventListener('click', showFn, false);</span></span><br><span class="line"><span class="regexp">   /</span><span class="regexp">/ btn.removeEventListener('click', showFn, false); 解绑事件</span></span><br></pre></td></tr></table></figure>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">&lt;button id=<span class="string">"btn"</span> type=<span class="string">"button"</span>&gt;<span class="xml"><span class="tag">&lt;/<span class="name">button</span>&gt;</span></span></span><br><span class="line">   <span class="keyword">var</span> btn = <span class="built_in">document</span>.getElementById(<span class="string">'btn'</span>);    </span><br><span class="line">   <span class="function"><span class="keyword">function</span> <span class="title">showFn</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">       alert(<span class="string">'Hello World'</span>);</span><br><span class="line">   &#125;    </span><br><span class="line">   btn.addEventListener(<span class="string">'click'</span>, showFn, <span class="literal">false</span>);</span><br><span class="line">   <span class="comment">// btn.removeEventListener('click', showFn, false); 解绑事件</span></span><br></pre></td></tr></table></figure>
 <p>DOM2级事件定义了addEventListener 和 removeEventListener两个方法，分别用来绑定和解绑事件，方法中包含三个参数，分别是绑定的事件处理的属性名称（没有on）处理函数和是否在捕获时候执行事件处理函数如果我们还需要添加一个鼠标的移入的方法，只需要：</p>
 <figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">btn.addEventlistener(<span class="string">'mouseover'</span>,showfn,<span class="literal">false</span>)</span><br></pre></td></tr></table></figure>
 <p>这样，点击按钮和鼠标移入时候都将触发showfn的方法。</p>
@@ -1576,9 +1576,86 @@ top:50vh;
     
     
     
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
     <div class="total-and-search">
         <div class="total-archive">
-        Total : 68
+        Total : 69
         </div>
         <!-- search  -->
         
@@ -1600,6 +1677,11 @@ top:50vh;
     
         <li class="archive-post-item">
             <span class="archive-post-date">07/07</span><a class="archive-post-title" href= "/2021/07/07/%E5%A6%82%E4%BD%95%E8%AE%A9%E5%87%BD%E6%95%B0%E5%8F%AA%E8%A2%AB%E6%89%A7%E8%A1%8C%E4%B8%80%E6%AC%A1/" >如何让函数只被执行一次</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">06/23</span><a class="archive-post-title" href= "/2021/06/23/css%E7%9A%84GPU%E5%8A%A8%E7%94%BB%E4%BC%98%E5%8C%96-0/" >css的GPU动画优化</a>
         </li>
     
     
@@ -1955,9 +2037,11 @@ top:50vh;
         <div class="sidebar-panel-tags">
     <div class="sidebar-tags-name">
     
-        <span class="sidebar-tag-name" data-tags="网络安全"><span class="iconfont-archer">&#xe606;</span>网络安全</span>
+        <span class="sidebar-tag-name" data-tags="javascript"><span class="iconfont-archer">&#xe606;</span>javascript</span>
     
         <span class="sidebar-tag-name" data-tags="css"><span class="iconfont-archer">&#xe606;</span>css</span>
+    
+        <span class="sidebar-tag-name" data-tags="网络安全"><span class="iconfont-archer">&#xe606;</span>网络安全</span>
     
         <span class="sidebar-tag-name" data-tags="html"><span class="iconfont-archer">&#xe606;</span>html</span>
     
@@ -1965,13 +2049,11 @@ top:50vh;
     
         <span class="sidebar-tag-name" data-tags="http"><span class="iconfont-archer">&#xe606;</span>http</span>
     
-        <span class="sidebar-tag-name" data-tags="javascript"><span class="iconfont-archer">&#xe606;</span>javascript</span>
-    
         <span class="sidebar-tag-name" data-tags="element"><span class="iconfont-archer">&#xe606;</span>element</span>
     
-        <span class="sidebar-tag-name" data-tags="node"><span class="iconfont-archer">&#xe606;</span>node</span>
-    
         <span class="sidebar-tag-name" data-tags="Promise"><span class="iconfont-archer">&#xe606;</span>Promise</span>
+    
+        <span class="sidebar-tag-name" data-tags="node"><span class="iconfont-archer">&#xe606;</span>node</span>
     
         <span class="sidebar-tag-name" data-tags="webpack"><span class="iconfont-archer">&#xe606;</span>webpack</span>
     
