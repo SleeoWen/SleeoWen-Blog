@@ -13,23 +13,22 @@
     "g": "hexo g"
   },
   "hexo": {
-    "version": "4.2.0"
+    "version": "6.2.0"
   },
   "dependencies": {
-    "hexo": "^4.0.0",
-    "hexo-algolia": "^1.3.1",
-    "hexo-asset-image": "git+https://github.com/CodeFalling/hexo-asset-image.git",
-    "hexo-deployer-git": "^2.1.0",
+    "hexo": "^6.2.0",
     "hexo-generator-archive": "^1.0.0",
     "hexo-generator-category": "^1.0.0",
-    "hexo-generator-index": "^1.0.0",
-    "hexo-generator-json-content": "^4.1.6",
+    "hexo-generator-index": "^2.0.0",
+    "hexo-generator-json-content": "^4.2.3",
     "hexo-generator-tag": "^1.0.0",
-    "hexo-renderer-ejs": "^1.0.0",
-    "hexo-renderer-marked": "^2.0.0",
-    "hexo-renderer-stylus": "^1.1.0",
-    "hexo-server": "^1.0.0",
-    "hexo-wordcount": "^6.0.1",
-    "save": "^2.4.0"
+    "hexo-renderer-ejs": "^2.0.0",
+    "hexo-renderer-jade": "^0.5.0",
+    "hexo-renderer-marked": "^5.0.0",
+    "hexo-renderer-stylus": "^2.1.0",
+    "hexo-server": "^3.0.0",
+    "hexo-theme-simpleblock": "^0.2.1",
+    "jade": "^1.11.0",
+    "marked": "^4.0.17"
   }
 }

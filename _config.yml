@@ -93,7 +93,7 @@ ignore:
 # Extensions
 ## Plugins: https://hexo.io/plugins/
 ## Themes: https://hexo.io/themes/
-theme: archer
+theme: yilia
 
 # Deployment
 ## Docs: https://hexo.io/docs/deployment.html
@@ -102,7 +102,7 @@ deploy:
   repo: https://github.com/SleeoWen/sleeowen.github.io #https://bitbucket.org/JohnSmith/johnsmith.bitbucket.io
 
 jsonContent:
-  meta: true
+  meta: false
   pages: false
   posts:
     title: true
@@ -115,9 +115,9 @@ jsonContent:
     updated: false
     comments: false
     link: false
-    permalink: true
+    permalink: false
     excerpt: false
-    categories: true
+    categories: false
     tags: true
 
 algolia:
