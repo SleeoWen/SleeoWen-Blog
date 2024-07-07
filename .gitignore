@@ -1,5 +1,8 @@
-node_modules
-.vscode
-_config_.yml
-_config__.yml
-.jsbeautifyrc
+.DS_Store
+Thumbs.db
+db.json
+*.log
+node_modules/
+public/
+.deploy*/
+_multiconfig.yml
