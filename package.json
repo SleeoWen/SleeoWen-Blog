@@ -7,7 +7,7 @@
     "clean": "hexo clean",
     "deploy": "hexo deploy",
     "server": "hexo server",
-    "newPage": "hexo new [post] vue3学习",
+    "newPage": "hexo new [post] React学习",
     "update": "hexo deploy",
     "d": "hexo d",
     "g": "hexo g"
